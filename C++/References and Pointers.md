@@ -1,5 +1,7 @@
 
 
+
+
 `# https://www3.ntu.edu.sg/home/ehchua/programming/cpp/cp4_PointerReference.html`
 
 [toc]
@@ -261,7 +263,7 @@ Pointers and references are equivalent, except:
 
       
 
-2.  No need to reference and dereference.
+2. No need to reference and dereference.
 
    
 
@@ -457,3 +459,130 @@ int squareNonConstRef(int & number) {  // non-const reference
 
 
 ##### 2.5 Passing the function's Return Value
+
+
+
+###### Passing the Return-value as Reference
+
+You can also pass the return-value as reference or pointer. For example:
+
+```c++
+#include <iostream>
+using namespace std;
+ 
+int & squareRef(int &);
+int * squarePtr(int *);
+ 
+int main() {
+   int number1 = 8;
+   cout <<  "In main() &number1: " << &number1 << endl;  // 0x22ff14
+   int & result = squareRef(number1);
+   cout <<  "In main() &result: " << &result << endl;  // 0x22ff14
+   cout << result << endl;   // 64
+   cout << number1 << endl;  // 64
+ 
+   int number2 = 9;
+   cout <<  "In main() &number2: " << &number2 << endl;  // 0x22ff10
+   int * pResult = squarePtr(&number2);
+   cout <<  "In main() pResult: " << pResult << endl;  // 0x22ff10
+   cout << *pResult << endl;   // 81
+   cout << number2 << endl;    // 81
+}
+ 
+int & squareRef(int & rNumber) {
+   cout <<  "In squareRef(): " << &rNumber << endl;  // 0x22ff14
+   rNumber *= rNumber;
+   return rNumber;
+}
+ 
+int * squarePtr(int * pNumber) {
+   cout <<  "In squarePtr(): " << pNumber << endl;  // 0x22ff10
+   *pNumber *= *pNumber;
+   return pNumber;
+}
+```
+
+
+
+
+
+###### You should not pass Function's local variable as return value by reference
+
+```c++
+#include <iostream>
+using namespace std;
+ 
+int * squarePtr(int);
+int & squareRef(int);
+ 
+int main() {
+   int number = 8;
+   cout << number << endl;  // 8
+   cout << *squarePtr(number) << endl;  // ??
+   cout << squareRef(number) << endl;   // ??
+}
+ 
+int * squarePtr(int number) {
+   int localResult = number * number;
+   return &localResult;
+      // warning: address of local variable 'localResult' returned
+}
+ 
+int & squareRef(int number) {
+   int localResult = number * number;
+   return localResult;
+      // warning: reference of local variable 'localResult' returned
+}
+```
+
+This program has a serious logical error, as local variable of function  is passed back as return value by reference.  Local variable has local  scope within the function, and its value is destroyed after the function exits.
+
+
+
+
+
+###### Passing Dynamically Allocated Memory as Return Value by Reference
+
+Instead, you need to dynamically allocate a variable for the return value, and return it by reference.
+
+```c++
+#include <iostream>
+using namespace std;
+ 
+int * squarePtr(int);
+int & squareRef(int);
+ 
+int main() {
+   int number = 8;
+   cout << number << endl;  // 8
+   cout << *squarePtr(number) << endl;  // 64
+   cout << squareRef(number) << endl;   // 64
+}
+ 
+int * squarePtr(int number) {
+   int * dynamicAllocatedResult = new int(number * number);
+   return dynamicAllocatedResult;
+}
+ 
+int & squareRef(int number) {
+   int * dynamicAllocatedResult = new int(number * number);
+   return *dynamicAllocatedResult;
+}
+```
+
+
+
+
+
+##### 2.6 Summary
+
+Pointers and references are highly complex and difficult to master. But they can greatly improve the efficiency of the programs.
+
+For novices, avoid using pointers in your program.  Improper usage  can lead to serious logical bugs. However, you need to understand the  syntaxes of pass-by-reference with pointers and references, because they are used in many library functions.
+
+- In *pass-by-value*, a clone is made and passed into the function. The caller's copy cannot be modified.
+- In *pass-by-reference*, a pointer is passed into the function. The caller's copy could be modified inside the function.
+- In *pass-by-reference with reference arguments*, you use the variable name as the argument.
+- In *pass-by-reference with pointer arguments*, you need to use `&*varName*` (an address) as the argument.
+
+
