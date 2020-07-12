@@ -443,3 +443,296 @@ With proper implementation of *information hiding*, the designer of a class has 
 
 ##### 2.14 Keyword *this*
 
+You can use keyword "`this`" to refer to *this* instance inside a class definition.
+
+One of the main usage of keyword `this` is to resolve ambiguity between the names of data member and function parameter. For example:
+
+```c++
+class Circle {
+private:
+   double radius;                 // Member variable called "radius"
+   ......
+public:
+   void setRadius(double radius) { // Function's argument also called "radius"
+      this->radius = radius;
+         // "this.radius" refers to this instance's member variable
+         // "radius" resolved to the function's argument.
+   }
+   ......
+}
+```
+
+In the above codes, there are two identifiers called `radius` - a data member and the function parameter. This  causes naming  conflict. To resolve the naming conflict, you could name the function  parameter `r` instead of `radius`. However, `radius` is more approximate and meaningful in this context. You can use keyword `this` to resolve this naming conflict. "`this->radius`" refers to the data member; while "`radius`" resolves to the function parameter.
+
+Alternatively, you could use a prefix (such as `m_`) or suffix (such as `_`) to name the data members to avoid name crashes. For example:
+
+```c++
+class Circle {
+private:
+   double m_radius;  // or radius_
+   ......
+public:
+   void setRadius(double radius) {
+      m_radius = radius;  // or radius_ = radius
+   }
+   ......
+}
+```
+
+C++ Compiler internally names their data members beginning with a leading underscore (`e.g., _xxx`) and local variables with 2 leading underscores (e.g., `__xxx`). Hence, avoid name beginning with underscore in your program.
+
+
+
+
+
+##### 2.15 *const* Member Functions.
+
+A `const` member function, identified by a `const` keyword at the end of the member function's header, cannot modifies any data member of this object. For example:
+
+```c++
+double getRadius() const {  // const member function
+   radius = 0;  
+      // error: assignment of data-member 'Circle::radius' in read-only structure
+   return radius;
+}
+```
+
+
+
+
+
+##### 2.16 Conventions for Getters/ Setters and Constructors.
+
+The constructor, getter and setter functions for a `private` data member called `xxx` of type `T` in a class `Aaa` have the following conventions:
+
+```c++
+class Aaa {
+private:
+   // A private variable named xxx of type T
+   T xxx;
+public:
+   // Constructor
+   Aaa(T x) { xxx = x; }
+   // OR
+   Aaa(T xxx) { this->xxx = xxx; }
+   // OR using member initializer list (to be explained later)
+   Aaa(T xxx) : xxx(xxx) { }
+ 
+   // A getter for variable xxx of type T receives no argument and return a value of type T
+   T getXxx() const { return xxx; }
+ 
+   // A setter for variable xxx of type T receives a parameter of type T and return void
+   void setXxx(T x) { xxx = x; }
+   // OR
+   void setXxx(T xxx) { this->xxx = xxx; }
+}
+```
+
+For a `bool` variable `xxx`, the getter shall be named `isXxx()`, instead of `getXxx()`, as follows:
+
+```c++
+private:
+   // Private boolean variable
+   bool xxx;
+public: 
+   // Getter
+   bool isXxx() const { return xxx; }
+ 
+   // Setter
+   void setXxx(bool x) { xxx = x; }
+   // OR
+   void setXxx(bool xxx) { this->xxx = xxx; }
+```
+
+
+
+
+
+##### 2.17 Default Constructor.
+
+A default constructor is a constructor with no parameters, or having  default values for all the parameters. For example, the above `Circle`'s constructor can be served as default constructor with all the parameters default.
+
+```c++
+Circle c1;   // Declare c1 as an instance of Circle, and invoke the default constructor
+Circle c1(); // Error!
+             // (This declares c1 as a function that takes no parameter and returns a Circle instance)
+```
+
+In C++, if you did not provide ANY constructor, the compiler  automatically provides a default constructor that does nothing. That is:
+
+```c++
+ClassName::ClassName() { }  // Take no argument and do nothing
+```
+
+Compiler will not provide a default constructor if you define any  constructor(s). If all the constructors you defined require arguments,  invoking no-argument default constructor results in error. This is to  allow class designer to make it impossible to create an *uninitialized* instance, by NOT providing an explicit default constructor.
+
+
+
+
+
+##### 2.18 Constructor's Member Initializer List.
+
+Instead of initializing the private data members inside the body of the constructor, as follows:
+
+```c++
+Circle(double r = 1.0, string c = "red") {
+   radius = r;
+   color = c;
+}
+```
+
+We can use an alternate syntax called  *member initializer list* as follows:
+
+```c++
+Circle(double r = 1.0, string c = "red") : radius(r), color(c) { }
+```
+
+Member initializer list is placed after the constructor's header, separated by a colon (`:`). Each initializer is in the form of `*data_member_name*(*parameter_name*)`. For fundamental type, it is equivalent to `*data_member_name* = *parameter_name*`. For object, the constructor will be invoked to construct the object.  The constructor's body (empty in this case) will be run after the  completion of  member initializer list.
+
+It is recommended to use member initializer list to initialize all the  data members, as it is often more efficient than doing assignment inside the constructor's body.
+
+
+
+
+
+##### 2.19 *Destructor.
+
+A *destructor*, similar to constructor, is a special function that has the same name as the classname, with a prefix `~`, e.g., `~Circle()`. Destructor is called implicitly when an object is destroyed.
+
+If you do not define a destructor, the compiler provides a default, which does nothing.
+
+```c++
+class MyClass {
+public:
+   // The default destructor that does nothing
+   ~MyClass() { }
+......
+}
+```
+
+
+
+Advanced Notes:
+
+If your class contains data member which is dynamically allocated (via `new` or `new[]` operator), you need to free the storage via `delete` or `delete[]`.
+
+
+
+
+
+##### 2.20 *Copy Constructor.
+
+A *copy constructor* constructs a new object by copying an  existing object of the same type. In other words, a copy constructor  takes an argument, which is an object of the same class.
+
+If you do not define a copy constructor, the compiler provides a default which  copies all the data members of the given object. For example,
+
+```c++
+Circle c4(7.8, "blue");
+cout << "Radius=" << c4.getRadius() << " Area=" << c4.getArea()
+     << " Color=" << c4.getColor() << endl;
+                // Radius=7.8 Area=191.135 Color=blue
+ 
+// Construct a new object by copying an existing object
+// via the so-called default copy constructor
+Circle c5(c4);
+cout << "Radius=" << c5.getRadius() << " Area=" << c5.getArea()
+     << " Color=" << c5.getColor() << endl;
+                // Radius=7.8 Area=191.135 Color=blue
+```
+
+The copy constructor is particularly important. When an object is passed into a function *by value*, the copy constructor will be used to make a clone copy of the argument.
+
+
+
+Advanced notes:
+
+Pass-by-value for object means calling the copy constructor. To avoid  the overhead of creating a clone copy, it is usually better to  pass-by-reference-to-`const`, which will not have side effect on modifying the caller's object.
+
+The copy constructor has the following signature:  
+
+```c++
+class MyClass {
+private:
+   T1 member1;
+   T2 member2;
+public:
+   // The default copy constructor which constructs an object via memberwise copy
+   MyClass(const MyClass & rhs) {
+      member1 = rhs.member1;
+      member2 = rhs.member2;
+   }
+......
+}
+```
+
+The default copy constructor performs *shadow copy*. It does not copy the dynamically allocated data members created via `new` or `new[]` operator.
+
+
+
+
+
+##### 2.21 *Copy Assignment Operator.
+
+The compiler also provides a default assignment operator (`=`), which can be used to assign one object to another object of the same class via memberwise copy. For example, using the `Circle` class defined earlier:
+
+```c++
+Circle c6(5.6, "orange"), c7;
+cout << "Radius=" << c6.getRadius() << " Area=" << c6.getArea()
+     << " Color=" << c6.getColor() << endl;
+                // Radius=5.6 Area=98.5206 Color=orange
+cout << "Radius=" << c7.getRadius() << " Area=" << c7.getArea()
+     << " Color=" << c7.getColor() << endl;
+                // Radius=1 Area=3.1416 Color=red (default constructor)
+ 
+c7 = c6; // memberwise copy assignment
+cout << "Radius=" << c7.getRadius() << " Area=" << c7.getArea()
+     << " Color=" << c7.getColor() << endl;
+                // Radius=5.6 Area=98.5206 Color=orange
+```
+
+
+
+Advanced notes:
+
+- You could overload the assignment operator to override the default.
+
+- The copy constructor, instead of copy assignment operator, is used in declaration:   
+
+- ```c++
+  Circle c8 = c6;  // Invoke the copy constructor, NOT copy assignment operator
+                   // Same as Circle c8(c6)
+  ```
+
+- The default copy assignment operator performs *shadow copy*. It does not copy the dynamically allocated data members created via `new` or `new[]` operator.
+
+- The copy assignment operator has the following signature:  
+
+  ```c++
+  class MyClass {
+  private:
+     T1 member1;
+     T2 member2;
+  public:
+     // The default copy assignment operator which assigns an object via memberwise copy
+     MyClass & operator=(const MyClass & rhs) {
+        member1 = rhs.member1;
+        member2 = rhs.member2;
+        return *this;
+     }
+  ......
+  }
+  ```
+
+  
+
+- The copy assignment operator differs from the copy constructor in that it must release the dynamically allocated contents of the target  and prevent self assignment. The assignment operator shall return a  reference of this object to allow chaining operation (such as `x = y = z`).
+- The default constructor, default destructor, default copy constructor, default copy assignment operators are known as *special member functions*, in which the compiler will automatically generate a copy if they are used in the program and not explicitly defined.
+
+
+
+
+
+#### 3. Separating Header and Implementation.
+
+For better software engineering, it is recommended that the class  declaration and implementation be kept in 2 separate files: declaration  is a header file "`.h`"; while implementation in a "`.cpp`". This is known as separating the public interface (header declaration)  and the implementation. Interface is defined by the designer,  implementation can be supplied by others. While the interface is fixed,  different vendors can provide different implementations. Furthermore,  only the header files are exposed to the users, the implementation can  be provided in an object file "`.o`" (or in a library). The source code needs not given to the users.
+
