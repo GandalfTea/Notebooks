@@ -12,7 +12,6 @@ There are two big parts in code reuse :
 
 #### "Write once, use often"
 #### "Avoid code duplication at all cost"
-#### "Don't repete yourself"
 
 &nbsp;
 
