@@ -5,6 +5,7 @@ An operator for if statements :
 ```
 > std::cout << ((i < 2) ? "yes" : "no");
 ```
+&nbsp;
 
 ### Initializers for if statements :
 ```
@@ -14,6 +15,7 @@ Any variable introduces as initializer is only available in the if statement.
 Also works with switches.
 
 
+&nbsp;
 
 ### Short circuit logic in logical operators :
 
@@ -24,6 +26,7 @@ Put the cheeper bools first so that the ones that take more processing power hav
 ```
 if bool1 is true, the rest will not be computed.
 
+&nbsp;
 
 ### Structured bindings :
 
@@ -40,6 +43,7 @@ or
   auto [x, y, z] = point;
 ```
 
+&nbsp;
 
 ### Initializer lists :
 
@@ -49,6 +53,7 @@ You can pass a list of variables in a function as arguments, for example an arra
 
 > int makeSum (initializer_ list<int> lst){
 
+&nbsp;
 
 ### Smart pointers :
 
@@ -71,6 +76,7 @@ shared_ ptr allows for distribution of ownership of the data. Each time one is a
 ```
 > auto anEmployee = make_ shared<Employee>();
 ```
+&nbsp;
 
 ### Exeptions :
 
@@ -101,6 +107,7 @@ The first call is executed, the second throws an exception and junps to the catc
 > 5
   An exception was caught : Denominator cannot be 0.
 ```
+&nbsp;
 
 ### auto
 
