@@ -16,35 +16,37 @@ Closure permits the creation of hierarchical structures.
 
 
 One example of a sequence  :
-
-> (cons 1 
+```
+ (cons 1 
 	(cons 2 
 		(cons 3 
 			(cons 4 nil))))
-
+```
 This is a chain of pairs. The car is the item and cdr is the next item. The cdr of the last pair points to a value not in the pair and signals the end of the sequence, usually the variable > nil.
 
 This data structure is called a list, and scheme presents a primitive to form one :
 
-> (list 1 2 3 4)
-> (list a1 a2 a3 ... an)
+```
+ (list 1 2 3 4)
+ (list a1 a2 a3 ... an)
+```
 
 it is equivalent to
-
-> (cons a1
+```
+ (cons a1
 	(cons a2
 		(cons ...
 			(cons an nil))...))
-
+```
 
 
 This structure is evaluated by lisp in the form :
-
+```
 (1 2 3 4)
 (a1 a2 a3 ...an)
+```
 
-
-
+```
 > (define one-through-for (list 1 2 3 4))
 
 > (car one-thhrough-for)
@@ -58,7 +60,7 @@ This structure is evaluated by lisp in the form :
 
 > (cons 10 one-through-for)
 (10 1 2 3 4)
-
+```
 
 
 NOTE : The term list structure refers to any data structure made out of pairs, not just lists.
@@ -74,6 +76,7 @@ Procedures :
 * list-ref : takes a list and a number and returns the object at that position in the list.
 
 Works like :
+```
 > (define (list-ref items n)
 	(if (= n 0)
  	    (car items)
@@ -83,12 +86,12 @@ Works like :
 
 > (list-ref squares 3)
 16
-
+```
 
 
 
 * length : returns the number of items in the list.
-
+```
 > (define (length items)
 	(if (null? items)
 	     0
@@ -98,12 +101,12 @@ Works like :
 
 > (length odds)
 4
-
+```
 
 
 
 * append : combines two lists.
-
+```
 > (define (append list1 list2)
 	(if (null? list1)
 	     list 2
@@ -111,7 +114,7 @@ Works like :
 
 > (append squares odds)
 ( 1 4 9 16 25 1 3 5 7)
-
+```
 
 
 
@@ -121,7 +124,7 @@ Works like :
 
 
 Modifying each element :
-
+```
 > (define (scale-list items factor)
 	(if (null? items)
 	     nil
@@ -131,79 +134,79 @@ Modifying each element :
 
 > (scale-list (list 1 2 3 4 5) 10)
 (10 20 30 40 50)
-
+```
 From this we can create a higher order procedure called map. Map takes a list and a procedure of one argument and returns a list of the results produced by applying the procedure to all items in the list.
-
+```
 > (define (map proc items)
 	(if (null? items) 
 	     nil
 	    (cons (proc (car items))
 		  (map proc (cdr items)))))
-
+```
 
 Scheme already has a built in map procedure that is more generalized.
-
+```
 > (map abs (list -10 2,5 -11 17))
 (10 2,5 11 17)
 
 > (map (lambda (x) ( * x x)) (list 1 2 3 4))
 (1 4 9 16)
-
+```
 
 Now we can rewrite the definition of scale-list using map :
-
+```
 > (define (scalel-list items factor)
 	(map (lambda (x) (* x factor))
 	      items))
-
+```
 
 
 # 2.2.2 Hierarchical Structures
 
 
 Lists can also contain other lists :
-
+```
 > (cons (list 1 2) (list 3 4))
 ((1 2) 3 4)
-
+```
 Another way o think of this is as trees. :
-
+```
 	((1 2) 3 4)
 	  /  |  \
       (1 2)  3   4
        / \
       1   2
-
+```
 
 
 Recursion is a natural tool for dealing with tree structures because we can deal with the trunk, than branches than branckes of branches than leaves.
 
 Example :
-
+```
 > (define x (cons (list 1 2) (list 3 4)))
   (length x)
 : 3
 
 > (count-leaves x)
 : 4
-
+```
 
 To build count-leaves, we must not only add one to the cdr, but to add count-leaves of the car to cout-leaves of the cdr. This is because car might be a list.
 
 To aid in this, Scheme provides a primitive named pair? witch tests whether it's argument is a pair. Used like :
 
-
+```
 > (define (count-leaves x)
      (cond ((null? x) 0)
 	   ((not (pair? x)) 1)
 	   (else (+ (count-leaves (car x))
 		    (count-leaves (cdr x)))))) 
-
+```
 
 # Mapping over Trees
 
 Map together with recursion is a powerful abstraction for dealing with trees :
-
+```
 > (define (scale-tree tree factor)
      (cond ((null? tree) nil)
 	   ((not (pair? tree)) (* tree factor))
@@ -212,11 +215,11 @@ Map together with recursion is a powerful abstraction for dealing with trees :
 
 > (scale-tree (list 1 (list 2 ( list 3 4) 5) (list 6 7)) 10)
 : (10 (20 (30 40) 50) (60 70))
-
+```
 
 Another way to implement scale-tree is to section the tree into sequences of sub-trees and use map :
 
-
+```
 > (define (map proc items)
 	(if (null? items) 
 	     nil
@@ -229,7 +232,7 @@ Another way to implement scale-tree is to section the tree into sequences of sub
 		   (scale-tree sub-tree factor)
 		   (* sub-tree factor)))
             tree))
-
+```
 Many operations can be implemented by similar combinations of sequences and recursion.
 
 
@@ -238,7 +241,7 @@ Many operations can be implemented by similar combinations of sequences and recu
 
 Let's take two procedures as examples, one of them adds the odd squares of a tree and the other computes the even fibonacci numbers Fib(k) where k <= n.
 
-
+```
 > (define (sum-odd-squares tree)
       (cond ((null? tree) 0) 
 	    ((not (pair? tree)) (if (odd? tree) (square tree) 0))
@@ -253,7 +256,7 @@ Let's take two procedures as examples, one of them adds the odd squares of a tre
 		  (if (even? f)
 		      (cons f (next (+ k 1)))
 		      (next (+ k 1)))))))
-
+```
 
 On the surface, these procedures are very different, but the general ideea is the same: Enumerate something, pass it through a filter, map it and than accumulate into the end result.
 
@@ -268,7 +271,7 @@ If we could rewrite those procedures to manifest the signal-flow structre, that 
 If we represent the signal as a list, than we can implement each stage separately, like we use the procedure map to map it.
 
 Filtering a sequence to only select certain elements is done like this :
-
+```
 > (define (filter predicate sequence)
      (cond ((null? sequence) nil)
 	   ((predicate (car sequence))
@@ -279,11 +282,11 @@ Filtering a sequence to only select certain elements is done like this :
 
 > (filter odd? (list 1 2 3 4 5))
 :(1 3 5)
-
+```
 
 Accumulations can be implemented by :
 
-
+```
 > (define (accumulated op initial sequence)
      (if (nul? sequence)
 	  initial
@@ -298,10 +301,10 @@ Accumulations can be implemented by :
 
 > (accumulate cons nil (list 1 2 3 4 5))
 : (1 2 3 4 5)
-
+```
 
 All that remains to implement is a function to enumerate the sequence of emelements to be proccesed, for even-fibs we need a range :
-
+```
 > (define (enumerate-interval low high)
      (if (> low high)
 	  nil
@@ -309,12 +312,12 @@ All that remains to implement is a function to enumerate the sequence of emeleme
 
 > (enumerate-interval 2 7)
 : (2 3 4 5 6 7)
-
+```
 
 
 To enumerate the leaves of a tree we use :
 
-
+```
 > (define (enumerate-tree tree)
      (cond ((null? tree) nil)
 	   ((not (pair? tree)) (list tree))
@@ -323,11 +326,11 @@ To enumerate the leaves of a tree we use :
 
 > (enumerate-tree (list 1 (list 2 (list 3 4)) 5))
 : (1 2 3 4 5)
-
+```
 
 
 Now we can reformulate sum-odd-squares and even-fibs as in the signal flow chart :
-
+```
 > (define (sum-off-squares)
      (accumulate + 0 (map square (filter odd? (enumetare-tree tree)))))
 
@@ -338,7 +341,7 @@ Now we can reformulate sum-odd-squares and even-fibs as in the signal flow chart
 	cons
 	nil
 	(filter even? (map fib (enumerate-interval 0 n)))))
-
+```
 This type of program structure helps us in creating modular procedures. We can encurage modular design by providing a library of standard components together with a conventional interface for connectign  the components in flexible ways.
 
 
@@ -346,10 +349,10 @@ Modular construction is a powerful tool to control complexity in design.
 
 
 Suppose we want to check witch programer has the biggest salary. We can do this like so :
-
+```
 > (define (salary-of-highest-paid-programmer records)
 	(accumulate max 0 (map salary (filter programmer? records))))
-
+```
 This is the power of modular code.
 
 
@@ -366,7 +369,7 @@ Given an int n, fill all ordered pairs of distinct positive int i and j where, 1
 
 A natural way to solve this is to compute all posible pairs, filter out those that filter to prime and return the triple (i, j, i+ j). For each int i <= n, enumerate j < i and for each i and j, make a pair. We map along the sequence (enumerate-interval 1 n) for i and (enumerate-interval 1 (- n 1)). For each j we make a pair (i, j) :
 
-
+```
 > (accumulate
        append
        nil
@@ -374,33 +377,33 @@ A natural way to solve this is to compute all posible pairs, filter out those th
 			         (list i j))
 	   	             (enumerate-inteerval 1 (- i 1))))
        (enumerate-interval 1 n)))
-
+```
 This procedure is so common that we should define it as :
 
-
+```
 > (define (flatmap proc seq)
      (accumulate append nil (map proc seq)))
-
+```
 Now filter the prime pairs :
 
 
 
 # NOTE: (cadr pair) is the car of the cdr!
-
+```
 > (define (prime-sum? pair)
       (prime? (+ (car pair) (cadr pair)))) 
-
+```
 
 Make the final pair :
-
+```
 > (define (make-pair-sum pair)
       (list (car pair) (cadr pair) (+ (car pair) (cadr pair))))
-
+```
 
 
 
 Now combine everything into the big procedure :
-
+```
 > (define (prime-sum-pairs n)
       (map make-pair-sum
 	     (filter prime-sum? (flatmap
@@ -408,7 +411,7 @@ Now combine everything into the big procedure :
 					(map (lambda (j) (list i j))
 					     (enumerate-interval 1 (- i 1))))
 				    (enumerate-interval 1 n)))))
-
+```
 
 
 Nested mappings are also useful for sequences other than enumerate intervals.
@@ -419,7 +422,7 @@ Ex for list (1 2 3) : (1 2 3) (1 3 2) (2 1 3) (2 3 1) (3 2 1) (3 1 2)
 
 
 Take a int x from a list S. Recursively generate all the permutations of S - x and than add x to the front. Than combine the lists for all the x's in S.
-
+```
 > (define (permutations s)
      (if (null? s)		: empty set?
 	 (list nil)		: sequence containing empty set
@@ -431,4 +434,4 @@ Take a int x from a list S. Recursively generate all the permutations of S - x a
 > (define (remove item sequence)
      (filter (lambda (x) (not (= x item)))
 	     sequence))
-
+```
