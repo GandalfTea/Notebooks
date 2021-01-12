@@ -6,7 +6,7 @@
 
 
 
-####Note : In modern C++ you should void low-level memory operations as much as possible in favour of more modern aconstructs such as containers and smart pointers !
+#### Note : In modern C++ you should void low-level memory operations as much as possible in favour of more modern aconstructs such as containers and smart pointers !
 
 &nbsp;
 
