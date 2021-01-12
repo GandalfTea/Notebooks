@@ -1,46 +1,51 @@
 
 
 
-# 	Chapter 5 : Designing with Objects
+## 	Chapter 5 : Designing with Objects
 
 
 
 
-# Are you thinking procedually?
+### Are you thinking procedually?
 
 If you are thinking of what a program has to do simply like : " It has to take that and do that and return that ", you are thinking procedually.
 
+&nbsp;
 
 
-# The Object-Oriented Philosophy :
+### The Object-Oriented Philosophy :
 
 In an object oriented program, you have to ask " What real world objects am I moddeling? " unlike " What does this program do? ". OOP is based on the notion that a program should be devided into models of phisical objects not tasks.
 
 
+&nbsp;
 
 
-# Classes :
+### Classes :
 
 A class helps distinguish an object from it's definition. An orange instance is varied from the general definition of an orange. A class is simply the encapsulation of what defines a clasification of objects.
 
 
+&nbsp;
 
-# Components :
+### Components :
 
 Objects can be broken down into more components.
 A component is essentially the same thing as a class, just smaller and more specific.
 
 
+&nbsp;
 
-# Properties :
+### Properties :
 
 Properties are what distinguishes objects from one another. Those are the particulars of an instance. An orange might be darker or sweeter.
 
 Properties are class level, all objects have them. Properties parameters are individual.
 
+&nbsp;
 
 
-# Behaviors :
+### Behaviors :
 
 They answer one of two questions :
 
@@ -59,14 +64,15 @@ Behaviors are implemented in the so called class methods.
 
 
 
+&nbsp;
 
 
 
-#	OBJECT RELATIONSHISPS :
+##	OBJECT RELATIONSHISPS :
 
 
 
-* The HAS-A Relationship :
+#### * The HAS-A Relationship :
 
 
 Also called AGGREGATION, A has a B or A contains a B. One object is part of another. Mostly components.
@@ -75,7 +81,7 @@ A zoo has a monkey.
 
 
 
-* The IS-A Relationship :
+#### * The IS-A Relationship :
 
 Also called INHERITANCE
 
@@ -85,39 +91,40 @@ A monkey IS A animal. What this means is that a programer can define a Animal cl
 
 
 
+&nbsp;
 
 
 
-#	INHERITANCE TECHNIQUES :
+##	INHERITANCE TECHNIQUES :
 
 
 
-* Adding Functionality :
+#### * Adding Functionality :
 
 A derived class can augment it's parent class by adding functionality.
 A monkey can swing from trees. In adition to the Animal class, it can have swingFromTrees().
 
 
-* Replacing Functionality :
+#### * Replacing Functionality :
 
 A derived class can replace or override a method of the parent class. 
 Most animals move by walking, so it makes sense to have a method move() that simulates walking. A kangaroo jumps. All the other properties and methods still apply, but the Kangaroo class changes move().
 
 
-* Adding Properties :
+#### * Adding Properties :
 
 A derived class can also add properties outside of the inherited ones.
 A penguin also has a beakSize property.
 
 
-* Replacing Properties :
+#### * Replacing Properties :
 
 You can override properties similar to methods. Doing so is rarely appropiate because it hides the property from the base class.
 
 
 
 
-#	POLYMORPHISM VERSUS CODE REUSE :
+##	POLYMORPHISM VERSUS CODE REUSE :
 
 
 Polymorphism 
