@@ -1,6 +1,6 @@
 
 
-# 2.2 Hierarchical Data and the Closure Property :
+## 2.2 Hierarchical Data and the Closure Property :
 
 
 
@@ -12,7 +12,7 @@ Closure permits the creation of hierarchical structures.
 
 
 
-# 2.2.1	Representing Sequences :
+### 2.2.1	Representing Sequences :
 
 
 One example of a sequence  :
@@ -67,7 +67,7 @@ NOTE : The term list structure refers to any data structure made out of pairs, n
 
 
 
-# List operations
+### List operations
 
 
 Procedures :
@@ -120,7 +120,7 @@ Works like :
 
 
 
-# Mapping over Lists :
+### Mapping over Lists :
 
 
 Modifying each element :
@@ -161,7 +161,7 @@ Now we can rewrite the definition of scale-list using map :
 ```
 
 
-# 2.2.2 Hierarchical Structures
+## 2.2.2 Hierarchical Structures
 
 
 Lists can also contain other lists :
@@ -203,7 +203,7 @@ To aid in this, Scheme provides a primitive named pair? witch tests whether it's
 		    (count-leaves (cdr x)))))) 
 ```
 
-# Mapping over Trees
+### Mapping over Trees
 
 Map together with recursion is a powerful abstraction for dealing with trees :
 ```
@@ -237,7 +237,7 @@ Many operations can be implemented by similar combinations of sequences and recu
 
 
 
-# Sequences as Conventional Interfaces :
+### Sequences as Conventional Interfaces :
 
 Let's take two procedures as examples, one of them adds the odd squares of a tree and the other computes the even fibonacci numbers Fib(k) where k <= n.
 
@@ -266,7 +266,7 @@ A signal processing engineer would find it natural to think of those procedures 
 If we could rewrite those procedures to manifest the signal-flow structre, that would make them easier to understand.
 
 
-# Sequance operations :
+### Sequance operations :
 
 If we represent the signal as a list, than we can implement each stage separately, like we use the procedure map to map it.
 
@@ -361,7 +361,7 @@ NOTE: I feel like such a dumbass man, this is so fucking smart.
 
 
 
-# Nested Mappings
+### Nested Mappings
 
 We can extend the sequence paradigm to include the computations most commonly expressed as nested loops :
 
@@ -388,7 +388,7 @@ Now filter the prime pairs :
 
 
 
-# NOTE: (cadr pair) is the car of the cdr!
+#### NOTE: (cadr pair) is the car of the cdr!
 ```
 > (define (prime-sum? pair)
       (prime? (+ (car pair) (cadr pair)))) 
