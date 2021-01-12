@@ -9,13 +9,13 @@
 ### What is Programming Design?
 
 
-1. Analyze the requirements :
+#### 1. Analyze the requirements :
 
 	A vital outcome of this analysis is a functional requirements document describing what exactly the new piece of code has to do, but not yet how to do it. Together with this, there should be a non-functional requirements document describing how the final system should be, not what it should do. Examples of non-funcional requirements are : security, extensiblility, satisfy certain performance criteria, etc.
 
 
 
-2.  Software Design :
+#### 2.  Software Design :
 
 	The program or software design is the architecture that will implement the requirements, functional and non-functional. This should be done in the form of a design document, witch includes 2 parts :
 	
@@ -43,15 +43,15 @@
 
 ### Two rules for C++ design :
 
-1. Abstraction
+#### 1. Abstraction
 
-2. Reuse
+#### 2. Reuse
 
 
 	
 	One way to implement reuse is by templait. A basic chess-board template example is :
-
-	> template <typename PieceType>
+```
+	  template <typename PieceType>
 	  class GameBoatd
 	  {
 		public :
@@ -60,7 +60,8 @@
 			bool isEmpty(size_t x, size_t y) const;
 		private:
 	  };
-
+```
+	
 &nbsp;
 
 
