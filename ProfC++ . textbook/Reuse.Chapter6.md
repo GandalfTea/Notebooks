@@ -4,14 +4,16 @@
 
 &nbsp;
 
+#### "Write once, use often"
+#### "Avoid code duplication at all cost"
+
+&nbsp;
+
 There are two big parts in code reuse :
 * Code Library reuse.
 * Writing code for reuse.
 
-&nbsp;
 
-#### "Write once, use often"
-#### "Avoid code duplication at all cost"
 
 &nbsp;
 
@@ -32,6 +34,7 @@ Most important principle is Abstraction.
 
 Unfortunately, C++ is fundamentally unfrienly to the principle of good abstraction when writing classes. The syntax requires you to combine your public interfaces and non-public (private or protected) data members and methods together in one class definition, thereby exposing some of the internal implementation details of the class to it's clients.
 
+&nbsp;
 
 ### How to structure code for optimal reuse :
 
@@ -44,6 +47,7 @@ Your program shoulf be reusable in full, this means that all levels should be re
 You should strive for high cohesion. This is also known as Single Responsability Principle (SRP). Don't combine unrelated concepts. 
 &nbsp;
 
+&nbsp;
 
 ####  Divide your program into logical subsystems :
 
@@ -138,6 +142,7 @@ There are three important aspects :
 * Invariants :
 	list the conditions that must be satisfied during the whole execution of the function or method.
 
+&nbsp;
 
 
 #### 2. Design as safe as possible :
@@ -250,6 +255,7 @@ This code is open  for extension and closed to modification.
 
 ## Design Usable Interfaces :
 
+&nbsp;
 
 #### Follow Familiar Ways :
 
@@ -322,10 +328,10 @@ For example, you could allow clients to set their own error handeling routines.
 
 
 ### The SOLID Principles :
-
+```
 S - Single Responsibility Principle (SRP).
 O - Open/Closed Principle (OCP).
 L - Liskov Substitution Principle (LSP).
 I - Interface Segregation Principle (ISP).
 D - Dependency Inversion Principle (DIP).
-
+```
