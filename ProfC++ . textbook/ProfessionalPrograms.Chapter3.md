@@ -1,11 +1,12 @@
 
 
-#	Chapter 3 : Designing Professional C++ Programs
+##	Chapter 3 : Designing Professional C++ Programs
 
 
 
+&nbsp;
 
-# What is Programming Design?
+### What is Programming Design?
 
 
 1. Analyze the requirements :
@@ -25,9 +26,10 @@
 	The design documents should include diagrams and tables showing subsystem interactions and class hierarchies. The Unified Modeling Language (UML) is the general standard for such diagrams.
 
 
+&nbsp;
 
 
-# Designing for C++ :
+### Designing for C++ :
 
 * C++ has an immense feature set.
 * C++ is object-oriented.
@@ -36,9 +38,10 @@
 * C++ acomodates many design patterns.
 
 
+&nbsp;
 
 
-# Two rules for C++ design :
+### Two rules for C++ design :
 
 1. Abstraction
 
@@ -58,8 +61,10 @@
 		private:
 	  };
 
+&nbsp;
 
-# Also to keep in mind :
+
+### Also to keep in mind :
 
 * Understand the performance.
 * Understand platform limitations.
