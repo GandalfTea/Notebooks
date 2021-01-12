@@ -1,6 +1,6 @@
 
 
-# 2.1.2 Abstraction Bariers :
+## 2.1.2 Abstraction Bariers :
 
 
 We should bind primitive language in as small a program possible and build ontop of building blocks, for when the primitive language changes, we can easily re-write the necesarry code and still have everything working.
@@ -10,7 +10,7 @@ Higher level abstractions do not concern themselves with the lower level primiti
 Proceduers at each abstraction level are the interfaces that define the abstraction barriers and connect different levels.
 
 
-# Exercise 2.2
+### Exercise 2.2
 
 Representing lines with a starting point and an end point in a plane :
 
@@ -24,7 +24,7 @@ mid-point? average of start and end
 
 ----------------------------------------------------------------------
 // tested and proud
-
+```
 > (define make-point cons)
   (define x-point car)
   (define y-point cdr)
@@ -40,7 +40,7 @@ mid-point? average of start and end
 > (define (mid-point x)
 	(cons (/ 2 (+ (x-point (start-segment x)) (y-point (start-segment x))))
 	      (/ 2 (+ (x-point (end-segment x)) (y-point (end-segment x)))) 
-
+```
 
 
 
