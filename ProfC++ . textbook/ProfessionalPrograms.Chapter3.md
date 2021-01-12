@@ -8,12 +8,14 @@
 
 ### What is Programming Design?
 
+&nbsp;
 
 #### 1. Analyze the requirements :
 
 A vital outcome of this analysis is a functional requirements document describing what exactly the new piece of code has to do, but not yet how to do it. Together with this, there should be a non-functional requirements document describing how the final system should be, not what it should do. Examples of non-funcional requirements are : security, extensiblility, satisfy certain performance criteria, etc.
 
 
+&nbsp;
 
 #### 2.  Software Design :
 
@@ -49,7 +51,7 @@ The design documents should include diagrams and tables showing subsystem intera
 
 
 	
-	One way to implement reuse is by templait. A basic chess-board template example is :
+One way to implement reuse is by templait. A basic chess-board template example is :
 ```
 	  template <typename PieceType>
 	  class GameBoatd
