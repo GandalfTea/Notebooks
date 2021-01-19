@@ -1,6 +1,7 @@
 
 
 ## Mastering Classes and Objects
+&nbsp;
 
 ### Table of Content:
    * [Class Friends](#friends)
@@ -17,6 +18,7 @@
 
 
 
+&nbsp;
 
 
 ### Friends <a name="friends"></a>
@@ -52,6 +54,7 @@ Also works with standalone functions :
 The friend declaration also searves as a prototype.
 
 
+&nbsp;
 
 ### Dynamic Memory Allocation in Objects <a name="dynamic"></a>
 
@@ -147,6 +150,7 @@ SpreadsheetCell& Spreadsheet::getCellAt(size_t x, size_t y) {
 ```
 
 
+&nbsp;
 
 ### Freeing Memory with Destructors
 
@@ -179,6 +183,7 @@ Spreadsheet::~Spreadsheet() {
 	mCells = nullptr;
 }
 ```
+&nbsp;
 
 ### Handling Copying and Assignment
 
@@ -342,6 +347,7 @@ This implementetion is recomanded because it guarantees strong exception safety 
  * The third phase is the destruction of the temporary object, witch now contains the original object, to clean up any memory.
 
 
+&nbsp;
 
 ### Disallowing Assignment and Pass-By-Value
 
@@ -368,6 +374,7 @@ When you write code to copy or assign to Spreadsheet object, the compiler will c
 #### Note : If your compiler doesn't allow explicitly deleting member functions , you can disallow copying and assigning by making your copy constructor and assignment operator private without any implementation.
 
 
+&nbsp;
 
 ## Handling Moving with Move Semantics <a name="move-semantics"></a>
 
@@ -384,6 +391,7 @@ This process actually moves ownership of the memory and other resources from one
 
 Before the move semantics, you need to learn about _rvalue_ and _rvalue references_.
 
+&nbsp;
 
 ### Rvalue References
 
@@ -466,6 +474,7 @@ int&& i = 2;
 int a = 2, b = 3;
 int&& j = a + b;
 ```
+&nbsp;
 
 ### Implementing move semantics
 
@@ -550,6 +559,7 @@ The compiler automatically agenerates a default move constructor for a class if 
 #### Note : If you have dynamically allocated memory in your class, then you typically should implement a destructor, copy constructor, move constructor, copy assignment operator, and move assignment operator. This is caled the __Rule of Five__.
 
 
+&nbsp;
 
 ### Moving Object Data Members
 
@@ -569,6 +579,7 @@ void Spreadsheet::moveFrom(Spreadsheet& src) noexcept {
 	// . . .
 }
 ```
+&nbsp;
 
 #### Move Constructor and Move Assignment Operator in Terms of Swap
 
@@ -607,8 +618,9 @@ __The move constructor__ delegated first to the default constructor. Then, the d
 This implementation might be a bit less efficient compared to the earlier one. The advantage is that it requires less code and it is less likely bugs are introduced when data members are added to the class, because you only need to update the `swap()` method.
 
 
+&nbsp;
 
-#### Testing the Spreadsheet Move Operations
+### Testing the Spreadsheet Move Operations
 
 
 They can be tested with the following code :
@@ -670,7 +682,9 @@ Next, a Spreadsheet objet `s` is created using the normal constructor (6). The `
 
 If the Spreadsheet class did not implement move semantics, all the calls to the move constructor and move assignment operator would be replaced with calls tot he copy constructor and copy assignment operator. In the previous example, the objects in the loop have 10,000 (100 * 100) elements. The implementation of the Spreadsheet move constructor and move assignment operator doesn't require any memory allocation, while the copy constructor and copy assignment operator require 101 allocations each. In this case, using move semantics can increse performance a lot.
 
-#### Implementing a Swap Function with Move Semantics
+&nbsp;
+
+### Implementing a Swap Function with Move Semantics
 
 Another example where it can increse performance. The following `swapCopy()` does not use move semantics :
 
@@ -690,6 +704,7 @@ void swapMove(T& a, T& b) {
 	b = std::move(temp);
 }
 ```
+&nbsp;
 
 ### Rule of Zero
 
@@ -706,6 +721,7 @@ How do you do that?
 
 Basically, you should avoid having any old-style dynamically allocated memory. Instead, you should use modern constructs such as Standard Library Containers. For example, use a `vector<vector<SpreadsheetCell>>` instead of the `SpredadsheetCell**` data member in the Spreadsheet class. The vector handles memory automatically, so there is no need for the five member functions.
 
+&nbsp;
 
 ### More about Methods <a name="more-methods"></a>
 
@@ -727,6 +743,7 @@ class SpreadsheetCell
 The implementations are identical. You don't repeat the `static` keyward in front of the method definitions. Note that static methods have no `this` pointer, and are not executing for a specific object with access to its non-static members. In fact, a static method is just like a regular function. The only difference is that it can access `protected` and non-static data members on objects of the same type by passing a reference or pointer to such an object.
 
 
+&nbsp;
 
 ### _const_ Methods
 
@@ -752,6 +769,7 @@ You can call `const` and non-`const` methods on non=`const` objects. However, yo
 #### Note : You should get into the habbit of declaring const all methods that don't modify the object so that you can use references to const objects in your program. 
 
 
+&nbsp;
 
 ### __mutable__ Data Members
 
@@ -782,6 +800,7 @@ std::string SpreadsheetCell::getString() const {
 }
 ```
 
+&nbsp;
 
 ### Method Overloading <a name="method-overloading"></a>
 
@@ -804,6 +823,7 @@ The implementations stay the same. When using set, the compiler determines from 
 
 You might be tempted to rename `getValue()` and `getString()` to `get()`, however that does not work. C++ does not allow overloading based only on the return type as it would be impossible for the compiler to determine witch instance to call. 
 
+&nbsp;
 
 ### Overloading Based on _const_
 
@@ -840,6 +860,7 @@ SpreadsheetCell& Spreadsheet::getCellAt(size_t x, size_t y) {
 With this overload, you can now call `getCellAt()` on `const` and non-`const` objects.
 
 
+&nbsp;
 
 ### Explicitly Deleting Overloads
 
@@ -869,6 +890,7 @@ class MyClass
 		void foo(double d) = delete;
 };
 ```
+&nbsp;
 
 ### Inline Methods <a name="inline"></a>
 
@@ -904,6 +926,7 @@ class SpreadsheetCell
 };
 ```
 
+&nbsp;
 
 ### Default Arguments <a name="default-arguments"></a>
 
@@ -929,6 +952,7 @@ Spreadsheet s3(5, 6);
 
 A constructor with defaults for all parameters can function as a default constructor. If you try to declare a multi-argument constructor with defaults for all params and a default constructor, the compiler will complain because it doesn't know witch to call in the case of 0 arguments given.
 
+&nbsp;
 
 ### Different Kinds Of Data Members <a name="data-member-kinds"></a>
 
@@ -954,6 +978,7 @@ size_t Spreadsheet::sCounter;
 ```
 size_t Spreadsheet::sCounter = 0;
 ```
+&nbsp;
 
 #### _Inline_ Variables
 
@@ -975,6 +1000,7 @@ Now there is no need for the following line :
 ```
 size_t Spreadsheet::sCounter;
 ```
+&nbsp;
 
 ### Accessing static Data Members within Class Methods
 
@@ -1009,6 +1035,8 @@ Spreadsheet::Spreadsheet(size_t width, size_t height) {
 
 You should not copy the `mId` in the copy assinment operator. The ID should never change. Thus it should be a const data member.
 
+&nbsp;
+
 ### Accessing static Data Members Outside Methods
 
 Access control specifiers apply to static data methods : `sCounter` is `private` so it can't be accessed from outside class methods.
@@ -1021,6 +1049,7 @@ int c = Spreadsheet::sCounter;
 
 However, it is not recomanded. You should grant access throw get/set methods. If you want to grant access to a `static` data member, you need to implement `static` get/set methods.
 
+&nbsp;
 
 ### _const static_ Data Members
 
@@ -1072,6 +1101,7 @@ class Spreadsheet
 		// . . .
 };
 ```
+&nbsp;
 
 ### Reference Data Members
 
@@ -1115,6 +1145,7 @@ Spreadsheet::Spreadsheet(size_t width, size_t height,
 
 You must also initialize the reference member in the copy constructor. 
 
+&nbsp;
 
 ### _const_ Reference Data Members
 
@@ -1137,6 +1168,7 @@ The const reference can only be used to call `const` methods on the `Spreadsheet
 
 It's also possible to have a `static` reference member or a `static const` reference member.
 
+&nbsp;
 
 ### Nested Classes <a name="nested-classes"></a>
 
@@ -1211,6 +1243,7 @@ class Spreadsheet::Cell
 If you declare a `private` or `protected` nested class, you can only use it inside the outer class. A nested class has access to all the `protected` and `private` elements of the outer class.
 
 
+&nbsp;
 
 ### Enumerate Types Inside Classes
 
@@ -1244,6 +1277,7 @@ myCell.setColor(SpreadsheetCell::Color::Blue);
 auto color = myCell.getColor();
 ```
 
+&nbsp;
 
 ### Operator Overloading <a name="operator-overloading"></a>
 
@@ -1304,6 +1338,7 @@ When the compiler finds an operator like `+`, `-`,`=`, it tries to find function
 
 #### Note : A function like this can return anything you want.
 
+&nbsp;
 
 ### Implicit Conversions
 
@@ -1335,6 +1370,7 @@ SpreadsheetCell SpreadsheetCell::operator+(double rhs) const {
 	return SpreadsheetCell(getValue() + rhs);
 }
 ```
+&nbsp;
 
 ### A third attempt
 
@@ -1374,6 +1410,7 @@ SpreadsheetCell opearator+(const SpreadsheetCell& lhs,
 
 Now all four additions work as expected.
 
+&nbsp;
 
 ### Overloading Arithmetic Operations
 
@@ -1392,6 +1429,7 @@ SpreadsheetCell operator/(const SpreadsheetCell& lhs,
 	return SpreadsheetCell(lhs.getValue() / rhs.getValue());
 }
 ```
+&nbsp;
 
 ### Overloading the Arithmetic Shorthand Operators
 
@@ -1438,6 +1476,7 @@ SpreadsheetCell operator+(const SpreadsheetCell& lhs, const SpreadsheetCell& rhs
 	return result;
 }
 ```
+&nbsp;
 
 ### Overloading Comparison Operators
 
@@ -1476,6 +1515,8 @@ bool operator>=(const SpreadsheetCell& lhs, const SpreadsheetCell& rhs) {
 
 
 #### Note : Provide operator overloading as a service to clients of your class.
+
+&nbsp;
 
 ### Building Stable Interfaces <a name="stable-interface"></a>
 
