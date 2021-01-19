@@ -2,6 +2,8 @@ Warning : The formatting changes from chapter to chapter.
 
 TODO: Write a TOC here.
 
+&nbsp;
+
 Chapter 9, Mastering Classes and Objects :
 
    * Class Friends
