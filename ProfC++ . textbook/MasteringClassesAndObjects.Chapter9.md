@@ -2,8 +2,24 @@
 
 ## Mastering Classes and Objects
 
+### Table of Content:
+   * [Class Friends](#friends)
+   * [Dynamic Memory Allocation in Objects](#dynamic)
+   * [Move Semantics](#move-semantics)
+   * [More about Methods](#more-methods)
+   * [Method Overloading](#method-overloading)
+   * [Inline Methods](#inline)
+   * [Default Arguments](#default-arguments)
+   * [Different kinds of Data Members](#data-member-kinds)
+   * [Nested Classes](#nested-classes)
+   * [Operator Overloading](#operator-overloading)
+   * [Building Stable Interfaces](#stable-interface)
 
-### Friends
+
+
+
+
+### Friends <a name="friends"></a>
 
 C++ allows classes to declare that other classes are friends and can access protected and private data members and methods. You can specifi that the Bar class is a friend of Foo like :
 
@@ -37,7 +53,7 @@ The friend declaration also searves as a prototype.
 
 
 
-### Dynamic Memory Allocation in Objects
+### Dynamic Memory Allocation in Objects <a name="dynamic"></a>
 
 Last chapter described the SpreadsheetCell class. This one is modeled around the Spreadsheet class.
 
@@ -353,7 +369,7 @@ When you write code to copy or assign to Spreadsheet object, the compiler will c
 
 
 
-## Handling Moving with Move Semantics 
+## Handling Moving with Move Semantics <a name="move-semantics"></a>
 
 Move semantics for objects require :
 
@@ -691,9 +707,9 @@ How do you do that?
 Basically, you should avoid having any old-style dynamically allocated memory. Instead, you should use modern constructs such as Standard Library Containers. For example, use a `vector<vector<SpreadsheetCell>>` instead of the `SpredadsheetCell**` data member in the Spreadsheet class. The vector handles memory automatically, so there is no need for the five member functions.
 
 
-### More about Methods
+### More about Methods <a name="more-methods"></a>
 
-#### _static_ Methods
+### _static_ Methods
 
 Methods, like members, sometimes apply to the class as a while, not to each object. You can write static methods, like members. An example would be the `stringToDoublr()` and `doubleToString()` methods from the `SpreadsheetCell` class. The methods don't access information about specific objects, so they could be static. Here is the class definition :
 
@@ -737,7 +753,7 @@ You can call `const` and non-`const` methods on non=`const` objects. However, yo
 
 
 
-#### __mutable__ Data Members
+### __mutable__ Data Members
 
 Suppose you want profile your Spreadsheet application to know how often data is being read. To do this, you could add a counter to the SpreadsheetCell class that counts each call to `getValue()` and `getString()`. The functions are no longer `const` in the compilers eyes if they modify a counter. The solution is to mark the counter variable as `mutable` so that it can be edited from inside a `const` function. 
 
@@ -767,7 +783,7 @@ std::string SpreadsheetCell::getString() const {
 ```
 
 
-### Method Overloading
+### Method Overloading <a name="method-overloading"></a>
 
 Just like you can write different constructors all with the same name, but different parameters. You can do the same with any method or function in C++. This is called ___overloading___.
 
@@ -789,7 +805,7 @@ The implementations stay the same. When using set, the compiler determines from 
 You might be tempted to rename `getValue()` and `getString()` to `get()`, however that does not work. C++ does not allow overloading based only on the return type as it would be impossible for the compiler to determine witch instance to call. 
 
 
-#### Overloading Based on _const_
+### Overloading Based on _const_
 
 You can write the same method two times, one being `const` and the other not. The compiler can determine the instance based on the argument being `const` or not.
 
@@ -825,7 +841,7 @@ With this overload, you can now call `getCellAt()` on `const` and non-`const` ob
 
 
 
-#### Explicitly Deleting Overloads
+### Explicitly Deleting Overloads
 
 Overloaded methods can be explicitly deleted, witch allows you to disallow calling a method with particular arguments. For example :
 
@@ -854,7 +870,7 @@ class MyClass
 };
 ```
 
-### Inline Methods
+### Inline Methods <a name="inline"></a>
 
 C++ gives you the ability to say that the call to a method or function should not actually be implemented as a call to a separate block of code. Instead, the compiler should insert the method's body directly into the code where the method is called. This is called _inlining_ and methods that use this are _inlne_ methods. Inlining is safer tan defining `#define` macros.
 
@@ -889,7 +905,7 @@ class SpreadsheetCell
 ```
 
 
-### Default Arguments
+### Default Arguments <a name="default-arguments"></a>
 
 You can specify defaults for function and method parameters in the prototype. If the user enters those arguments, the default will be ignored, otherwise the compiler runs with the defaults.
 There is a limitation, you can only provide defaults for a continious list of parameters starting from the _rightmost parameter_.
@@ -914,7 +930,7 @@ Spreadsheet s3(5, 6);
 A constructor with defaults for all parameters can function as a default constructor. If you try to declare a multi-argument constructor with defaults for all params and a default constructor, the compiler will complain because it doesn't know witch to call in the case of 0 arguments given.
 
 
-### Different Kinds Of Data Members
+### Different Kinds Of Data Members <a name="data-member-kinds"></a>
 
 #### _static_ Data Members
 
@@ -960,7 +976,7 @@ Now there is no need for the following line :
 size_t Spreadsheet::sCounter;
 ```
 
-#### Accessing static Data Members within Class Methods
+### Accessing static Data Members within Class Methods
 
 You can use static data members like any regular data methods.
 
@@ -993,7 +1009,7 @@ Spreadsheet::Spreadsheet(size_t width, size_t height) {
 
 You should not copy the `mId` in the copy assinment operator. The ID should never change. Thus it should be a const data member.
 
-#### Accessing static Data Members Outside Methods
+### Accessing static Data Members Outside Methods
 
 Access control specifiers apply to static data methods : `sCounter` is `private` so it can't be accessed from outside class methods.
 
@@ -1006,7 +1022,7 @@ int c = Spreadsheet::sCounter;
 However, it is not recomanded. You should grant access throw get/set methods. If you want to grant access to a `static` data member, you need to implement `static` get/set methods.
 
 
-#### _const static_ Data Members
+### _const static_ Data Members
 
 You should use `static const`  data members instead of global constants when the constants only apply to the class, also called _class constants_. `static const` data members of integral and enumeration type can be defined and initialized inside the class definition wtihout making them `inline` variables. 
 
@@ -1122,7 +1138,7 @@ The const reference can only be used to call `const` methods on the `Spreadsheet
 It's also possible to have a `static` reference member or a `static const` reference member.
 
 
-### Nested Classes
+### Nested Classes <a name="nested-classes"></a>
 
 
 You can write nested classes and structs, declare type aliases or create enumerated types as data members. If it is `public`, you can access it from outside the class by the scope resolution syntax : `ClassName::`.
@@ -1229,7 +1245,7 @@ auto color = myCell.getColor();
 ```
 
 
-### Operator Overloading
+### Operator Overloading <a name="operator-overloading"></a>
 
 You often want to perform operations on objects. For example, you want to sum en entire row of cells.
 
@@ -1289,7 +1305,7 @@ When the compiler finds an operator like `+`, `-`,`=`, it tries to find function
 #### Note : A function like this can return anything you want.
 
 
-#### Implicit Conversions
+### Implicit Conversions
 
 If you wrote the `operator+` function for `SpreadsheetCell`, you can also add it to an `int`, `double`, `string`, etc.
 
@@ -1377,7 +1393,7 @@ SpreadsheetCell operator/(const SpreadsheetCell& lhs,
 }
 ```
 
-#### Overloading the Arithmetic Shorthand Operators
+### Overloading the Arithmetic Shorthand Operators
 
 Shorthand operators are `+=` and `-=`.
 
@@ -1423,7 +1439,7 @@ SpreadsheetCell operator+(const SpreadsheetCell& lhs, const SpreadsheetCell& rhs
 }
 ```
 
-#### Overloading Comparison Operators
+### Overloading Comparison Operators
 
 Like the basic operators, they should be global so that you can use implicit conversion on both the lhs and rhs of the character. They all return a _bool_.
 
@@ -1461,7 +1477,7 @@ bool operator>=(const SpreadsheetCell& lhs, const SpreadsheetCell& rhs) {
 
 #### Note : Provide operator overloading as a service to clients of your class.
 
-### Building Stable Interfaces
+### Building Stable Interfaces <a name="stable-interface"></a>
 
 #### Using Interface and Implementation Classes
 
