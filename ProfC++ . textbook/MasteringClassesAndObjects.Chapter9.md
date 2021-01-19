@@ -1253,7 +1253,7 @@ class SpreadsheetCell
 SpreadsheetCell SpreadsheetCell::add(const SpreadsheetCell& cell) const {
 	return SpreadsheetCell(getValue() + cell.getValue());
 }
-``
+```
 
 Usage:
 ```
