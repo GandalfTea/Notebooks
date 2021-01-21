@@ -4,7 +4,7 @@ TODO: Write a TOC here.
 
 &nbsp;
 
-Chapter 9, ___Mastering Classes and Objects___ :
+Chapter 9 : ___Mastering Classes and Objects___
 
    * Class Friends
    * Dynamic Memory Allocation in Objects
