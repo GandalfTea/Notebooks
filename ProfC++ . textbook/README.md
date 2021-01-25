@@ -19,7 +19,7 @@ __Chapter 9__ : [___Mastering Classes and Objects___](https://github.com/Gandalf
    
  &nbsp;
  
- Chapter 10 : [___Inheritance Techniques___](https://github.com/GandalfTea/Notebooks/blob/master/ProfC%2B%2B%20.%20textbook/InheritanceTechniques.Chapter10.md)
+ __Chapter 10__ : [___Inheritance Techniques___](https://github.com/GandalfTea/Notebooks/blob/master/ProfC%2B%2B%20.%20textbook/InheritanceTechniques.Chapter10.md)
  
    1. Building With Inheritance :
         * Overriding Methods
