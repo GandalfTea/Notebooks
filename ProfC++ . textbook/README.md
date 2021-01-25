@@ -4,7 +4,7 @@ TODO: Write a TOC here.
 
 &nbsp;
 
-Chapter 9 : [___Mastering Classes and Objects___](https://github.com/GandalfTea/Notebooks/blob/master/ProfC%2B%2B%20.%20textbook/MasteringClassesAndObjects.Chapter9.md)
+__Chapter 9__ : [___Mastering Classes and Objects___](https://github.com/GandalfTea/Notebooks/blob/master/ProfC%2B%2B%20.%20textbook/MasteringClassesAndObjects.Chapter9.md)
 
    1. Class Friends
    2. Dynamic Memory Allocation in Objects
