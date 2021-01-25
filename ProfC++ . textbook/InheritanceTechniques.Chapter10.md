@@ -18,7 +18,7 @@ TOC
 	* [Casting Up and Down](#casting)
 3. [Inheritance for Polymorphism](#inheritance_polymorphism)
 4. [Multiple Inheritance](#multiple_inheritance)
-5. [Naming Collisions and Ambiguous Case Classes](#name_ambiguous)
+	* [Naming Collisions and Ambiguous Case Classes](#name_ambiguous)
 6. [Interesting and Obscure Inheritance Issues](#obscure_issues)
 7. [Special Cases in Overriding Methods](#special_cases)
 8. [Copy Constructors and Assignment Operators in Derived Classes](#copy_assignment)
