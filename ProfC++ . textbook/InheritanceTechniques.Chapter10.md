@@ -3,12 +3,36 @@
 ## Discovering Inheritance Techniques
 #### Chapter 10
 
+&nbsp;
 
+TOC
+* [Building Classes with Inheritance](#building_with_inheritance)
+* [Overriding Methods](#overriding_methods)
+* [The `override` keyward](#override)
+* [The `virtual` keyward](#virtual)
+* [Implementation of _virtual_](#virtual_implementation)
+* [The Need for `virtual` Destructors](#virtual_destructors)
+* [Preventing Overriding](#preventing_overriding)
+* [Inheritance for Reuse](#inheritance_reuse)
+* [Respect Your Parents](#respect_parents)
+* [Casting Up and Down](#casting)
+* [Inheritance for Polymorphism](#inheritance_polymorphism)
+* [Multiple Inheritance](#multiple_inheritance)
+* [Naming Collisions and Ambiguous Case Classes](#name_ambiguous)
+* [Interesting and Obscure Inheritance Issues](#obscure_issues)
+* [Special Cases in Overriding Methods](#special_cases)
+* [Copy Constructors and Assignment Operators in Derived Classes](#copy_assignment)
+* [Run-Time Type Facilities](#run_time)
+* [Non-`public` Inheritance](#non_public)
+* [Virtual Base CLasses](#virtual_base)
 
-### Building Classes with Inheritance
+&nbsp;
+
+### Building Classes with Inheritance <a name="building_with_inheritance"></a>
 
 
 In earlier chapters we talked about the _is-a_ relationship between classes. It is relevant when you want to build a class that builds on another class. One way to accomplish this is to copy the code from one class to another. This is very annoying. 
+&nbsp;
 
 #### Extending Classes
 
@@ -38,6 +62,7 @@ class Derived : public Base
 
 `Derived` is a full class that inherits everything from the `Base` class.
 
+&nbsp;
 
 #### A Client's View on Inheritance
 
@@ -68,6 +93,7 @@ However, you can't call any `Derived` methods :
 ```
 base->someOtherMethod();	// Error.
 ```
+&nbsp;
 
 #### A Derived Class's View of Inheritance
 
@@ -88,6 +114,7 @@ void Derived::someOtherMethos() {
 	cout << mPrivateInt << endl;	// Error
 }
 ```
+&nbsp;
 
 #### Preventing Inheritance
 
@@ -105,8 +132,9 @@ class Derived : public Base
 	// . . .
 };
 ```
+&nbsp;
 
-### Overriding Methods
+### Overriding Methods <a name="overriding_methods"></a>
 
 Till now, `Derived` only added upon what `Base` already had. You are also able to modify the behaviour of methods that are inherited. 
 
@@ -133,6 +161,7 @@ class Derived : public Base
 
 #### Note : Constructors should not be made virtual, but destructors are ok. Compiler generated destructors are not `virtual`.
 
+&nbsp;
 
 #### Syntax for Overriding a Method
 
@@ -170,6 +199,7 @@ void Derived::someMethod() {
 
 Once a method or destructor is marked as `virtual`, it is virtual for all derived classes even if the keyward is not present. 
 
+&nbsp;
 
 ### A Client's View of Overridden Methods
 
@@ -216,8 +246,9 @@ Derived myDerived;
 Base assignmentObject = myDerived;	// Assign a Derived to a Base
 assignmentObject.someMethod();		// Calls the Base's version
 ```
+&nbsp;
 
-### The _override_ Keyward
+### The _override_ Keyward <a name="override"></a>
 
 It is easy to accidently create a new method rather then overriding. 
 
@@ -273,8 +304,9 @@ This generates a compiler error, to attract your attention that the function is 
 
 #### Note : Always use the `override` keyward as a way to secure against this sort of problems. 
 
+&nbsp;
 
-### The _virtual_ Keyward
+### The _virtual_ Keyward <a name="virtual"></a>
 
 If a method is not `virtual`, you can still override it, but it will be wrong in subtle ways. 
 
@@ -326,8 +358,9 @@ This is because the `virtual` keyward was omitted.
 
 #### Note : Attempting to override a non-`virtual` function will hide the base class definition and will create a new method.
 
+&nbsp;
 
-### How `virtual` is Implemented
+### How `virtual` is Implemented <a name="virtual_implementation"></a>
 
 When a class is compiled in C++, a binary object is created that contains all methods of the class. 
 
@@ -384,6 +417,7 @@ vtable pointer -------> func1()/
 
 #### Note : None of the vtables contain the `nonVirtualFunc()` because it is not `virtual`.
 
+&nbsp;
 
 ### The Justification for `virtual`
 
@@ -394,8 +428,9 @@ The reason it was created is to do with the overhead of the vtable. To call a vt
 
 In some rare cases, the preformance hit might be too costly, and you might need to avoid the hit.
 
+&nbsp;
 
-### The Need for `virtual` Destructors
+### The Need for `virtual` Destructors <a name="virtual_destructors"></a>
 
 
 Even if you decide not to adopt the guideline to make all methods `virtual`, you still need to apply it to the destructor. This is because if the destructor is not `virtual`, it can easily result in a situation where memory is not freed. Only for a class marked as final is it ok to have a non-`virtual` destructor.
@@ -455,8 +490,9 @@ class Base
 ```
 ### Note : Constructors cannot and need not be virtual because you always specify the exact class being constructed.
 
+&nbsp;
 
-### Preventing Overriding
+### Preventing Overriding <a name="preventing_overriding"></a>
 
 
 C++ allows you to mark a method as `final`, like a class, witch means it cannot be overriden in a derived class. Trying will result in a compiler error.
@@ -469,8 +505,9 @@ class Base
 		virtual void someMethod() final;
 };
 ```
+&nbsp;
 
-## Inheritance for reuse
+## Inheritance for reuse <a name="inheritance_reuse"></a>
 
 ### The WeatherPrediction Class
 
@@ -499,6 +536,7 @@ Note the use of `virtual`, because the class presumes that the methods might be 
 
 As always, the library is helpful but it is not perfect for our needs.
 
+&nbsp;
 
 ### Adding functionality in a Deried Class
 
@@ -553,6 +591,7 @@ int MyweatherPrediction::getTomorrowTempCelsius() const {
 	return convertFahrenheitToCelsius(fahrenheitTemp);
 }
 ```
+&nbsp;
 
 ### Replacing functionality in a Derived Class
 
@@ -587,10 +626,12 @@ void MyWeatherPrediction::showResult() const {
 	}
 }
 ```
+&nbsp;
 
-### Respect Your Parents
+### Respect Your Parents <a name="respect_parents"></a>
 
 When writing a derived class, you need to be aware of the interaction between the parent class and the child classes. Issues such as order of creatin, constructor chaining and casting are all potential sources of bugs.
+&nbsp;
 
 ### Parent Constructors
 
@@ -668,6 +709,7 @@ Derived::Derived(int i) : Base(i) {}
 
 Passing constructor arguments from one class to another is normal, passing data members however, will not work. The code will compile, but data members will be initialized only _after_ the constructor is finished. 
 
+&nbsp;
 
 ### Parent Destructors
 
@@ -678,6 +720,7 @@ The order of destruction is the reverse of the construction :
    * The parent class is destroyed. 
 
 #### Note : Remember to make all the destructors virtual!
+&nbsp;
 
 ### Refering to Parent Names
 
@@ -711,6 +754,7 @@ string MyWeatherPrediction::getTemperature() const {
 	return WeatherPrediction::getTemperature() + "\u00B0F";
 }
 ```
+&nbsp;
 
 #### The Book Clasification Example :
 
@@ -771,8 +815,9 @@ int main() {
 }
 ```
 
+&nbsp;
 
-### Casting Up and Down
+### Casting Up and Down <a name="casting"></a>
 
 As you have seen, an object can be cast or assigned to its parent class. If it is performed on a plain old object, the result is slicing :
 ```
@@ -814,8 +859,9 @@ void lessPresumptuous(Base* base) {
 #### Note : If you have to use downcasting, you should modify your design. 
 
 
+&nbsp;
 
-## Inheritance For Polymorphism
+## Inheritance For Polymorphism <a name="inheritance_polymorphism"></a>
 
 ### Designing the Polymorphic Spreadsheet Cell
 
@@ -837,6 +883,7 @@ class Spreadsheet Cell
 		virtual std::string getString() const;
 };
 ```
+&nbsp;
 
 
 #### Pure Virtual Methods and Abstract Base Classes
@@ -853,10 +900,12 @@ class SpreadsheetCell
 		virtual std::string getString() const = 0;
 };
 ```
+&nbsp;
 
 #### The Individual Derived Classes
 
 If a derived class does not implement all the virtual methods from the parent, it is abstract as well.
+&nbsp;
 
 #### String
 
@@ -887,8 +936,9 @@ string StringSpreadsheetCell::getString() const {
 }
 ```
 The `getString` has to keep in mind that `mValue` is an `std::optional` and might not have a value. By using `mValue.value_or("")`, the value is returned if it exists. Otherwise an empty string is returned.
+&nbsp;
 
-# Double
+#### Double
 
 
 ```
@@ -923,6 +973,7 @@ string DoubleSpreadsheetCell::getString() const {
 	return (mValue.hasvalue() ? doubleToString(mValue.value()) : "");
 }
 ```
+&nbsp;
 
 ### Leveraging Polymorphism
 
@@ -951,6 +1002,7 @@ cout << "Vector values are [" << cellArray[0]->getString() << "," <<
 			         endl;
 ```
 
+&nbsp;
 
 #### Future Considerations
 
@@ -996,8 +1048,9 @@ StringSpreadsheetCell result = myDbl + myDbl;
 ```
 This works. But it returns `8.4000008.400000`.
 
+&nbsp;
 
-## Multiple Inheritance
+## Multiple Inheritance <a name="multiple_inheritance"></a>
 
 The syntax is simple :
 ```
@@ -1005,8 +1058,9 @@ class Baz : public Foo, public Bar
 ```
 
 The `Baz` objects have the public and protected methods of both `Foo` and `Bar`. A `Baz` object can be upcast to either of them. Creating a `Bar` object calls the parent constructors in the order of the class definition, and vice versa with destructors.
+&nbsp;
 
-### Naming Collisions and Ambiguous Base Classes
+### Naming Collisions and Ambiguous Base Classes <a name="name_ambiguous"></a>
 
 #### Name Ambiguity
 What if both parents had a method with the same name? Because they are not related, they do not override.  The compiler will complain if you try to call it, but it will compile if there is no call.
@@ -1017,6 +1071,7 @@ To solve this, you can either upcast it using `dynamic_cast()` or use a `disembi
 dynamic_cast<Dog&>(myConfusedAnimal).eat();
 myConfusedAnimal.Dog::eat();
 ```
+&nbsp;
 
 #### Ambiguous Base Classes
 
@@ -1029,8 +1084,9 @@ class DogBird : public Bird, public Dog {}; //Error!
 
 Another example which is permitted would be to have a common parent `Animal` class. Then inheriting from both `Dog` and `Bord` would be permitted, but naming ambiguity can still occur. This is refered to as a _diamond-shaped_ class hierarchy structore. The best way to do it is to have the top class be an abstract base class with all methods virtual. Thus there would be no naming issues.
 
+&nbsp;
 
-## Interesting and Obscure Inheritance Issues
+## Interesting and Obscure Inheritance Issues <a name="obscure_issues"></a>
 
 ### Changing te Overriden Method's Characteristics
 
@@ -1043,6 +1099,7 @@ A good way to figure out weather you can change the return type of an overriden 
 You can not, however, change the return type to `void`
 
 
+&nbsp;
 
 #### Changing the Method Parameters
 
@@ -1065,6 +1122,7 @@ class Derived : public Base
 		virtual void someMethod(int i);  //Creates a new one
 };
 ```
+&nbsp;
 
 ### Inherited Constructors
 
@@ -1113,8 +1171,9 @@ Derived derived2("Hello") //OK
 
 If there is already a constructor with the same argument for the `Derived` class, it takes precedence over the inherited. You also cannot inherit constructors with the same arguments from 2 different classes.
 
+&nbsp;
 
-### Special Cases in Overriding Methods
+### Special Cases in Overriding Methods <a name="special_cases"></a>
 
 #### The Base Class Method is `static`
 
@@ -1141,6 +1200,7 @@ Those are two different methods.
 #### Note : static methods are scoped by the name of the class in which they are defined, they are not methods that apply to a specific object. When you call a static method, the version determined by normal name resolution is called. When the method is called by an object, the object is not actually involved in the call.
 
 
+&nbsp;
 
 #### The Base Class Method is Overloaded
 
@@ -1168,6 +1228,7 @@ If you attempt to call the version that takes an int as argument, your code will
 
 #### Note : To avoid obscure bugs, you should override all versions of an overloaded method or use the using keyward. 
 
+&nbsp;
 
 ### The Base Class Method is `private` or `protected`
 
@@ -1231,6 +1292,7 @@ int EfficientCarMilesEstimator::getMilesPerGallon() const {
 }
 ```
 
+&nbsp;
 
 ### The Base Class Method has Default Arguments 
 
@@ -1239,6 +1301,7 @@ You can override the default argument.
 
 If the base class has a defalt as 2 and the derived as 7 if derived is cast in a base pointer or reference, the value of 2 will be used. 
 
+&nbsp;
 
 ### The Base Class Method Has a Different Acess Level
 
@@ -1270,8 +1333,9 @@ ref.someMethod();
 ```
 
 To lessen restrictions, you can create a public function that calls the private or protected function. 
+&nbsp;
 
-## Copy Constructors and Assignment Operators in Derived Classes
+## Copy Constructors and Assignment Operators in Derived Classes <a name="copy_assignment"></a>
 
 If your derived data does not have any special data that require nondefault copy constructors, you don't need to have one, regardless if the base class has one. If you do not explicitly define the copy constructor or `operator=`, a default will be provided for the data members specified in the derived class., and the base class ones will be used for data members specified in the base class. 
 
@@ -1315,8 +1379,9 @@ Derived& Derived::operator=(const Derived& rhs) {
 	// . . .
 }
 ```
+&nbsp;
 
-### Run-Time Type Facilities	
+### Run-Time Type Facilities	<a name="run_time"></a>
 
 
 Relative to other OOP-oriented languages, C++ is very compile-time oriented. There are features that provide a run-time view of an object. They are grouped under the name ___run-time type information___ or _RTTI_. This offers some useful features. One such feature is `dynamic_cast()`. A second usage is the `typeid` operator, witch lets you query an object at run time to find out it's type :
@@ -1381,14 +1446,16 @@ In this case, the name was `class Foo`, however, it depends on the compiler. Usi
 3Foo: Hello logger.
 ```
 
+&nbsp;
 
-### Non-public Inheritance
+### Non-public Inheritance <a name="non_public"></a>
 
 If you don't specify anny access specifier for the parent, it is `private` for a _class_ and `pubic` for a _struct_. 
 
 Declaring the parent class to be `protected` means that everything inherited will be considered `protected`. This is not very common and is not recomanded. It usually shows a flaw in design. 
+&nbsp;
 
-### Virtual Base Classes
+### Virtual Base Classes <a name="virtual_base"></a>
 
 Earlier we discussed diamond-shaped hierarchical structure for classes. The top class was the ambiguous base class. It was recomanded that the base class does not have any functionality because of ambiguous problems like naming. 
 
