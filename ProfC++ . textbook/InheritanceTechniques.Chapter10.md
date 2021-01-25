@@ -1,7 +1,6 @@
 
 
 ## Discovering Inheritance Techniques
-#### Chapter 10
 
 &nbsp;
 
