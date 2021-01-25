@@ -2,7 +2,7 @@
 
 ### 1.1  Problem Domains
 
-_A problem domain is the part of the world where the computer is to produce effects, together with the means available to produce them, directly or indirectly_
+> _A problem domain is the part of the world where the computer is to produce effects, together with the means available to produce them, directly or indirectly_
 (Kovitz, 1999)
 
 
@@ -11,7 +11,7 @@ A _problem domain_ is anything outside of programming that a software engineer n
 
 For example, to write a finance application, you need to understand the financial concepts to fulfill the requirements of the customer. 
 
-_Requirements are the effect that the machine is to exert in the problem domain by virtue of its programming_
+> _Requirements are the effect that the machine is to exert in the problem domain by virtue of its programming_
 
 In order to implement useful software, not only knowledge of programming is important, but also of the problem domain. Problem domains may vary significantly. 
 
