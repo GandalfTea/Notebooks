@@ -23,7 +23,7 @@ TOC
 8. [Copy Constructors and Assignment Operators in Derived Classes](#copy_assignment)
 9. [Run-Time Type Facilities](#run_time)
 10. [Non-`public` Inheritance](#non_public)
-11. [Virtual Base CLasses](#virtual_base)
+11. [Virtual Base Classes](#virtual_base)
 
 &nbsp;
 
