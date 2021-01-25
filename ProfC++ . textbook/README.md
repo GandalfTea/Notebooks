@@ -18,6 +18,7 @@ Chapter 9 : ___Mastering Classes and Objects___
    * Building Stable Interfaces
    
  &nbsp;
+ 
  Chapter 10 : ___Inheritance Techniques___
  
    1. Building With Inheritance :
