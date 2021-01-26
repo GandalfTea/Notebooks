@@ -37,7 +37,7 @@ In earlier chapters we talked about the _is-a_ relationship between classes. It 
 
 When defining a class, you can tell the compiler that it is _inheriting_ from another class, witch is called _the parent class_ or _base class_. Extending an existing class gives the new class (which is now a _derived clas_ or _sub-class_) the ability to describe only the way in witch it is different from the parent class. 
 
-```
+```c++
 class Base
 {
 	public:
@@ -51,7 +51,7 @@ class Base
 
 Deriving a class:
 
-```
+```c++
 class Derived : public Base
 {
 	public:
@@ -68,7 +68,7 @@ class Derived : public Base
 
 To a client or any other part of your code, an objct of type `Derived` is also an object of type `Base` because of the inheritance. This means that the `public` methods of both are available for use :
 
-```
+```c++
 Derived myDerived;
 myDerived.someMethod();
 myDerived.someOtherMethod();
@@ -76,20 +76,20 @@ myDerived.someOtherMethod();
 
 This is only in one direction, a `Base` object will not have any knowledge or access to `Derived` :
 
-```
+```c++
 Base myBase;
 myBase.someOtherMethod();	// Error : Base does not have a someOtherMethod().
 ```
 
 A pointer or reference towards a `Base` object can also point to a `Derived` object. This is explained later. It is important to know that this works :
 
-```
+```c++
 Base* base = new Derived();
 ```
 
 However, you can't call any `Derived` methods :
 
-```
+```c++
 base->someOtherMethod();	// Error.
 ```
 &nbsp;
@@ -98,7 +98,7 @@ base->someOtherMethod();	// Error.
 
 It is very similar to a normal class. You can use `private` and `protected` data members and methods like it were it's own. In this case, the `Deriverd` class augments the `Base` Class by adding a new method named `someOtherMethod()`. You can define this method ny using data members from `Base`, :
 
-```
+```c++
 void Derived::someOtherMethods() {
 	cout << "I can access base class data members" << endl;
 	cout << "Its value is " << mProtectedInt << endl;
@@ -108,7 +108,7 @@ void Derived::someOtherMethods() {
 
 In fact, the difference between `private` and `protected` in a class is that `protected` members are available to derrived classes while `pivate` are not :
 
-```
+```c++
 void Derived::someOtherMethos() {
 	cout << mPrivateInt << endl;	// Error
 }
@@ -118,14 +118,14 @@ void Derived::someOtherMethos() {
 #### Preventing Inheritance
 
 C++ allows you to mark a class as `final`. This means no class can inherit from it. 
-```
+```c++
 class Base final
 {
 	// . . .
 };
 ```
 This is no longer possible :
-```
+```c++
 class Derived : public Base
 {
 	// . . .
@@ -139,7 +139,7 @@ Till now, `Derived` only added upon what `Base` already had. You are also able t
 
 The catch is that only methods marked with the keyward `virtual` in the base class can pe properlt overridden :
 
-```
+```c++
 class Base
 {
 	public:
@@ -150,7 +150,7 @@ class Base
 
 While the `virtual` keyward does have some subtleties, a good rule of thumb is to go ahead and make all the methods `virtual`. The only drawback is a very tiny performance hit. The same holds true for the `Derived` class, all methods should be marked `virtual` :
 
-```
+```c++
 class Derived : public Base
 {
 	public:
@@ -168,7 +168,7 @@ You redeclare it exactly as in the base class and add the `override` keyward. Th
 
 For example, let's override the `someMethod()` method. The original definition is in the `Base.cpp` file :
 
-```
+```c++
 voic Base::someMethod() {
 	cout << "This is the original" << endl;
 }
@@ -178,7 +178,7 @@ Note that you do not need to repeat the `virtual` keyward.
 
 Firstly you must declare it in the class definition :
 
-```
+```c++
 class Derived : public Base
 {
 	public:
@@ -190,7 +190,7 @@ class Derived : public Base
 
 The implementation is specified in the `Derived.cpp` file :
 
-```
+```c++
 void Derived::someMethod() {
 	cout << "This is the overriden method." << endl;
 }
@@ -205,7 +205,7 @@ Once a method or destructor is marked as `virtual`, it is virtual for all derive
 
 All the code works just like before, but now the same function called on different objects does different things :
 
-```
+```c++
 Base myBase;
 Derived myDerived;
 
@@ -220,7 +220,7 @@ This is the overriden method.
 
 In the case of pointers and references, if you have a `Base` refference that refers to an object that is really `Derived`, calling `someMethod()` will return the one from the `Derived` class:
 
-```
+```c++
 Derived myDerived;
 Base& ref = myDerived;
 
@@ -229,7 +229,7 @@ ref.someMethod();	// Calls the Derived version.
 
 Still, you cannot access methods and members that are not also present in the `Base` class :
 
-```
+```c++
 Derived myDerived;
 Base& ref = myDerived;
 
@@ -239,7 +239,7 @@ ref.someOtherMethod();		// Error
 
 You can also cast or assign a `Derived` object to a `Base` because a `Derived` is a `Base`. However, the object loses any knowledge of the `Derived` class at that point :
 
-```
+```c++
 Derived myDerived;
 
 Base assignmentObject = myDerived;	// Assign a Derived to a Base
@@ -253,14 +253,14 @@ It is easy to accidently create a new method rather then overriding.
 
 The following example overrides without the override keyward :
 
-```
+```c++
 class Base
 {
 	public:
 		virtual void someMethod(double d);
 };
 ```
-```
+```c++
 class Derived : public Base
 {
 	public:
@@ -271,7 +271,7 @@ class Derived : public Base
 This is a correct overriding of the function.
 Now, suppose you accidentally use an `int` parameter instead of a `double` :
 
-```
+```c++
 class Derived : public Base
 {
 	public:
@@ -280,7 +280,7 @@ class Derived : public Base
 ```
 This code does not override `someMethod()` but instead creates a new virtual method. If you try to call it throw a reference, the method of the `Base` class is called :
 
-```
+```c++
 Derived myDerived;
 
 Base& ref = myDerived;
@@ -291,7 +291,7 @@ This type of problem can occur when you start updating the base class but forget
 
 You can prevent this using the `override` keyward. :
 
-```
+```c++
 class Derived : public Base
 {
 	public:
@@ -314,14 +314,14 @@ If a method is not `virtual`, you can still override it, but it will be wrong in
 
 Overriding without `virtual` :
 
-```
+```c++
 class Base
 {
 	public:
 		void go() {cout << "go() in Base" << endl; }
 };
 ```
-```
+```c++
 class Derived : public Base
 {
 	public:
@@ -331,7 +331,7 @@ class Derived : public Base
 
 Attempting to call `go()` on `Derived` appears to work initially:
 
-```
+```c++
 Derived myDerived;
 myDerived.go();
 ```
@@ -343,7 +343,7 @@ go() on Derived
 
 However, because the method is not `virtual` it is not actually overridden. The `Derived` class created a new method, also called `go()`, that is competely unrelated to the `Base`'s `go()`. To prove this, call the method in the contex of a `Base` pointer :
 
-```
+```c++
 Derived myDerived;
 Base& ref = myDerived;
 ref.go();
@@ -369,7 +369,7 @@ If the method is `virtual`, the corect implementation is called through the use 
 
 As an example :
 
-```
+```c++
 class Base
 {
 	public:
@@ -378,7 +378,7 @@ class Base
 		void nonVirtualFunc() {}
 };
 ```
-```
+```c++
 class Derived : public Base
 {
 	public:
@@ -388,7 +388,7 @@ class Derived : public Base
 ```
 
 Instances :
-```
+```c++
 Base myBase;
 Derived myDerived;
 ```
@@ -438,7 +438,7 @@ Even if you decide not to adopt the guideline to make all methods `virtual`, you
 The following code shows how easy it is to trick the compiler into not calling a destructor if it is non-`virtual` :
 
 
-```
+```c++
 class Base
 {
 	public:
@@ -446,7 +446,7 @@ class Base
 		~Base() {}
 };
 ```
-```
+```c++
 class Derived : public Base
 {
 	public:
@@ -464,7 +464,7 @@ class Derived : public Base
 		char* mString;
 };
 ```
-```
+```c++
 int main() {
 	Base* ptr = new Derived();	//mString is allocated here.
 	delete ptr; //~Base is called, but not ~Derived because it is not virtual.
@@ -480,7 +480,7 @@ mString allocated
 
 #### Note : If you do not want to use a destructor, but only make it virtual, you can default it :
 
-```
+```c++
 class Base
 {
 	public:
@@ -496,7 +496,7 @@ class Base
 
 C++ allows you to mark a method as `final`, like a class, witch means it cannot be overriden in a derived class. Trying will result in a compiler error.
 
-```
+```c++
 class Base
 {
 	public:
@@ -513,7 +513,7 @@ class Base
 
 Imagine you were given the task of writing a weather prediction program. It is not in your field of expertise, but you find a library online. It is distributed as a compiled library to protect the intellectual property, but you can see the class definition.
 
-```
+```c++
 class WeatherPrediction
 {
 	public:
@@ -541,7 +541,7 @@ As always, the library is helpful but it is not perfect for our needs.
 
 You need to make a few changes to the `WeatherPrediction` class. To begin, define a new class, `MyWeatherPrediction` that inherits from `WeatherPrediction`:
 
-```
+```c++
 #include "WeatherPrediction.h"
 
 class MyWeatherPrediction : public WeatherPredictoin
@@ -557,7 +557,7 @@ One way  to do it is to use the derived class to act as a go-between, interfacin
 
 The first step is to add new methods that allow clients to set the current temperature to Celsius instead of Fahrenheit and also get tomorrow's prediction. You also need private helper functions that convert between Celsius and Fahrenheit in both directions. These methods can be `static` because they are the same for all instances of the class.
 
-```
+```c++
 #include "WeatherPrediction.h"
 
 class MyWeatherPrediction : public WeatherPrediction
@@ -575,7 +575,7 @@ Because you add functionality to another class, it is recomanded you keep all th
 
 The implementation for the transformation function is streightforward. The other two are more interesting. To set the current temperature in celsius, you need to convert the temperature first and then present it to the parent class in unit it understands :
 
-```
+```c++
 void MyWeatherPrediction::setCurrentTempCelsius(int temp) {
 	int fahrenheitTemp = convertCelsiusToFahrenheit(temp);
 	setCurrentTempFahreneit(fahrenheitTemp);
@@ -584,7 +584,7 @@ void MyWeatherPrediction::setCurrentTempCelsius(int temp) {
 
 The same is true for the `getTomorrowTempCelsius` :
 
-```
+```c++
 int MyweatherPrediction::getTomorrowTempCelsius() const {
 	int fahrenheitTemp = getTomorrowTempFahrenheit();
 	return convertFahrenheitToCelsius(fahrenheitTemp);
@@ -597,7 +597,7 @@ int MyweatherPrediction::getTomorrowTempCelsius() const {
 
 We need to also replace the `showResult()` method.
 
-```
+```c++
 class MyWeatherPrediction : public WeatherPrediction
 {
 	public:
@@ -612,7 +612,7 @@ class MyWeatherPrediction : public WeatherPrediction
 
 Here is a possible new implementation :
 
-```
+```c++
 void MyWeatherPrediction::showResult() const {
 	cout << "Tomorrow's temperature will be" <<
 		getTomorrowTempCelsius() << " degrees Celsius (" <<
@@ -642,21 +642,21 @@ The creation order of object is as follows :
 
 Those rules can spread, for example, if the class has a grandparent, the grandparent is constructed before the parent. As an example:
 
-```
+```c++
 class Something
 {
 	public:
 		Something() { cout << "2"; }
 ;}
 ```
-```
+```c++
 class Base
 {
 	public:
 		Base() { cout << "1"; }
 };
 ```
-```
+```c++
 class Derived : public Base
 {
 	public:
@@ -665,7 +665,7 @@ class Derived : public Base
 		Something mDataMember;
 };
 ```
-```
+```c++
 int main() {
 	Derived myDerived;
 	return 0;
@@ -681,21 +681,21 @@ When the `myDerived` object is created, the constructor for `Base` is called fir
 
 If you want to choose which constructor is called from the `Base` class, you must chain the constructor just as when initializing data members :
 
-```
+```c++
 class Base
 {
 	public:
 		Base(int i);
 };
 ```
-```
+```c++
 class Derived : public Base
 {
 	public:
 		Derived();
 };
 ```
-```
+```c++
 Derived::Derived() : Base(7) {
 	// . . .
 }
@@ -727,7 +727,7 @@ When overriding a method, the code for it's implementation is replaces. However,
 
 As an example, let's override the `getTemperature` method :
 
-```
+```c++
 class MyWeatherPrediction : public WeatherPrediction
 {
 	public:
@@ -738,7 +738,7 @@ class MyWeatherPrediction : public WeatherPrediction
 
 Suppose you want to add a Celsius circle at the end, you might do this :
 
-```
+```c++
 string MyWeatherPrediction::getTemperature() const {
 	return getTemperature() + "\u00B0F";	// BUG
 }
@@ -748,7 +748,7 @@ This does not work because, under the rules of name resolution for C++, it first
 
 To make this work, you need to use the scope resolution operator :
 
-```
+```c++
 string MyWeatherPrediction::getTemperature() const {
 	return WeatherPrediction::getTemperature() + "\u00B0F";
 }
@@ -759,7 +759,7 @@ string MyWeatherPrediction::getTemperature() const {
 
 Imagine a clas hierarchy of book types. Because in the lower levels, the class specifies the type of book, a method that gets the description of the book needs to take all levels into consideration :
 
-```
+```c++
 class Book
 {
 	public:
@@ -768,7 +768,7 @@ class Book
 		virtual int getHeight() const { return 120; }
 };
 ```
-```
+```c++
 class Paperback : public Book
 {
 	public:
@@ -777,7 +777,7 @@ class Paperback : public Book
 		}
 };
 ```
-```
+```c++
 class Romance : public Paperback
 {
 	public:
@@ -790,7 +790,7 @@ class Romance : public Paperback
 		}
 };
 ```
-```
+```c++
 class Technical : public Book
 {
 	public:
@@ -799,7 +799,7 @@ class Technical : public Book
 		}
 };
 ```
-```
+```c++
 int main() {
 	
 	Romance novel;
@@ -819,13 +819,13 @@ int main() {
 ### Casting Up and Down <a name="casting"></a>
 
 As you have seen, an object can be cast or assigned to its parent class. If it is performed on a plain old object, the result is slicing :
-```
+```c++
 Base myBase = myDerived;
 ```
 
 However, slicing does not occur if the object is assigned to a pointer or reference of its base class:
 
-```
+```c++
 Base& myBase = myDerived;	// No slicing
 ```
 
@@ -836,7 +836,7 @@ Casting from a base class to one if it's derived classes, also called ___downcas
 
 
 For example :
-```
+```c++
 void presumptuous( Base* base) {
 	Derived* myDerived = static_cast<Derived*>(base);
 }
@@ -846,7 +846,7 @@ If the programmer calls `presumptuous()` they might pass in a `base*`. There are
 
 Downcasting is sometimes necesarry. If you have to do it, you should use a `dynamic_cast()` which refuses a cast that doesn't make sense. This info resides on the vtable, therefore `dynamic_cast()` works only for objects with a vtable. A rewrite of the previous example :
 
-```
+```c++
 void lessPresumptuous(Base* base) {
 	Derived* myDerived = dynamic_cast<Derived*>(base);
 	if (myDerived != nullptr) {
@@ -873,7 +873,7 @@ In wanting to transform the Spreadsheet class to a polymorphic design, you might
 The similarity between the subsequent derived classes is that they all hold a single piece of data, albeit different type.
 Al cells should be able to set and get their value back as a string.
 
-```
+```c++
 class Spreadsheet Cell
 {
 	public:
@@ -890,7 +890,7 @@ class Spreadsheet Cell
 
 _Pure Virtual Methods_ are methods that are explicitly undefined in the base class. The compiler enforces that if a class contains one of those, it will not be able to create an objefct from it. It is only for inheritance.
 
-```
+```c++
 class SpreadsheetCell
 {
 	public:
@@ -908,7 +908,7 @@ If a derived class does not implement all the virtual methods from the parent, i
 
 #### String
 
-```
+```c++
 class StringSpreadsheetCell : public SpreadsheetCell
 {
 	public:
@@ -924,12 +924,12 @@ The `std::optional` type is discussed in later chapters. With it it is possible 
 
 Implementation :
 
-```
+```c++
 void StringSpreadsheetCell::set(string_view inString) {
 	mValue = inString;
 }
 ```
-```
+```c++
 string StringSpreadsheetCell::getString() const {
 	return mValue.value_or("");
 }
@@ -940,7 +940,7 @@ The `getString` has to keep in mind that `mValue` is an `std::optional` and migh
 #### Double
 
 
-```
+```c++
 class DoubleSpreadsheetCell : public SpreadsheetCell
 {
 	public:
@@ -957,17 +957,17 @@ class DoubleSpreadsheetCell : public SpreadsheetCell
 
 Implementation:
 
-```
+```c++
 void DoubleSpreadsheetCell::set(double inDouble) {
 	mValue = inDouble;
 }
 ```
-```
+```c++
 void DoubleSpreadsheetCell::set(string_view inString) {
 	mValue = stringToDouble(inString);
 }
 ```
-```
+```c++
 string DoubleSpreadsheetCell::getString() const {
 	return (mValue.hasvalue() ? doubleToString(mValue.value()) : "");
 }
@@ -978,23 +978,23 @@ string DoubleSpreadsheetCell::getString() const {
 
 
 
-```
+```c++
 vector<unique_ptr<SpreadsheetCell>> cellArray
 ```
 
-```
+```c++
 cellArray.push_back(make_unique<StringSpreadsheetCell>());
 cellArray.push_back(make_unique<StringSpreadsheetCell>());
 cellArray.push_back(make_unique<DoubleSpreadsheetCell>());
 ```
 
 
-```
+```c++
 cellArray[0]->set("hello");
 cellArray[1]->set("10");
 cellArray[2]->set("18");
 ```
-```
+```c++
 cout << "Vector values are [" << cellArray[0]->getString() << "," <<
 			      	 cellArray[1]->getString() << "," <<
 				 cellArray[2]->getString() << "," <<
@@ -1009,7 +1009,7 @@ The design is a lot better, but still not up to par with a real spreadsheet prog
 
 One example of missing functionality is the ability to convert from one cell type o another. This could be done using a _converting constructor_, also known as a _typed constructor_.
 
-```
+```c++
 class StringSpreadsheetCell : public SpreadsheetCell
 {
 	public:
@@ -1020,7 +1020,7 @@ class StringSpreadsheetCell : public SpreadsheetCell
 ```
 Implementation:
 
-```
+```c++
 StringSpreadsheetCell::StringSpreadsheetCell (
 	const DoubleSpreadsheetCell& inDoubleCell) {
 	mValue = inDoubleCell.getString();
@@ -1029,7 +1029,7 @@ StringSpreadsheetCell::StringSpreadsheetCell (
 
 Secondly, there are several solutions for implementing overloaded operators for cells. One aproach is to implement one for each combination of cells. Another aproach is to decide a common representation. The proceding implementations already decided on string being the common representation. 
 
-```
+```c++
 StringSpreadsheetCell operator+(const StringSpreadsheetCell& lhs,
 				const StringSpreadsheetCell& rhs)
 {
@@ -1040,7 +1040,7 @@ StringSpreadsheetCell operator+(const StringSpreadsheetCell& lhs,
 ```
 As long as the compiler can turn any cell into a `StringSpreadsheetCell`, this will work. 
 
-```
+```c++
 DoubleSpreadsheetCell myDbl;
 myDbl.set(8.4);
 StringSpreadsheetCell result = myDbl + myDbl;
@@ -1052,7 +1052,7 @@ This works. But it returns `8.4000008.400000`.
 ## Multiple Inheritance <a name="multiple_inheritance"></a>
 
 The syntax is simple :
-```
+```c++
 class Baz : public Foo, public Bar
 ```
 
@@ -1066,7 +1066,7 @@ What if both parents had a method with the same name? Because they are not relat
 
 To solve this, you can either upcast it using `dynamic_cast()` or use a `disembiguation syntax`
 
-```
+```c++
 dynamic_cast<Dog&>(myConfusedAnimal).eat();
 myConfusedAnimal.Dog::eat();
 ```
@@ -1075,7 +1075,7 @@ myConfusedAnimal.Dog::eat();
 #### Ambiguous Base Classes
 
 Another way to provoke ambiguity is to inherit the same class twice. 
-```
+```c++
 class Dog {};
 class Bird : public Dog {};
 class DogBird : public Bird, public Dog {}; //Error!
@@ -1106,14 +1106,14 @@ If you use the same name of a virtual function but different parameters, it is n
 
 If you want to keep the original, you can do this :
 
-```
+```c++
 class Base:
 {
 	public:
 		virtual void someMethod();
 };
 ```
-```
+```c++
 class Derived : public Base
 {
 	public:
@@ -1127,7 +1127,7 @@ class Derived : public Base
 
 In the previous example, you saw how using `using` can force inherit from the base class. You can do the same with constructors. 
 
-```
+```c++
 class Base
 {
 	public:
@@ -1136,7 +1136,7 @@ class Base
 		Base(std::string_view str);
 };
 ```
-```
+```c++
 class Derived : public Base
 {
 	public:
@@ -1144,7 +1144,7 @@ class Derived : public Base
 };
 ```
 
-```
+```c++
 Base base("Hello");	// OK, calls string_view Bas ctor
 Derived derived1(1);	// OK, cals int Derived ctor
 Derived derived2("Hello");	// Error, Derived does not inherit string_view ctor.
@@ -1152,7 +1152,7 @@ Derived derived2("Hello");	// Error, Derived does not inherit string_view ctor.
 
 You can explicitly inherit the ctor:
 
-```
+```c++
 cass Derived : public Base
 {
 	public:
@@ -1163,7 +1163,7 @@ cass Derived : public Base
 
 This inherits all but the default constructor. You cannot inherit only one.
 
-```
+```c++
 Derived derived1(1);	  //OK
 Derived derived2("Hello") //OK
 ```
@@ -1180,14 +1180,14 @@ In C++, you cannot override a `static` method. A method cannot be both 	`static`
 
 If you inherit a static method with the same name as a local static method, you have 2 separate methods.
 
-```
+```c++
 class BaseStatic
 {
 	public:
 		static void beStatic();
 };
 ```
-```
+```c++
 class DerivedStatic : public BaseStatic
 {
 	public:
@@ -1206,7 +1206,7 @@ Those are two different methods.
 
 If you override a method inherited from a bace class, the compiler implicitly hides all other instances of the name on the base class. 
 
-```
+```c++
 class Base
 {
 	public:
@@ -1215,7 +1215,7 @@ class Base
 		virtual void overload(int i) {};
 };
 ```
-```
+```c++
 class Derived : public Base
 {
 	public:
@@ -1235,7 +1235,7 @@ There is nothing special with overloadin a `private` or `protected` method. Just
 
 For example :
 
-```
+```c++
 class MilesEstimator
 {
 	public:
@@ -1252,22 +1252,22 @@ class MilesEstimator
 
 Implementation :
 
-```
+```c++
 int MilesEstimator::getMilesLeft() const {
 	return getMilesPerGallon() * getGallonsLeft();
 }
 ```
-```
+```c++
 void MilesEstimator::setGallonsLeft(int gallons) {
 	mGallonsLeft = gallons;
 }
 ```
-```
+```c++
 int MilesEstimator::getGallonsLeft() const {
 	return mGallonsLeft;
 }
 ```
-```
+```c++
 int MilesEstimator::getMilesPerGallon() const {
 	return 20;
 }
@@ -1276,7 +1276,7 @@ int MilesEstimator::getMilesPerGallon() const {
 
 Derived class :
 
-```
+```c++
 class EfficientCarMilesEstimator : public MilesEstimator
 {
 	private:
@@ -1285,7 +1285,7 @@ class EfficientCarMilesEstimator : public MilesEstimator
 ```
 Implementation :
 
-```
+```c++
 int EfficientCarMilesEstimator::getMilesPerGallon() const {
 	return 35;
 }
@@ -1309,14 +1309,14 @@ It is not common to change the access level, but there might be a few legitemate
 
 There are two approaches, one is to change the access specifier for the entire base class ( this is described later in the chapter) and the other is simpl to redefine the access in the derived class :
 
-```
+```c++
 class Base
 {
 	public:
 		virtual void someMethod();
 };
 ```
-```
+```c++
 class Derived : public Base
 {
 	protected:
@@ -1325,7 +1325,7 @@ class Derived : public Base
 ```
 
 You can still access it through a pointer :
-```
+```c++
 Base myBase;
 Derived& ref = myBase;
 ref.someMethod();
@@ -1340,7 +1340,7 @@ If your derived data does not have any special data that require nondefault copy
 
 If you do need one, you need to chain it to the parent copy constructor :
 
-```
+```c++
 class Base
 {
 	public:
@@ -1349,11 +1349,11 @@ class Base
 		Base(const Base& src);
 };
 ```
-```
+```c++
 Base::Base(const Base& src) {
 }
 ```
-```
+```c++
 class Derived : public Base
 {
 	public:
@@ -1361,14 +1361,14 @@ class Derived : public Base
 		Derived( const Derived& src);
 };
 ```
-``` 
+``` c++
 Derived::Derived(const Derived& src) : base(src) {
 }
 ```
 
 Similarly, if the derived class overrides the `operator=`, you need to call the parent's version too :
 
-```
+```c++
 Derived& Derived::operator=(const Derived& rhs) {
 	if (&rhs == this) {
 		return *this;
@@ -1385,7 +1385,7 @@ Derived& Derived::operator=(const Derived& rhs) {
 
 Relative to other OOP-oriented languages, C++ is very compile-time oriented. There are features that provide a run-time view of an object. They are grouped under the name ___run-time type information___ or _RTTI_. This offers some useful features. One such feature is `dynamic_cast()`. A second usage is the `typeid` operator, witch lets you query an object at run time to find out it's type :
 
-```
+```c++
 #include <typeinfo>
 
 class Animal { public: virtual ~Animal() = default; };
@@ -1407,7 +1407,7 @@ Whenever you have to do this, use instead a virtual method called `speak()` in t
 
 One of the uses of `typeid` is logging and debugging :
 
-```
+```c++
 class Loggable
 {
 	public:
@@ -1415,19 +1415,19 @@ class Loggable
 		virtual std::string getLogMessage() const = 0;
 };
 ```
-```
+```c++
 class Foo : public Loggable
 {
 	public:
 		std::string getLogMessage() const override;
 };
 ```
-```
+```c++
 std::string Foo::getLogMessage() const {
 	return "Hello logger.";
 }
 ```
-```
+```c++
 void logObject(const Loggable& loggableObject) {
 	cout << "typeid(loggableObject).name()" << ": ";
 	cout << loggableObject.getLogMessage() << endl;
@@ -1461,7 +1461,7 @@ Earlier we discussed diamond-shaped hierarchical structure for classes. The top 
 C++ has another mechanism to fix this, called _virtual base classes_ :
 
 
-```
+```c++
 class Animal
 {
 	public:
@@ -1469,7 +1469,7 @@ class Animal
 		virtual void sleep() { cout << "zzz" << endl; }
 };
 ```
-```
+```c++
 class Dog : public virtual Animal
 {
 	public:
@@ -1477,7 +1477,7 @@ class Dog : public virtual Animal
 		virtual void eat() override { cout << "Dog : Done" << endl; }
 };
 ```
-```
+```c++
 class Bird : public virtual Animal
 {
 	public:
@@ -1485,7 +1485,7 @@ class Bird : public virtual Animal
 		virtual void eat() override { cout << "Bird : Done."; }    
 };
 ```
-```
+```c++
 class DogBird : public Dog, public Bird
 {
 	public:
@@ -1493,7 +1493,7 @@ class DogBird : public Dog, public Bird
 };
 ```
 
-```
+```c++
 int main() {
 	DogBird myConfusedAnimal;
 	myConfusedAnimal.sleep(); // Not ambiguous because of virtual base class.
