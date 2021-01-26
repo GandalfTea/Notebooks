@@ -1,3 +1,19 @@
+__TOC__
+
+* 2.1 [The physical implementation of a _bit_](#2.1)
+	* 2.1.1 [MOSFET transistor](#2.1.1)
+* 2.2 [Digital Logic Gates](#2.2)
+	* 2.2.1 [The theory behind the logic gates](#2.2.1)
+	* 2.2.2 [Logic Gate implementation : CMOS cirtuit](#2.2.2)
+* 2.3 [Beyond Logic Gates: Machine Language](#2.3)
+	* 2.3.1 [Example](#2.3.1)
+	* 2.3.2 [Assembly Language](#2.3.2)
+	* 2.3.3 [Programming Languages](#2.3.3)
+* 2.4 [Abstraction](#2.4)
+	* 2.4.1 [Why abstraction works](#2.4.1)
+	* 2.4.2 [Why abstraction reduces complexity](#2.4.2)
+
+&nbsp;
 
 
 ## From Hardware to Software : Layers of Abstraction
@@ -6,7 +22,7 @@
 This chapter tries to explain the connection between software and hardware, and how software is represented physically.
 
 &nbsp;
-### 2.1 The physical implementation of a _bit_
+### 2.1 The physical implementation of a _bit_  <a name="2.1"></a>
 
 When we write software, we manipulate the electrical circuit at the physical level. 
 
@@ -17,7 +33,7 @@ At the core, a transistor is just a resistor whose values can vary based on an i
 A ___bit___ has two states: 0 and 1. It is the building block of all electrical systems and software. Bits can change states much like a light bulb, 0 representa 0v (no electric flow) and 1 is +3.5v to +5v (electric flow). Transistors implement a bit corectly, as it can regulate the flow based on voltage. 
 
 &nbsp;
-#### 2.1.1 MOSFET transistor
+#### 2.1.1 MOSFET transistor <a name="2.1.1"></a>
 
 The invention of the classical transistor opened oportunities for new electrical devices. Before it, vaccum tubes (fancier light bulbs) were used to represent the 0 and 1, and required humans to switch states. 
 
@@ -29,12 +45,12 @@ There are two types of _MOSFET_ transistors, analogous to the original two types
 &nbsp;
 
 
-### 2.2 Digital Logic Gates
+### 2.2 Digital Logic Gates <a name="2.2"></a>
 
 A _Logic Gate_ is a device that implements a boolian function. All digital devices make use of them. Each type of logic gate takes in a number of inputs and returns an output. 
 
 &nbsp;
-#### 2.2.1 The theory behind the logic gates
+#### 2.2.1 The theory behind the logic gates <a name="2.2.1"></a>
 
 Logic gates only accept binary inputs and return binary outputs. At the time of creation, a branch of mathematics already dealt with binary values, called _Boolean Algebra_. They are created with a sound mathematical foundation. A set of boolian functions is _functionally complete_ if this set can construct all other Boolean functions. Later, it was proven that you can create all other functions with only _NOR_ or _NAND_ gates alone. Thus, _NOR_ and _NAND_ are _functionally complete_. 
 
@@ -42,7 +58,7 @@ This is why the invention of transistors, than CMOS circuit revilutionized the c
 
 
 &nbsp;
-#### 2.2.2 Logic Gate implementation : CMOS cirtuit
+#### 2.2.2 Logic Gate implementation : CMOS cirtuit  <a name="2.2.2"></a>
 
 Underlying every logic gate is a circuit calles ___CMOS___ - ___C___ complementary ___MOS___ FET. CMOS consists of two complementary transistors, _NMOS_ and _PMOS_. The simplest CMOS circuit is the NOT gate :
 
@@ -73,14 +89,14 @@ Many of those NAND-gate chips combined can build a simple computer. Software at 
 
 
 &nbsp;
-### 2.3 Beyond Logic Gates: Machine Language
+### 2.3 Beyond Logic Gates: Machine Language <a name="2.3"></a>
 
 Because logic gates only accept 1's and 0's, all hardware only understands 1 and 0. _Machine Language_ is a collection of unique bit patterns that a device can identify and perform a corresponding action. A _Machine Instruction_ is a unique bit pattern that a device can identify. In a computer system, a device that uses this language is called a ___CPU___  ___C___ entral ___P___ rocessing ___U___ nit, which controls all activitiws going inside a computer. For example, in the x86 architecture, the pattern `10100000` is telling the CPU to add two numbers. `000000101` tells the CPU to hald the computer. In the early days of computing, people had to write completely in binary. 
 
 How do the binary commands actually do an action? Underlying the CPU is a circuit that implements those instructions. Similar to how a function is called in a normal programming language, a bit pattern is a name of a little function inside the CPU. Note that the CPU is not the only device with it's own language. A device with it's own machine language is a _programmable device_, since a user can use the language to command the device to perform different actions. For example, a printer has it's own set of commands instructing it how to print a page. 
 
 &nbsp;
-#### Example 2.3.1
+#### Example 2.3.1  <a name="2.3.1"></a>
 A user can use a 74HC00 chip without knowing the internal structure, but only using the interface. First, we need to know the layout :
 
 <img src="https://i.imgur.com/Al63pxi.png" alt="img" style="zoom: 10%;" />
@@ -140,7 +156,7 @@ To implement a 4-bit OR gate, we need 4 74HC00 chips.
 
 
 &nbsp;
-#### 2.3.2 Assembly Language
+#### 2.3.2 Assembly Language  <a name="2.3.2"></a>
 
 The Assembly language is a symbolic representation of binary machine code, giving bit patterns better names. For example, insteaf of writing `000000101`, programmers only needed to write `hlt`. Such an abstraction makes usage of a CPU much easier and more memorable. As a result, code was written faster. 
 
@@ -202,7 +218,7 @@ The above device is rudementary, but it can run this cycle. It can be expanded b
 
 
 &nbsp;
-#### 2.3.3  Programming Languages
+#### 2.3.3  Programming Languages <a name="2.3.3"></a>
 
 
 Assembly is only one layer of abstraction up from basic machine code, made from 0's and 1's. Over time, people started to see repeting patterns of usage in assembly and decided to increse abstraction. In C, instead of writing code to chech if one variable is greater then another and if so, executing a block of code, you can use an `if` statement. 
@@ -220,12 +236,12 @@ A high level programming language lets you focus on the problem domain, while a 
 
 
 &nbsp;
-### 2.4 Abstraction 
+### 2.4 Abstraction  <a name="2.4"></a>
 
 There is a need for abstraction in order to make creating software easier, leaving the irrelevent details hidden. 
 
 &nbsp;
-#### 2.4.1 Why abstraction works
+#### 2.4.1 Why abstraction works  <a name="2.4.1"></a>
 
 Abstraction is fundamental :
 
@@ -255,7 +271,7 @@ For this reason, it can describe reaccuring patterns in nature. It can also be a
 Mathematics can be used to help translatoin between layers easier. It is a universal language for all layers. 
 
 &nbsp;
-#### 2.4.2 Why abstraction reduces complexity. 
+#### 2.4.2 Why abstraction reduces complexity. <a name="2.4.2"></a>
 
 Abstraction leverages productivity by striping away irrelevant details. 
 A programming language is expressive if its syntax is designes to express th eproblem domain it is trying to solde. The _what_ it will do rather then _how_.
