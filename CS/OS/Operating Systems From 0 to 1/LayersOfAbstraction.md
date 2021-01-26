@@ -6,7 +6,7 @@
 This chapter tries to explain the connection between software and hardware, and how software is represented physically.
 
 &nbsp;
-### 2.1 The physical implementation of a bit
+### 2.1 The physical implementation of a _bit_
 
 When we write software, we manipulate the electrical circuit at the physical level. 
 
