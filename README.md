@@ -7,8 +7,8 @@ C++ ______ Memory Allocation.md
 &nbsp;
 
 CS  ______ FPGA  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|___ OS/ Textbook : Operating Systems From 0 to 1 Textbook  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|___ OS/ Textbook : _Operating Systems From 0 to 1_    
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|___ EE  
 &nbsp;
 
-SCIP ______ Textbook : Structure And Implementation of Computer Programs
+SCIP ______ Textbook : _Structure And Implementation of Computer Programs_
