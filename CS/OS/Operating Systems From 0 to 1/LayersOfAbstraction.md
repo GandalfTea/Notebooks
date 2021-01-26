@@ -46,13 +46,12 @@ This is why the invention of transistors, than CMOS circuit revilutionized the c
 
 Underlying every logic gate is a circuit calles ___CMOS___ - ___C___ complementary ___MOS___ FET. CMOS consists of two complementary transistors, _NMOS_ and _PMOS_. The simplest CMOS circuit is the NOT gate :
 
-TODO: Put photo of NOT gate here.
+<img src="https://i.imgur.com/CzF0hTT.png" alt="img" style="zoom: 10%;" />
 
 
 From NOT, NAND can be created :
 
-
-TODO: Photo of NAND
+<img src="https://i.imgur.com/cSiavMA.png" alt="img" style="zoom: 10%;" />
 
 
 From NAND gate we have all other gates. Those simple circuits compute the logical operators in normal programming languages. For example `NOT` is executed as a NOT gate, `&` or `&&` is executed as a AND gate, and so on.
@@ -68,9 +67,8 @@ Finally, an implemented circuit with all parts is stored in a physical package c
 74HC00 is a chip with four 2-input NAND gates. The chi[ comes with 8 input pins and 4 output pins, 1 pin for conecting to a voltage source and 1 pin for connection to the ground. The gates inside can be combined. Each combination allows a different logic function be implemented, efectively creating other gates.
 Many of those NAND-gate chips combined can build a simple computer. Software at the physical level is just electrical flow.
 
-TODO: Photo of 74HC00
-TODO: Photo of logic diagram 74HC00
-TODO: Photo of combinations of NAND gates.
+<img src="https://i.imgur.com/omRY70g.png" alt="img" style="zoom: 10%;" />
+<img src="https://i.imgur.com/t7AbwZ6.png" alt="img" style="zoom: 10%;" />
 
 
 
@@ -85,7 +83,7 @@ How do the binary commands actually do an action? Underlying the CPU is a circui
 #### Example 2.3.1
 A user can use a 74HC00 chip without knowing the internal structure, but only using the interface. First, we need to know the layout :
 
-TODO: Put image of layout here. If you see this, it is kind of embarising.
+<img src="https://i.imgur.com/Al63pxi.png" alt="img" style="zoom: 10%;" />
 
 Then, the functionality for each pin :
 
@@ -130,15 +128,14 @@ Pin	| 1A | 1B | 2A | 2B | 3A | 3B | 4A | 4B | 1Y | 2Y | 3Y | 4Y
 Value	| 1  | 1  | 0  | 1  | 1  | 0  | 0  | 0  | 0  | 1  | 0  | 1 
 ```
 
-On the other hand, if an OR gate is implemented, we can only build a 2 input OR gate from a 74HC00, as it requires 3 NAND gates : 2 input NAND and 1 output NAND. Each input NAND represents only a 1 bit value. 
+On the other hand, if an OR gate is implemented, we can only build a 2 input OR gate from a 74HC00, as it requires 3 NAND gates : 2 input NAND and 1 output NAND. Each input NAND represents only a 1 bit value.  
+<img src="https://i.imgur.com/1CbECpz.png" alt="img" style="zoom: 10%;" />   
+<img src="https://i.imgur.com/Fwa225g.png" alt="img" style="zoom: 10%;" />   
 
-TODO: Image of OR gate from NAND
-TODO: Image of implementation and notation on chip, page 20
+&nbsp;
 
-
-To implement a 4-bit OR gate, we need 4 74HC00 chips.
-
-TODO: Image of 4 chips.
+To implement a 4-bit OR gate, we need 4 74HC00 chips.   
+<img src="https://i.imgur.com/kG0yU3O.png" alt="img" style="zoom: 10%;" />  
 
 
 
@@ -191,7 +188,7 @@ A decoder is build out of logic gates. However, a storage device can be anything
 
 
 
-TODO: Insert picture of basic computer.
+<img src="https://i.imgur.com/WsY8ALe.png" alt="img" style="zoom: 10%;" />
 
 
 
@@ -209,8 +206,6 @@ The above device is rudementary, but it can run this cycle. It can be expanded b
 
 
 Assembly is only one layer of abstraction up from basic machine code, made from 0's and 1's. Over time, people started to see repeting patterns of usage in assembly and decided to increse abstraction. In C, instead of writing code to chech if one variable is greater then another and if so, executing a block of code, you can use an `if` statement. 
-
-TODO: Picture of abstraction.
 
 
 People abstracter common patterns of assembly code, then wrote a program to translate it acordingly.  The program that translates text forms to machine code is called a ___compiler___. 
