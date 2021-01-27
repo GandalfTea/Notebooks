@@ -4,36 +4,33 @@
 
 In order to do low level programming, we must first understand the architecture of a computer. 
 
+&nbsp;
 ### 3.1 What is a computer?
 
 
 A computer is a hardware device that consists of at least a CPU, a memory device and input/ouput interfaces. There are two big groups 
 
-  * _Single-purpose computer_ is a computer build from the hardware level to operate on a specific task. 
+  * ___Single-purpose computer___ is a computer build from the hardware level to operate on a specific task. 
 
-  * _General-purpose computer_ is a computer that can accept software designed to emulate various single-purpose computers.
+  * ___General-purpose computer___ is a computer that can accept software designed to emulate various single-purpose computers.
 
+&nbsp;
 
 Examples :
 
-* Server
-
-A server is a single-purpose computer with big resources to allow many personal computers to connect to it. 
+__Server__ : A server is a single-purpose computer with big resources to allow many personal computers to connect to it. 
 
 
-* Desktop Computer
-It is a general-purpose computer designed with moderate resources for regular use. 
+__Desktop Computer__ : It is a general-purpose computer designed with moderate resources for regular use. 
 
 
-* Mobile Computer
-It is a general putpose computer with limited resources, designed to be small and to be carried around
+__Mobile Computer__ : It is a general putpose computer with limited resources, designed to be small and to be carried around
 
-* Game Consoles
+__Game Consoles__ : They are general purpose computer optimised for gaming. They use custom CPU and GPUs but are similar to desktop. 
 
-They are general purpose computer optimised for gaming. They use custom CPU and GPUs but are similar to desktop. 
+&nbsp;
 
-
-* Embedded Computer
+__Embedded Computer__  
 It is a single-board or single-chip computer with limited resources, designed to be integrated into bigger hardware devices. 
 
 One type of embedded compters is a _microcontroller_, used for controlling other hardware devices. They are general-purpose but are typically sused to perform a single task. 
@@ -49,8 +46,9 @@ TODO: Photo of Circuit Board
 The line between a microcontroler and a system-on-chip is blurry. 
 
 
+&nbsp;
 
-* Field Programmable Gate Arrays
+__Field Programmable Gate Arrays__
 
 Usually called FPGA, it is an array of reconfigurable logic gates. In a similar manner to the multi 74HC00 example, this contains thousands of chips called _logic blocks_. Those can be programed to implement high-level features, like algorithms. 
 
@@ -63,14 +61,16 @@ The difference between FPGA and other embedded computers is that with an FPGA yo
 
 They are usually implemented in cases that ask for high-speed processing, like real-time medical image processing, cruise control systems, etc. 
 
+&nbsp;
 
-* Application-Specific Integrated Circuit
+__Application-Specific Integrated Circuit__
 
 Usually refered as _ASIC_, it is a chip designed for a particular purpose. It does not contain refigurable logic blocs, it has already resigned logic blocks that fulfull their purpose. 
 
 They can be considered as the final stage of a FPGA prototype. They are very constly to manifacture and if errors are made, you must throw it away. 
 
 
+&nbsp;
 
 ### 3.2 Computer Architecture
 
@@ -78,19 +78,19 @@ They can be considered as the final stage of a FPGA prototype. They are very con
  
 Computer Architecture = Instruction Set Architecture + Cmputer Organization.
 
-At the highest level is the Instruction Set Architecture
-At the middle level is the Computer Organization
-At the lowest level is the Hardware.
+At the highest level is the Instruction Set Architecture    
+At the middle level is the Computer Organization    
+At the lowest level is the Hardware.    
 
 
-
+&nbsp;
 #### 3.2.1 Instruction Set Architecture
 
 It is a basic set of commands and instructions that a microprocessor can understand and carry out. 
 
 It is usually refed to as a ___ISA___, and it is the design of the environment that implements an instruction set. Esentially, a run-time environment similar to those interpreters of high-level languages. They include all the instructions, registers, interrupts, memory models, addressing models, I/O, etc. of a CPU. The more features, the more circuits are required to implement it. 
 
-
+&nbsp;
 #### 3.2.2 Computer Organization
 
 This is the functional view of viewing a computer. Hardare compinents are only boxes with input and output tha connect to each other. Two computers may have the same ISA but different organiation. For example, both Intel and AMD implement the x86 ISA, but the hardware components are not the same. 
@@ -108,7 +108,7 @@ The Von Neumann operates by storing instructions in main memory and CPU fetches 
 
 Today, a computer has more buses, each is specialized in a type of traffic. At the core, they are all stil Von Neumann architecture. 
 
-
+&nbsp;
 The CPU is the essential part of any computer. To understand a CPU is esential for writing an OS :
 
 * To control all the other parts, the programmer must go through the CPU, as it is the only programmable by code. 
@@ -133,7 +133,7 @@ _Port_ is a special register in a hardware device specialized for communication 
 
 Those two interfaces are the only ones for controlling hardware with softeare. Writing drivers is esentially learning the functionality of each register and how to use them properly to control the device. 
 
-
+&nbsp;
 ___Memory___ is a storage device that stores information. It consists of many cells that contain a bite of data and it's address number, so a CPU can access exact locations. Memory in a Von Neumann machine does not distinguish between witch bites are data and witch are instructons. It is up to the software to decide. To a CPU there is no distinction between the two, there is only data, and it can execute all that is fed, with undesired results. 
 
 
@@ -147,14 +147,14 @@ The physical implementation of RAM is a grid of cells that each contain a transi
 
 _Bus_ transmits data between components. Phycally they are electrical wires. The total number of wires is called _bus width_ and is dependent on how much the CPU can support. If a CPU only accepts 16 bits at a time, then the bus has 16 wires connecting from components to the CPU. 
 
-
+&nbsp;
 ### 3.2.3 Hardware
 
 
 Hardware is formed of different ways of implementing the same instruction set architecture. For example, i7 provides more power and consumes more energy, while the laptop version consumes less and gives less power. We usually do not need to understand the implementation if documents are available. Instructions and computer organizaation is more relevant to an operating system.
 
 
-
+&nbsp;
 ### 3.3 x86 Architecture
 
 
@@ -177,13 +177,13 @@ Learning how to program an x86 CPU is a daunting task.
 
 TODO: Photo of x86
 
-
+&nbsp;
 ### 3.4 Intel Q35 Chipset
 
 Released in 2007, it is used as an example of a high-level computer organization. Later, we will use QEMU to emulate a Q35 system. With this chipset, the CPU is also relatively up to date  so that we can use the latest? manuals from Intel. 
 
 
-
+&nbsp;
 ### 3.5 x86 Execution  Environment
 
 An execution environment is an environment that provides the facility to make code executable. It needs to address the following questions:
