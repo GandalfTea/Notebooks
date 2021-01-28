@@ -64,10 +64,9 @@ The line between a microcontroler and a system-on-chip is blurry.
 __Field Programmable Gate Arrays__
 
 Usually called FPGA, it is an array of reconfigurable logic gates. In a similar manner to the multi 74HC00 example, this contains thousands of chips called _logic blocks_. Those can be programed to implement high-level features, like algorithms. 
-
-TODO: Photo of FPGA
+  
 <img src="https://i.imgur.com/vCZx4qP.png" alt="img" style="zoom: 10%;" />
-
+  
 
 Digital hardware components are designed by using a language to describe how gates are wired togeteher. This language is called ___Hardware Description Language___. Later it is compiled into a description of connected electronics called a ___netlist___. 
 
@@ -114,9 +113,9 @@ This is the functional view of viewing a computer. Hardare compinents are only b
 
 Organization may depend on the manifacutrer's design, but they are all originated from the Von Neumann architecture :
 
-TODO: Photo of architecture
+    
 <img src="https://i.imgur.com/SaydgMO.png" alt="img" style="zoom: 10%;" />
-
+   
 
 _CPU_ fetches instructions continuously from main memory and execute.
 _Memory_ stores program data and code.
@@ -163,9 +162,9 @@ ___Memory___ is a storage device that stores information. It consists of many ce
 The ___RAM___ is controlled by a device called a _memory controller_. Curently, most processors have this device embedded, so the CPU has a dedicated bus connecting to the RAM. 
 In older computers, this device was located in a chip known as _MCH_, _Memory Controller Hub_. In this case, there is no direct connection between CPU and RAM, but to a MCH chip. The newer option provides better performance. 
 
-TODO: Photo of connections.
+   
 <img src="https://i.imgur.com/JKPAa9n.png" alt="img" style="zoom: 10%;" />
-
+   
 
 
 The physical implementation of RAM is a grid of cells that each contain a transistor and a _capacitor_, witch stores charge for short periods of time. Thee transistor controls access to thee capacitor. The charge on the capacitor slowly dissipates, requiring the inclusion of a refresh circuit to periodically read values from the cells and write them back after amplification from an external power source. 
@@ -200,9 +199,9 @@ To write an OS, a programmer needs to understand how to program these devices. A
 
 Learning how to program an x86 CPU is a daunting task. 
 
-TODO: Photo of x86
+   
 <img src="https://i.imgur.com/Tu78QGz.png" alt="img" style="zoom: 10%;" />
-
+   
 
 &nbsp;
 
