@@ -1,11 +1,23 @@
+__TOC__
 
+* 3.1 [What is a computer?](#3.1)
+* 3.2 [Computer Architecture](#3.2)
+	* 3.2.1 [Instruction Set Architecture](#3.2.1)
+	* 3.2.2 [Computer Organization](#3.2.2)
+	* 3.2.3 [Hardware](#3.2.3)
+* 3.3 [x86 Architecture](#3.3)
+* 3.4 [Intel Q35 Chipset](#3.4)
+* 3.5 [x86 Execution Environment](#3.5)
+
+&nbsp;
 
 ## Computer Architecture
 
 In order to do low level programming, we must first understand the architecture of a computer. 
 
 &nbsp;
-### 3.1 What is a computer?
+
+### 3.1 What is a computer?  <a name="3.1"></a>
 
 
 A computer is a hardware device that consists of at least a CPU, a memory device and input/ouput interfaces. There are two big groups 
@@ -72,7 +84,7 @@ They can be considered as the final stage of a FPGA prototype. They are very con
 
 &nbsp;
 
-### 3.2 Computer Architecture
+### 3.2 Computer Architecture  <a name="3.2"></a>
 
 
  
@@ -85,7 +97,7 @@ At the lowest level is the Hardware.
 
 &nbsp;
 
-#### 3.2.1 Instruction Set Architecture
+#### 3.2.1 Instruction Set Architecture  <a name="3.2.1"></a>
 
 It is a basic set of commands and instructions that a microprocessor can understand and carry out. 
 
@@ -93,7 +105,7 @@ It is usually refed to as a ___ISA___, and it is the design of the environment t
 
 &nbsp;
 
-#### 3.2.2 Computer Organization
+#### 3.2.2 Computer Organization  <a name="3.2.2"></a>
 
 This is the functional view of viewing a computer. Hardare compinents are only boxes with input and output tha connect to each other. Two computers may have the same ISA but different organiation. For example, both Intel and AMD implement the x86 ISA, but the hardware components are not the same. 
 
@@ -127,6 +139,8 @@ The __CPU__ is the essential part of any computer. To understand a CPU is esenti
 
 A CPU is an implementation of an ISA. You can control it with Assembly language. The reason you can control every other part through it is that it is comunicating with other devices through these two interfaces :
 
+&nbsp;
+
 _Registers_ are hardware components for high speed data access and comunication to other hardware devices. They allow software to control hardware directly by writing to registers of a device, or recieve information from hardware by reading from registers of  device.
 
 Not all are used to transmisit data, the registers in the CPU are used as storage for temporary data. Other devices always have a set of registers for communicating with the CPU. 
@@ -152,14 +166,14 @@ The physical implementation of RAM is a grid of cells that each contain a transi
 _Bus_ transmits data between components. Phycally they are electrical wires. The total number of wires is called _bus width_ and is dependent on how much the CPU can support. If a CPU only accepts 16 bits at a time, then the bus has 16 wires connecting from components to the CPU. 
 
 &nbsp;
-### 3.2.3 Hardware
+### 3.2.3 Hardware  <a name="3.2.3"></a>
 
 
 Hardware is formed of different ways of implementing the same instruction set architecture. For example, i7 provides more power and consumes more energy, while the laptop version consumes less and gives less power. We usually do not need to understand the implementation if documents are available. Instructions and computer organizaation is more relevant to an operating system.
 
 
 &nbsp;
-### 3.3 x86 Architecture
+### 3.3 x86 Architecture  <a name="3.3"></a>
 
 
 A _chipset_ is a chip with multiple functions. Historically, a chipset is actually a set of individual chips all responsible for a different function. As hardware progressed, the set of ships became single with more space, energy, and more cost efficient. In a general computer, components are connected through a PCB called a _Motherboard_. Each CPU needs a compatible motherboard that can host it. A motherboard is defined by its chipsset model that determine the environment that a CPU can control. The environment consists of :
@@ -183,14 +197,14 @@ TODO: Photo of x86
 
 &nbsp;
 
-### 3.4 Intel Q35 Chipset
+### 3.4 Intel Q35 Chipset  <a name="3.4"></a>
 
 Released in 2007, it is used as an example of a high-level computer organization. Later, we will use QEMU to emulate a Q35 system. With this chipset, the CPU is also relatively up to date  so that we can use the latest? manuals from Intel. 
 
 
 &nbsp;
 
-### 3.5 x86 Execution  Environment
+### 3.5 x86 Execution Environment  <a name="3.5"></a>
 
 An execution environment is an environment that provides the facility to make code executable. It needs to address the following questions:
 
