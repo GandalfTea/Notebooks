@@ -38,7 +38,7 @@ One type of embedded compters is a _microcontroller_, used for controlling other
 Another type is a _system-on-chip_. It is more complex and has more resources then a microcontroller. It is a general-purpose that is comparable to a desktop. They are typically used in smartphones, like the Apple A% SoC used in Ipad2 and iPhone 4S, or Qualcomm Snapdragon used in Android. 
 
 
-All of those are introduces in an environment called ___PCB___, ___P___rinted ___C___ircuit ___B___ oards. This is a physical board with connections between electronic components. It is used to combine those components into larger devices, thus why _embedded_. They are to be found everywhere, from toys to power tools, office machines, etc. 
+All of those are introduces in an environment called ___PCB___, ___P___ rinted ___C___ ircuit ___B___ oards. This is a physical board with connections between electronic components. It is used to combine those components into larger devices, thus why _embedded_. They are to be found everywhere, from toys to power tools, office machines, etc. 
 
 TODO: Photo of Circuit Board
 
@@ -84,6 +84,7 @@ At the lowest level is the Hardware.
 
 
 &nbsp;
+
 #### 3.2.1 Instruction Set Architecture
 
 It is a basic set of commands and instructions that a microprocessor can understand and carry out. 
@@ -91,6 +92,7 @@ It is a basic set of commands and instructions that a microprocessor can underst
 It is usually refed to as a ___ISA___, and it is the design of the environment that implements an instruction set. Esentially, a run-time environment similar to those interpreters of high-level languages. They include all the instructions, registers, interrupts, memory models, addressing models, I/O, etc. of a CPU. The more features, the more circuits are required to implement it. 
 
 &nbsp;
+
 #### 3.2.2 Computer Organization
 
 This is the functional view of viewing a computer. Hardare compinents are only boxes with input and output tha connect to each other. Two computers may have the same ISA but different organiation. For example, both Intel and AMD implement the x86 ISA, but the hardware components are not the same. 
@@ -109,7 +111,8 @@ The Von Neumann operates by storing instructions in main memory and CPU fetches 
 Today, a computer has more buses, each is specialized in a type of traffic. At the core, they are all stil Von Neumann architecture. 
 
 &nbsp;
-The CPU is the essential part of any computer. To understand a CPU is esential for writing an OS :
+
+The __CPU__ is the essential part of any computer. To understand a CPU is esential for writing an OS :
 
 * To control all the other parts, the programmer must go through the CPU, as it is the only programmable by code. 
 
@@ -134,6 +137,7 @@ _Port_ is a special register in a hardware device specialized for communication 
 Those two interfaces are the only ones for controlling hardware with softeare. Writing drivers is esentially learning the functionality of each register and how to use them properly to control the device. 
 
 &nbsp;
+
 ___Memory___ is a storage device that stores information. It consists of many cells that contain a bite of data and it's address number, so a CPU can access exact locations. Memory in a Von Neumann machine does not distinguish between witch bites are data and witch are instructons. It is up to the software to decide. To a CPU there is no distinction between the two, there is only data, and it can execute all that is fed, with undesired results. 
 
 
@@ -178,30 +182,33 @@ Learning how to program an x86 CPU is a daunting task.
 TODO: Photo of x86
 
 &nbsp;
+
 ### 3.4 Intel Q35 Chipset
 
 Released in 2007, it is used as an example of a high-level computer organization. Later, we will use QEMU to emulate a Q35 system. With this chipset, the CPU is also relatively up to date  so that we can use the latest? manuals from Intel. 
 
 
 &nbsp;
+
 ### 3.5 x86 Execution  Environment
 
 An execution environment is an environment that provides the facility to make code executable. It needs to address the following questions:
 
-Supported operations?  
+__Supported operations?__  
 data transfers, arithmetic, control, floatin-point, etc.    
 
-Where are the operands stored?   
+__Where are the operands stored?__   
 registers, memory, stack, accumulator    
 
-How many explicit operands are there for each instruction?    
+__How many explicit operands are there for each instruction?___    
 0,1,2, or 3.     
 
-How is the operand location specified?     
+__How is the operand location specified?__     
 register, immediate, indirect     
 
-What type and size of operands are supported?    
+__What type and size of operands are supported?__    
 byte, int, float, double, sting, vector, etc.   
+
 
 For the remainder of this chapter, please read to chapter 3 in Intel Manual Volume 1, _Basic Execution Environment_.
 
