@@ -339,7 +339,7 @@ Lookup in te SIB table, the row tells us that `eax` is scaled by 2 and the colum
 ___Displacement___ is the offset from the start of the base index. 
 
        
-####Example 4.5.5:
+#### Example 4.5.5:
 
 Instruction :
 ```
@@ -406,4 +406,122 @@ Code:
 
 
         
-### 4.6 Understand an instruction in detail. 
+### 4.6 Understand an instruction in detail.
+
+
+In the instruction reference manual, from chapter 3 onward every x86 instruction is documented in detail. Before looking, we must know the writing conventions. 
+
+Every instruction has the following common structure:
+```
+Opcode	    Instruction 	Op/En	    64/32-bit Mode       CPUID		Description
+					Feature flag.
+```
+
+_Opcode_  There can be more than one opcode for an instruction. In this column can be other notations aside hexadecimal numbers. For example `/r` indicates that the _ModR/M_ byte contains a _reg_ operand and an _r/m_ operand. The details are listed in the Intel Manual. 
+
+      
+_Instruction_ gives the assembly instruction that can be used. They are more than just a rename of the upcode as they might include specific propertied for the instruction. For example, `re18` represents a relative address from 128 bytes before the end of te instrucion to 127 bytes after the end of the instruction. Similarly `rel16/re132` also represent addresses, but with the operand size of 16/32-bit instead of 8-bit like `re18`.
+
+     
+_Op/En_ is short for _Operand/Encoding_. It specifies how a _ModR/M_ byte encodes the operands that an instruction requires. If a variant of an istruction requires operands, then an additional table names _Instruction Operand Encoding_ is added for explaining operand encoding, with the following structure :
+```
+Op/En  | Operand 1   | Operand 2   | Operand 3    | Operand 4
+```
+The operands can be readable, or writable, or both. The symbol _r_ means redable, _w_ means writable. For example, when Operand 1 field contains _ModRM:r/m(r)_, it means it's only readable. 
+
+
+      
+_64/32-bit mode_ indicates whether the opcode sequence is supported in a 64-bit and possibly 32-bit mode. 
+
+       
+_CPUID Feature Flag_ indicates a particular CPU feature must be available to enable the instruction. 
+
+_Compat/Leg Mode_  Many instructions do not have this CPUID field, instead it is replaced with Compat/Leg Mode, standing for _Compatibility or Legacy Mode_.  This mode enables 64-bit variants of instructions to run normally in 16 or 32-bit mode. 
+
+
+_Description_ specifies the purpose of the instructions and how it works in detail. 
+
+
+_Operation_ is pseudo-code that implements an instruction.
+
+_Flags affected_ lists the possible changes to system flags in EFLAGS register. 
+
+_Exceptions_ list the possible errors that can occur during execution. They fall into one of the following categories :
+* Protected Mode Exception
+* Real-Address Mode Exception
+* Virtual-8086 Mode Exeption
+* Floating-Point Exception
+* SIMD Floating-Point Exception
+* Compatibility Mode Exception
+* 64-bit Mode Exception. 
+
+For our OS, we only use Protected Mode Exceptions and Real-Address Mode Exceptions. 
+
+
+
+### 4.7 Example: `jmp` instruction.
+
+
+This is the opcode table:
+
+TODO: Table Picture.
+
+
+Each row lists a vriant of the `jmp` instruction. The first vatiant has the opcode `EB cb` with the equivalent form `jmp rel8`. Here, `rel8` means 128-bit offset, counting from the end of the instruction. The end of an instruction is the next byte after the last byte of the instruction. Consider this assembly code :
+
+
+```
+jmp main
+jmp main2
+jmp main
+main2:
+  jmp 0x1234
+``` 
+
+Generated the machine code :
+```
+	   main				main2
+	   |				|
+Address | 00 | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09 |
+Opcode  | eb | fe | eb | 02 | eb | fa | e9 | 2b | 12 | 00 |
+```
+
+The first `jmp main` instruction is generated into `eb fe` and copies the address 00 and 01. The end of the first `jmp main` is at address 02, past the last byte witch is located at address 01.  The value `fe` is equivalent to -2, since `eb` opcode uses only a byte (8 bits) for relative addressing. The offset is -2 and the end address of the first `jmp main` is 02, adding them together we get 00 which is the destination address for jumping to. 
+
+Similarly, the `jmp main2` instruction is generated into `eb 02` witch means the offset is +2. The end address is at 04, adding them together we get the destination address 06, witch is the start instruction marked by the lable `main2`
+
+The same rule is applied to _rel16_ and _rel32_ encoding. In the example, the code `jmp 0x1234` uses _rel16_ (meaning 2-byte offset) and is generated into `e9 2b 12`. As table 4.7.1 shows, the `e9` opcode takes a `cw` operand, witch is a 2-byte offset. Notice that the offset value is `2b 12` while it is supposed to be `32 12`. This is not wrong. _rel8/rel16/rel32_ id an offset, not an address. An offset is a distance from a point. Since no lable is given but a number, the offset is calculated from the start of a program. In this case, the start is address 00. The end of `jmp 0x1234` is the address 09, therefore the offset is calculated as : 0x1234 - 0x9 = 0x122b.
+
+
+The jump instruction with the opcode `FF /4` enables jumpindg to a near absolute address stored in general-purpose register or memory. In short _absolute indirect_. The symbol `/4` is the column with digit 4 in table 4.5.1. For example :
+
+```
+jmp [0x1234]
+```
+is generated into :
+```
+ff 26 34 12
+```
+
+
+Since this is 16-bit code, we use table 4.5.1. ModR/M value 26 means `disp16`, witch means a 16-bit offset from the current index, which is the base address stores in DS register. In this case, `jmp [0x1234]` is implicitly understood as jmp [ds:0x1234], which means the destination address is 0x1234 bytes away from the start of a data segment. 
+
+
+The jmp instruction with opcode `FF /5` enables jumping to a _far absolute_ address stored in a memory location (as opposed to `/4` which means stored in a register). In short, _a far pointer_. In order to generate it, the keyward `far` is needed to tell `nasm` we are using a far pointer :
+
+```
+jmp far [eax]
+```
+generated into :
+```
+67 ff 28
+```
+
+Since `28` is the value in the 5th column of the table 4.5.2 that refers to [eax], we successfully geeratedan instruction for a far jump. After the CPU runs the instrunction, the program counter _eip_ and code segment register _cs_  is set to the memory address, stored in the memory locaition that _eax_ points to, and the CPU starts fetching code from the new address in _cs_ and _eip_. As an example :
+
+TODO: Photo
+
+
+
+
+
