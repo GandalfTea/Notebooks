@@ -907,7 +907,232 @@ Technically all arrays are translates into flat bytes. A 2x2 array is allocated 
 ### 4.9 Examining Compiled Code
 
 
+To examine how the compiler turns high level code into assembly, we will use the following commans :
+```
+$ objdump --bo-show-raw-insn -M intel -S -D <file> | less
+```
+`-S` is to demonstrate the connection between high level and low level code and `--no-show-raw-insn` is added to omit the opcodes for clarity.
 
 
+#### 4.9.1 Data Transfer
+
+We explored how data is created and laid out in memory. Once they are allocated, they must be accessible and writable. Data transfer instructions move data between memory and registers and between registers.
+
+```c
+#include <stdint.h>
+
+int32_t i = 0x12345678;
+
+int main(int argc, char * argv[]) {
+	int j = i;
+	int k = 0xabcdef;
+
+	return 0;
+}
+```
+Assembly :
+
+```
+#include <stdint.h>
+
+int32_t i = 0x12345678;
+int main(int argc, char *argv[]) {
+
+   80483db: 	push 	ebp
+   80483dc: 	mov 	ebp,esp
+   80483de: 	sub 	esp,0x10
+
+int j = i;
+
+   80483e1: 	mov 	eax,ds:0x804a018
+   80483e6: 	mov 	DWORD PTR [ebp-0x8],eax
+
+int k = 0xabcdef;
+
+   80483e9: 	mov 	DWORD PTR [ebp-0x4],0xabcdef
+return 0;
+
+   80483f0: 	mov 	eax,0x0
+}
+   80483f5: 	leave
+   80483f6: 	ret
+   80483f7: 	xchg 	ax,ax
+   80483f9: 	xchg 	ax,ax
+   80483fb: 	xchg 	ax,ax
+   80483fd: 	xchg 	ax,ax
+   80483ff: 	nop
+```
+The general data movement is performed with the `mov` instructions. Despite the name, it actually copies data from one destination to another.
+
+The line `80483dc:	mov	ebp,esp` moves data from the `esp` to the register `ebp`. This instruction has the opcode _89_. 
+
+The lines 
+```
+80483e1: 	mov 	eax,ds:0x804a018
+80483e6: 	mov 	DWORD PTR [ebp-0x8],eax
+```
+ copies data from one memory location (the `i` variable) to another (`j`). There is only need of `mov`, one copies the data from a memory to a register, and another from the register to the destination location. 
+
+The line ` 80483e9: 	mov 	DWORD PTR [ebp-0x4],0xabcdef` copies an immediate value into memory. 
+
+The line `80483f0: 	mov 	eax,0x0` copies immediate data into a register. 
+
+
+#### 4.9.2 Expressions
+
+
+Expression :
+```c
+int add = i + j;
+```
+```
+80483e1:	mov	edx,DWORD PTR [ebp+0x8]
+80483e4:	mov`	eax,DWORD PRT [ebp+0xc]
+80483e7:	add	eax,edx
+80483e9:	mov	DWORD PTR [ebp-0x34], eax
+```
+Variables `i` and `j` are stored in `eax` and `edx` respectively, then added together using the `add` instruction, and the final result is stores into `eax`. Then, the result is saved into the local variable `add`, which is at location [ebp-0x34].
+
+```c
+int sub = i - j;
+```
+```
+80483ec:	mov	eax,DWORD PTR [ebp+ox8]
+80483ef:	sub	eax,DWORD PTR [ebp+0xc]
+80483f2:	mov	DWORD PTR [ebp-0x30], eax
+```
+Similar to the `add`, there is an instruction for subtraction called `sub`. Here, _gcc_ translates woth `eax` reloaded with `i` and `eax` carrying the result from the previous addition. Then, `j` is subrtacted from `i`. After that, the value is saved into the variable `sub` at location `[ebp-0x30]`.
+
+   
+```c
+int mul = i + j;
+```
+```
+80483f5:	mov	eax,DWORD PTR [ebp+0x8]
+80483f8:	imul	eax,DWORD PTR [ebp+0xc]
+80483fc:	mov	DWORD PTR [ebp-0x34], eax
+```
+
+`eax` is reloded, since is carries the previous calculation. `imul` performs signed multiplication. `eax` is reloded with `i`, then multiplied with `j` and stores the result back in `eax`. Then the result is moved into variable `mul` at location `[ebp-0x34]`.
+
+```c
+int div = i / j;
+```
+```
+80483ff:	mov	eax,DWORD PTR [ebo+0x8]
+8048402:	cdq	
+8048403:	idiv	DWORD PTR [ebp+0xc]
+8048406:	mov	DWORD PTR [ebp-0x30], eax
+```
+Similar to `imul`, `ivid` performs signed division. But different from _imul_, only takes one operand :
+1. `i` is reloded into eax.
+2. `cdq` converts the double word value in `eax` into a quadword value stred in the pair of registers `edx:eax` by copying the signed (bit 31) of the value in `eax` into every bit positoin in `edx. The pair `edx:eax` is the dividend, which is the variable `i`, and the operand to `idiv` is the divisor, the variable `j`. 
+3. The result is stores into the pait `edx:eax` registers, with the quotient in `eax` and remainder in `edx`. The quotient is stored in the variable `div` at location `[ebp-ox30].
+
+
+```c
+int mod = i % j;
+```
+```
+8048409:	mov	eax,DWORD PTR [ebp+0x8]
+804840c:	cdq	
+804840d:	idiv	DWORD PTR [ebp+0xc]
+8048410:	mov	DWORD PTR [ebp-0x2c], edx
+```
+
+The same `idiv` instruction also perforn the modulo operation, since it also calculated a remainder and stores in the variable `mod`, at location `[ebp-0x2c]`.
+
+
+```
+int neg = -i;
+```
+```
+8048413:	mov	eax,DWORD PTR [ebp+0x8]
+8048416:	neg	eax
+8048418:	mov	DWORD PTR [ebp-0x28], eax
+```
+
+`neg` replaces the value of operand (destination operand) with it's complement (this operation is equivalent to subtractiong the operand from 0). The value `i` in `eax` is replaced with `-i` using `neg`, the new value is stored in the variable `neg` at `[ebp-0x28]`.
+
+
+```c
+int and = 1 & j;
+```
+```
+804841b:	mov	eax,DWORD PTR [ebp+0x8]
+804841e:	and	eax,DWORD PTR [ebp+0xc]
+8048421:	mov	DWORD PTR [ebp-0x24], eax
+```
+
+`and` performs a bitwise AND operation on two operands and stores the result in the variable `and` at `[ebp-0x24]`.
+
+
+```c
+int or = i | j;
+```
+```
+8048424:	mov	eax,DWORD PTR [ebp+0x8]
+8048427:	or	eax,DWORD PTR [ebp+0xc]
+804842a:	mov	DWORD PTR [ebp-0x20],eax
+```
+`or` performs a bitwise OR on two operands and stores the result in the variable `or` at `[ebp-0x20]`.
+
+```c
+int xor = i ^ j;
+```
+```
+804842d:	mov	eax,DWORD PTR [ebp+0x8]
+8048430:	xor	eax,DWORD PTR [ebp+0xc]
+8048433:	mov	DWORD PTR [ebp-0x1c], eax
+```
+Performs a bitwise XOR and stores the result in `xor` at `[ebp-0x1c]`.
+
+```c
+int not = ~i;
+```
+```
+8048436:	mov	eax,DWORD PTR [ebp+0x8]
+8048439:	not	eax
+804843b:	mov	DWORD PTR [ebp-0x18], eax
+```
+Performs a bitwise NOT (1 is set to 0, and each 0 is set to 1) and stores the result in the variable `not` at `[ebp-ox18]`.
+
+
+```c
+int shl = i << 8;
+```
+```
+804843e:	mov	eax,DWORD PTR [ebp+0x8]
+8048441:	shl	eax, 0x8
+8048444:	mov	DWORD PTR [ebp-ox14], eax
+```
+
+`shl` (_shift logical left_) shifts the bits in the destination operand to the left by the number of bits specified in the source operand. In this case `eax` stres `i` and `shl` shifts `eax` by 8 bits to the left. The result is stored in `shl` at `[ebp-0x14]`. 
+Visual representation of shift :
+
+TODO: Photo of shift.
+
+
+```c
+int shr = i >> 8;
+```
+```
+8048447:	mov	eax,DWORD PTR [ebp+0x8]
+804844a:	sar	eax, 0x8
+804844d:	mov 	DWORD PTR [ebp-0x10], eax
+```
+
+`sar` is similar to `shl/sal` but shifts bits to the right and extends the sign bit. For right shift, `shr` and `sar` are different instructions. `shr` differs from `sar` in that it does not extend the sign bit. The result sis stores in variable `shr`. 
+
+To visualise:
+
+TODO: IMAGE OF SAR
+
+Notice that initialy, the sign bit is 1, but after 1-bit and 10-bit shifts, the shifted-out bits are filled with zeros. With `sar`, the sign bit (most important bit) is preserved. That is, if the sign bit is 0, the new bits always get the value 0, if it is 1, new bits are always 1. 
+
+
+```c
+char equal1 = (i == j);
+```
 
 
