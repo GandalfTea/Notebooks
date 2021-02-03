@@ -521,6 +521,392 @@ Since `28` is the value in the 5th column of the table 4.5.2 that refers to [eax
 
 TODO: Photo
 
+The far address consumes total of 5 bytes for a 16-bot segment and 32-bit address, which is encoded as m16:32 from table 4.7.1.
+
+As can be seen above, the blue part is a segment address, loaded into _cs_ register with value 0x5678. The red part is the memory address within that segment, loaded into _eip_  register with value 0x1234 and start execution from there. 
+
+The jmp instruction with `EA` opcode jump to a direct absolute address :
+
+Instruction:
+```
+jmp 0x5678:0x1234
+```
+Generated into :
+```
+ea 34 12 78 56
+```
+
+The address ox5678 (78 56):0x1234 (34 12) is right next to the opcode, ulkine _FF /5_.
+
+
+### 4.8 Examine Compiled Data
+
+
+This section examines how data definition in C maps to its assembly form. The generated code is extracted from the _.bss_ section. That means the assembly code displayed has _no_?.
+
+The code-assembly listing is not random, but based on chapter 4 of Volume 1, _Data Type_. The chapter lists fundamental data types that x86 hardware operated on. 
+
+The _objdump_ command used will be :
+```
+$ objdump -z -M intel -S -D -j .data -j .bss <object file> | less
+```
+
+
+#### Fundamental Data Types
+
+The basic types are based on sizes, each is twice as big as the previous one :
+* 1 byte (8 bits)    
+* 2 bytes (16 bits)    
+* 4 bytes (32 bits)    
+* 8 bytes (64 bits)    
+* 16 bytes (128 bits)    
+
+TODO: Image
+
+
+From the Manual., section 4.1.1, volume 1:
+
+_Words, doublewords, and quadwords do not need to be aligned in memory on natural boundries. The natural boundries are even-number addresses, evenly divisible by four and addresses evenly divisable by eight, respectivly. To improve the performance of programs, data structures (especially stacks) should be aligned on natural boundries whenever possible. The reason for this is that the processor requires two memory addresses to make an unaligned memory access; aligned access requires only one memory access. A word or doubleword operand that crosses a 4-byte boundry or a quadword operand that crosses an 8-byte boundry is consideres unaligned and requires twoo separate memory bus cycles for access.
+
+Some instrucitons that operate on double quadwords require memoty operands to be aligned on natural boundry. Those instrucitons generate a general-protection exception (`#GP`) if an unaligned operand is specified. A natural boundty for a double quadword is any address evenly divisable by 16. Other instructions that operate on double quadwords permit unaligned access (without exception). However, aditional memory bus cycles are required to access unaligned data from memory._
+
+In C, the following primitives map to the fundamental types. Must unclude the _stdint.h_.
+
+```c
+# include <stdint.h>
+
+uint8_t byte = 0x12;
+uint16_t word = 0x1234;
+uint32_t dword = 0x12345678;
+uint64_t qword = 0x123456789abcdef;
+unsigned __int128 dqword1 = (__int 128) 0x123456789abcdef;
+unsigned __int128 dqword2 = (__int128) 0x123456789abcdef << 64;
+
+int main(int argc, char *argv[]) {
+	return 0;
+}
+```
+
+Assembly :
+
+```
+0804a018 <byte>:
+  804a018: 	12 00 			adc 	al,BYTE PTR [eax]
+0804a01a <word>:
+  804a01a: 	34 12 			xor 	al,0x12
+0804a01c <dword>:
+  804a01c: 	78 56 			js 	804a074 <_end+0x48>
+  804a01e: 	34 12 			xor 	al,0x12
+0804a020 <qword>:
+  804a020: 	ef 			out 	dx,eax
+  804a021: 	cd ab 			int 	0xab
+  804a023: 	89 67 45 		mov 	DWORD PTR [edi+0x45],esp
+  804a026: 	23 01 			and 	eax,DWORD PTR [ecx]
+0000000000601040 <dqword1>:
+  601040: 	ef 			out	dx,eax
+  601041: 	cd ab 			int 	0xab
+  601043: 	89 67 45 		mov 	DWORD PTR [rdi+0x45],esp
+  601046: 	23 01 			and 	eax,DWORD PTR [rcx]
+  601048: 	00 00 			add 	BYTE PTR [rax],al
+  60104a: 	00 00 			add 	BYTE PTR [rax],al
+  60104c: 	00 00 			add 	BYTE PTR [rax],al
+  60104e: 	00 00 			add 	BYTE PTR [rax],al
+0000000000601050 <dqword2>:
+  601050: 	00 00 			add 	BYTE PTR [rax],al
+  601052: 	00 00 			add 	BYTE PTR [rax],al
+  601054: 	00 00 			add 	BYTE PTR [rax],al
+  601056: 	00 00 			add 	BYTE PTR [rax],al
+  601058: 	ef 			out 	dx,eax
+  601059: 	cd ab 			int 	0xab
+  60105b: 	89 67 45 		mov 	DWORD PTR [rdi+0x45],esp
+  60105e: 	23 01 			and 	eax,DWORD PTR [rcx]
+```
+
+_gcc_ generates the variables as seen above. Since this is data section, the assembly listing carries no meaning. When _byte_ is declared with _uint8_t_, gcc guarantees that the size is always 1 byte. You might notice the extra `00` next to `12`, this is normal as _gcc_ adds extra _padding bytes_. To make it easier to see, we can look at the _readelf_ putput of the _.data_ section :
+```
+$ readelf -x .data hello
+```
+
+
+Output:
+```
+Hex dump of section `.data`:
+  0x00601020  00000000  00000000  00000000  00000000  ...................
+  0x00601030  12003412  78563412  efcdab89  67452301  ..4.xV4........gE#.
+  0x00601040  efcdab89  67452301  00000000  00000000  ....gE#............
+  0x00601050  00000000  00000000  efcdab89  67452301  ...............gE#.
+```
+
+
+byte : 0x00601030 : 1200   
+word : 0x00601030 : 3412   
+dword : 0x00601030 : 77563412   
+qword : 0x00601030 : efcdab89 67452301     
+dqword1 : 0x00601040 : efcdab89 67452301 00000000 00000000       
+dqword2 : 0x00601050 : 00000000 00000000 efcdab90 67452301      
+
+
+Variables are alocated space depending on their type and in the declaration order. Intel is a _little-endian machine_ which means smaller addresses hold bytes with smaller value, larger hold larger value.  For example, 0x1234 is displayed as `34 12`, `34` apears first at address 0x601032, then `12` at 0x601033. The decimal values within a byte is unchanges, so we see `34 12` instead of `43 21`. 
+
+If _char_ is already 1 byte, why bother with _int8_t_? Because `char` is not guaranteed to always be 1 byte but a minimum of 1 byte. In C, a byte is the size of a _char_, which is defined as the smallest unit. There are hardware devices where the smallest addresable unit is 16-bit or even larger, which means _char_ is 2 bytes in size. A byte in such a platform is actually 2 units of 8-bit bytes. 
+
+
+Not all architectures support the double quadword type. _gcc_ does provide support for 128-bit number if the CPU is 64-bit. By specifying a variable of type `__int128` or `unsigned __int128`, we get a 128-bit variable. 
+
+The data types in C that map to the fundamental types are called _unsigned numbers_. Other than numerical calculation, they can also be used as a tool for structuring data in memory. We will see this application later in the book. 
+
+
+In all the examples above, smaller numbers can be cast into bigger data types, but if you try to cast a bigger number into a smaller type, 2 things happen :
+1. The value is grater than the max value supported by the smaller type, so it needs to truncating the size and causing incorrect value. 
+2. The value is smaller than the max value, so it fits. 
+
+However, the value might be unknown until runtime. It is best to not let implicit conversions to the compiler. It can cause subtle bugs.
+
+
+#### 4.8.2 Pointer Data Types
+
+
+Pointers are variables that hold memory addresses. x86 works with two types of pointers :
+
+* _Near Pointer_ is a 16/32-bit offset withing a segment, also called _effective address_.
+* _Far Pointer_ is also an offset like a near pointer but with an explicit segment selector. 
+
+
+TODO: Image
+
+
+C only provides support for near pointers, since far pointers are platform dependent, such as x86.  In applicatoin code, you can assume that the address of current segment starts at 0, so the offset is actually any memory address from 0 to max address. 
+
+```c
+#include <stdint.h>
+
+int8_t i = 0;
+int8_t *p1 = (int8_t *) 0x1234;
+int8_t *p2 = &i;
+
+int main(int argc, char *argv[]) {
+	return 0;
+}
+```
+
+Assembly :
+```
+0000000000601030 <p1>:
+  601030: 	34 12 			xor 	al,0x12
+  601032: 	00 00 			add 	BYTE PTR [rax],al
+  601034: 	00 00 			add 	BYTE PTR [rax],al
+  601036: 	00 00 			add 	BYTE PTR [rax],alÎ
+0000000000601038 <p2>:
+  601038: 	41 10 60 00 		adc 	BYTE PTR [r8+0x0],spl
+  60103c: 	00 00 			add 	BYTE PTR [rax],al
+  60103e: 	00 00 			add 	BYTE PTR [rax],al
+
+Disassembly of section .bss:
+0000000000601040 <__bss_start>:
+  601040: 	00 00 			add 	BYTE PTR [rax],al
+0000000000601041 <i>:
+  601041: 	00 00 			add 	BYTE PTR [rax],al
+  601043: 	00 00 			add 	BYTE PTR [rax],al
+  601045: 	00 00 			add 	BYTE PTR [rax],al
+  601047: 	00 			.byte 0x0
+```
+
+Pointer `p1` holds a direct address with the value 0x1234. `p2` holds the address of the variable `i`.  Note that both pointers are 8 bytes in size.
+
+
+#### 4.8.3 Bit Field Data Type
+
+
+A _bit field_ is a cintiguous sequence of bits. They allow data structures at bit level. For example, a 32-bit data can hold multiple bit fields that represent multiple different pieces of information, such as bits 0-4 specifies the size of the data structure, bit 5-6 specifies permissions ans so on. 
+
+TODO: Image
+
+```c
+struct bit_field {
+	int data1:8;
+	int data2:8;
+	int data3:8;
+	int data4:8;
+};
+
+
+struct bit_field2 {
+	int data1:8;
+	int data2:8;
+	int data3:8;
+	int data4:8;
+	char data5:4;
+};
+
+
+struct normal_struct {
+	int data1;
+	int data2;
+	int data3;
+	int data4;
+};
+
+
+struct normal_struct ns = {
+	.data1 = 0x12345678,
+	.data2 = 0x9abcsed0,
+	.data3 = 0x12345678,
+	.data4 = 0x9abcdef0,
+};
+
+
+int i = 0x12345678;
+
+
+struct bit_field bf = {
+	.data1 = 0x12,
+	.data2 = 0x34,
+	.data3 = 0x56,
+	.data4 = 0x78
+};
+
+
+struct bitfield2 bf2 = {
+	.data1 = 0x12,
+	.data2 = 0x34,
+	.data3 = 0x56,
+	.data4 = 0x78,
+	.data5 = 0xf
+};
+
+int main(int argc, char *argv[]){
+	return0;
+}
+
+```
+Assembly :
+
+```
+0804a018 <ns>:
+  804a018:	78 56 			js 	804a070 <_end+0x34>
+  804a01a: 	34 12 			xor 	al,0x12
+  804a01c: 	f0 de bc 9a 78 56 34 	lock fidivr WORD PTR [edx+ebx*4+0x12345678]
+  804a023: 	12
+  804a024: 	f0 de bc 9a 78 56 34 	lock fidivr WORD PTR [edx+ebx*4+0x12345678]
+  804a02b: 	12
+0804a028 <i>:
+  804a028: 	78 56 			js 	804a080 <_end+0x44>
+  804a02a: 	34 12 			xor 	al,0x12
+0804a02c <bf>:
+  804a02c: 	12 34 56 		adc 	dh,BYTE PTR [esi+edx*2]
+  804a02f: 	78 12 			js 	804a043 <_end+0x7>
+0804a030 <bf2>:
+  804a030: 	12 34 56 		adc 	dh,BYTE PTR [esi+edx*2]
+  804a033: 	78 0f 			js 	804a044 <_end+0x8>
+  804a035: 	00 00 			add 	BYTE PTR [eax],al
+  804a037: 	00 			.byte 0x0
+```
+The sample code creates 4 variables : `ns`, `i`, `bf`, `bf2`. The definition of `normal_struct` and `bit_field`  both specify 4 integers. `bit_field` specifies additional information next to its member name, separated by a colon, `.data1 : 8`. This information is the bit width of each group. It means that even if it is defines as `int`, `.data1` only consumes 8 bit of information. If aditional information is added two things might happen :
+1. If the new data fits after .data, which are 24-bits, then the total size of `bit_field` is still 4 bytes, or 32-bits. 
+2. If the new data does not fit, the remaining bits are still allocated in new storage, without the previous bits. 
+
+In the example, 4 data members each can access 8 bits of information, together can access 4 bytes of the integer first declared by `.data1`. As can be seen by the assembly code, the values of `bf` fallow natural order as written in the C code : `12 34 56 78`. In contrast, the value of `i` is a number as a whole, so it is subject to the rule of little endianess ans thus contains the value `78 56 34 12`. Note that the final byte in `bs`is `804a02f`, but next to it is the number `12`. This `12` does not belong to the `bf`. _objdump_ is just being confused that `78` is an opcode. `78` coresponds to `js` instruction, and it requires an operand. For that reason, _objdump_ grabs whatever next byte it finds after `78`. A better tool to view assembly is `gbd`, which will ne used in later chapters. 
+
+Unlike in `bs`, each data member in `ns` is fully allocated as an integer, 4 bytes each, 16 total. As we can see, a bit field and normal struct are different: bit field structure data at the bit level, while normal structu works at byte level. 
+
+Finally, te struct `bf2` is the same as `bf`, but it contains one more data member : `.data5` defined as _char_.  For this reason, another 4 bytes are allocated just for `.data5`, even though it can only access 4 bits of information. The final values of `bf2` are : `12 34 56 78 0f 00 00 00`. The reamining 3 byes must be accessed by the mean of a pointer, or casting to another data type that can fully access 4 bytes.
+
+
+#### 4.8.4 String Data Members
+
+
+Strings are defined different in x86 than in C. IN x86, strings are _continuous sequence of bits, bytes, words or doublewords_. C defines as an array of 1-byte chatacters with a zero as the last element, making a _null-terminated array_. This implies that strings in  x86 are arrays, not C strings. A programmer can define an array of bytes, words or doublewords with _char_ or _uint8_t_, _short_ or _uint16_t_. An array of bits can be implemented as an array of bytes or words that operates at bit level.
+
+```c
+#include <stdint.h>
+
+uing8_t a8[2] = {0x12, 0x34};
+uint16_t a16[2] = {0x1234, 0x5678};
+uint32_t a32[2] = {0x123456789abcdef0, 0x123456789abcdefo};
+
+int main(int argc, char *argv[]) {
+	return 0;
+}
+```
+
+Assembly :
+```
+0804a018 <a8>:
+  804a018: 	12 34 00 		adc 	dh,BYTE PTR [eax+eax*1]
+  804a01b: 	00 34 12 		add 	BYTE PTR [edx+edx*1],dh
+0804a01c <a16>:
+  804a01c: 	34 12 			xor 	al,0x12
+  804a01e: 	78 56 			js 	804a076 <_end+0x3a>
+0804a020 <a32>:
+  804a020: 	78 56 			js 	804a078 <_end+0x3c>
+  804a022: 	34 12 			xor 	al,0x12
+  804a024: 	f0 de bc 9a f0 de bc 	lock fidivr WORD PTR [edx+ebx*4-0x65432110]
+  804a02b: 	9a
+0804a028 <a64>:
+  804a028: 	f0 de bc 9a 78 56 34 	lock fidivr WORD PTR [edx+ebx*4+0x12345678]
+  804a02f: 	12
+  804a030: 	f0 de bc 9a 78 56 34 	lock fidivr WORD PTR [edx+ebx*4+0x12345678]
+  804a037: 	12
+```
+
+Even if `a8` is an array with 2 elements, each 1 byte long, it still allocated 4 bytes. Again _gcc_ pads with 0 to ensure natural allignment. The actual value is `12 34 00 00`, `a8[0]` being `12` and `a8[1]` being `34`. 
+
+
+`a16` has 2 elements, each 2 bytes long. Since 2 elements equal 4 bytes, there is no padding.  The value is `34 12 78 56`, with `a16[0]` being `34 12` and `a16[1]` being `78 56`. 
+
+Note that _objdump_ is confused again, as the opcode is `de`, calling `fidivr` that requires another operand, only the values `78, 56, 34, 12, f0, de, bc, 9a` belong to `a32`, the rest being garbage. `a32[0]` is `78 56 34  12` and `a32[1]` is `f0 de bc 9a`. 
+
+Finally, `a64` has 2 elements, 8 bytes each. The total size is 16 bytes, which is the natural allignment, therefore no padding is added. The values for `a62[0]` and `a64[1]` are the same : `f0 de bc 9a 78 56 34 12`.
+      
+`a8`  :    		     12 | 34
+`a16` : 		  32 12 | 78 56
+`a32` : 	    78 56 34 12 | f0 de bc 9a
+`a64` : f0 de bc 9a 78 56 34 12 | f0 de bc 9a 78 56 34 12 
+
+
+Concerning multi-dimentional arrasys :
+
+
+```c
+#include <stdint.h>
+
+uint8_t a2[2][2] = {
+	{0x12, 0x34},
+	{0x56, 0x78}
+};
+
+uint8_t a3[2][2][2] = {
+	{{0x12, 0x34},
+	 {0x56, 0x78}},
+	{{0x9a, 0xbc},
+	 {0xde, 0xff}},
+};
+
+int main(int argc, char *argv[]) {
+	return 0;
+}
+```
+
+
+Assembly :
+
+```
+0804a018 <a2>:
+  804a018: 	12 34 56 		adc 	dh,BYTE PTR [esi+edx*2]
+  804a01b: 	78 12 			js 	804a02f <_end+0x7>
+0804a01c <a3>:
+  804a01c: 	12 34 56 		adc 	dh,BYTE PTR [esi+edx*2]
+  804a01f: 	78 9a 			js 	8049fbb <_DYNAMIC+0xa7>
+  804a021: 	bc 			.byte 0xbc
+  804a022: 	de ff 			fdivrp st(7),st
+```
+
+Technically all arrays are translates into flat bytes. A 2x2 array is allocated with 4 bytes, and a 2x2x2 with 8 bytes. 
+
+
+### 4.9 Examining Compiled Code
+
+
 
 
 
