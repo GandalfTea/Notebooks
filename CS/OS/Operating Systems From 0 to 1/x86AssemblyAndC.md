@@ -127,10 +127,10 @@ A dissasembled section might also contain ___labels___. A lable is a name given 
 
 The best way to understand assembly is to understand the underlying computer architecture and what the machine does. To do so, we must rely on information provided by vendors. To understand Intel's instruction set, we need the document : _Intel 64 and IA-32 architectures software developer's manual combined volumes 2A, 2B, 2C and 2D: Instructions set reference, A-Z_. The document can be retrieved [here](https://github.com/GandalfTea/Notebooks/tree/master/CS/OS/Operating%20Systems%20From%200%20to%201/Intel%20Manuals).
 
-Chapter 1: brief information about manual and notations used.
-Chapter 2: in-dept explanation of the anatomy aof an assembly instruction.
-Chapter 3 - 5: every instruction of the _x86_64_ architecture.
-Chapter 6: safer mode extensions. 
+Chapter 1: brief information about manual and notations used.       
+Chapter 2: in-dept explanation of the anatomy aof an assembly instruction.      
+Chapter 3 - 5: every instruction of the _x86_64_ architecture.       
+Chapter 6: safer mode extensions.       
 
 &nbsp;
 
