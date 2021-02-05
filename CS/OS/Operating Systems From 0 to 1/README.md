@@ -4,7 +4,7 @@ Original : https://github.com/tuhdo/os01
 &nbsp;
 &nbsp;
 
-Chapter 1 : ___Domain Documents___
+Chapter 1 : [___Domain Documents___](https://github.com/GandalfTea/Notebooks/blob/master/CS/OS/Operating%20Systems%20From%200%20to%201/Domain%20Documents.md)
 * Problem Domains
 * Documents for implementing a problem domain
   * _Software Requirement Document_
@@ -13,7 +13,7 @@ Chapter 1 : ___Domain Documents___
 
 &nbsp;
 
-Chapter 2 : ___Layers of Abstraction___
+Chapter 2 : [___Layers of Abstraction___](https://github.com/GandalfTea/Notebooks/blob/master/CS/OS/Operating%20Systems%20From%200%20to%201/LayersOfAbstraction.md)
 * The physical implementation of a _bit_
   * MOSFET transistor
 * Digital Logic Gates
@@ -29,7 +29,7 @@ Chapter 2 : ___Layers of Abstraction___
 
 &nbsp;
 
-Chapter 3 : ___Computer Architecture___
+Chapter 3 : [___Computer Architecture___](https://github.com/GandalfTea/Notebooks/blob/master/CS/OS/Operating%20Systems%20From%200%20to%201/ComputerArchitecture.md)
 
 * What is a computer?
 * Computer Architecture
@@ -42,7 +42,7 @@ Chapter 3 : ___Computer Architecture___
 
 &nbsp;
 
-Chapter 4 : ___x86 Assembly and C___
+Chapter 4 : [___x86 Assembly and C___](https://github.com/GandalfTea/Notebooks/blob/master/CS/OS/Operating%20Systems%20From%200%20to%201/x86%20Assembly%20And%20C.md)
 * objdump
 * Reading the output
 * Intel Manuals
