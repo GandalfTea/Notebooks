@@ -5,7 +5,33 @@ In this chapter we explore assembly language, and how it connects to C.
 
 &nbsp;
 
-### 4.1  objdump
+
+* [objdump](#4.1)
+* [Reading the output](#4.2)
+* [Intel Manuals](#4.3)
+* [Experiment with assembly code](#4.4)
+* [Anatomy of an Assembly Instruction](#4.5)
+* [Understand an instruction in detail](#4.6)
+* [Example: `jmp` instruction](#4.7)
+* [Examine Compiled Data](#4.8)
+	* [Fundamental Data Types](#4.8.1)
+	* [Pointer Data Types](#4.8.2)
+	* [Bit Field Data Type](4.8.3)
+	* [String Data Members](#4.8.4)
+* [Examining Compiled Code](#4.9)
+	* [Data Transfer](#4.9.1)
+	* [Expressions](#4.9.2)
+	* [Stack](#4.9.3)
+	* [Automatic Variables](#4.9.4)
+	* [Function Call and Return](#4.9.5)
+	* [Loop](#4.9.6)
+	* [Conditional](#4.9.7)
+
+
+
+&nbsp;
+
+### 4.1  objdump <a name="4.1"></a>
 
 _objdump_ is a programs that displays information about object files. Later it will be used to debug. Now we use it to examine how high level source code maps to assembly code.
 
@@ -54,7 +80,7 @@ $ objdump -M i386,intel -D hello
 &nbsp;
       
       
-### 4.2 Reading the output
+### 4.2 Reading the output <a name="4.2"></a>
 
 
 At the start of the output, the file format is displayed :
@@ -122,7 +148,7 @@ A dissasembled section might also contain ___labels___. A lable is a name given 
 
 &nbsp;
 
-### 4.3 Intel Manuals
+### 4.3 Intel Manuals  <a name="4.3"></a>
 
 
 The best way to understand assembly is to understand the underlying computer architecture and what the machine does. To do so, we must rely on information provided by vendors. To understand Intel's instruction set, we need the document : _Intel 64 and IA-32 architectures software developer's manual combined volumes 2A, 2B, 2C and 2D: Instructions set reference, A-Z_. The document can be retrieved [here](https://github.com/GandalfTea/Notebooks/tree/master/CS/OS/Operating%20Systems%20From%200%20to%201/Intel%20Manuals).
@@ -140,7 +166,7 @@ Read section 1.3 in volume 2, excclude sections 1.3.5 and 1.3.7.
 
 &nbsp;
 
-### 4.4 Experiment with assembly code
+### 4.4 Experiment with assembly code  <a name="4.4"></a>
 
 
 To fully understand, you need to write code and see the code as hex numbers. For this purpose we use _nasm_ assembler to write a few lines of assembly code and see the generated code. 
@@ -213,7 +239,7 @@ bits 32
 
 &nbsp;
 
-### 4.5 Anatomy of an Assembly Instruction
+### 4.5 Anatomy of an Assembly Instruction  <a name="4.5"></a>
 
 This is a simpler introduction to the in-depth view of instruction format before reading chapter 2 from the reference manual. 
 
@@ -423,7 +449,7 @@ mov eax, 0x1234
 
 &nbsp;
         
-### 4.6 Understand an instruction in detail.
+### 4.6 Understand an instruction in detail.  <a name="4.6"></a>
 
 
 In the instruction reference manual, from chapter 3 onward every x86 instruction is documented in detail. Before looking, we must know the writing conventions. 
@@ -488,7 +514,7 @@ For our OS, we only use Protected Mode Exceptions and Real-Address Mode Exceptio
 
 &nbsp;
 
-### 4.7 Example: `jmp` instruction.
+### 4.7 Example: `jmp` instruction.  <a name="4.7"></a>
 
 
 This is the opcode table:
@@ -571,7 +597,7 @@ The address 0x5678 (78 56):0x1234 (34 12) is right next to the opcode, ulkine _F
 
 &nbsp;
 
-### 4.8 Examine Compiled Data
+### 4.8 Examine Compiled Data  <a name="4.8"></a>
 
 
 This section examines how data definition in C maps to its assembly form. The generated code is extracted from the _.bss_ section. That means the assembly code displayed has _no_.
@@ -585,7 +611,7 @@ $ objdump -z -M intel -S -D -j .data -j .bss <object file> | less
 
 &nbsp;
 
-#### Fundamental Data Types
+#### 4.8.1 Fundamental Data Types <a name="4.8.1"></a>
 
 The basic types are based on sizes, each is twice as big as the previous one :
 * 1 byte (8 bits)    
@@ -706,7 +732,7 @@ However, the value might be unknown until runtime. It is best to not let implici
 
 &nbsp;
 
-#### 4.8.2 Pointer Data Types
+#### 4.8.2 Pointer Data Types <a name="4.8.2"></a>
 
 
 Pointers are variables that hold memory addresses. x86 works with two types of pointers :
@@ -758,7 +784,7 @@ Pointer `p1` holds a direct address with the value 0x1234. `p2` holds the addres
 
 &nbsp;
 
-#### 4.8.3 Bit Field Data Type
+#### 4.8.3 Bit Field Data Type <a name="4.8.3"></a>
 
 
 A _bit field_ is a cintiguous sequence of bits. They allow data structures at bit level. For example, a 32-bit data can hold multiple bit fields that represent multiple different pieces of information, such as bits 0-4 specifies the size of the data structure, bit 5-6 specifies permissions ans so on. 
@@ -861,7 +887,7 @@ Finally, the struct `bf2` is the same as `bf`, but it contains one more data mem
 
 &nbsp;
 
-#### 4.8.4 String Data Members
+#### 4.8.4 String Data Members  <a name="4.8.4"></a>
 
 
 Strings are defined different in x86 than in C. IN x86, strings are _continuous sequence of bits, bytes, words or doublewords_. C defines as an array of 1-byte chatacters with a zero as the last element, making a _null-terminated array_. This implies that strings in  x86 are arrays, not C strings. A programmer can define an array of bytes, words or doublewords with _char_ or _uint8_t_, _short_ or _uint16_t_. An array of bits can be implemented as an array of bytes or words that operates at bit level.
@@ -959,7 +985,7 @@ Technically all arrays are translates into flat bytes. A 2x2 array is allocated 
 
 &nbsp;
 
-### 4.9 Examining Compiled Code
+### 4.9 Examining Compiled Code <a name="4.9"></a>
 
 
 To examine how the compiler turns high level code into assembly, we will use the following command :
@@ -970,7 +996,7 @@ $ objdump --bo-show-raw-insn -M intel -S -D <file>
 
 &nbsp;
 
-#### 4.9.1 Data Transfer
+#### 4.9.1 Data Transfer <a name="4.9.1"></a>
 
 Once data is allocated, they must be accessible and writable. Data transfer instructions move data between memory and registers and between registers.
 
@@ -1051,7 +1077,7 @@ This line copies immediate data into a register.
 
 &nbsp;
 
-#### 4.9.2 Expressions
+#### 4.9.2 Expressions <a name="4.9.2"></a>
 
 
 Expression :
@@ -1431,7 +1457,7 @@ Similar to `++i`.
 
 &nbsp;
 
-#### 4.9.3 Stack
+#### 4.9.3 Stack  <a name="4.9.3"></a>
 
 A stack is a contiguous array of memory locations that holds a collection of data. When a new element is addeed, the stack _grows down_ in memory towards lesser addresses, and _shrinks up_ towards greater addresses when an element is removed. x86 uses the `esp` register to point to the top of the stack, newest element. A stack can be anywhere in main memory. x86 provides two operations for manipulating stacks:
   * `push` adds a new element ontop of stack.
@@ -1441,7 +1467,7 @@ TODO: Image.
 
 &nbsp;
 
-#### 4.9.4 Automatic Variables
+#### 4.9.4 Automatic Variables <a name="4.9.4"></a>
 
 Local variables are variables that exist within a scope delimited by braces. The most common scope is a function but there can be unnamed code blocks.
 
@@ -1525,7 +1551,7 @@ TODO: IMage
 
 &nbsp;
 
-#### 4.9.5 Function Call and Return
+#### 4.9.5 Function Call and Return <a name="4.9.5"></a>
 
 
 ```c
@@ -1572,7 +1598,7 @@ At the end of a function, _gcc_ places a `leave` instruction to clean up all all
 
 &nbsp;
 
-#### 4.9.6 Loop
+#### 4.9.6 Loop <a name="4.9.6"></a>
 
 It is simply resetting the instruction pointer to an already executed instruciton and start all over again. It is a `jmp` instruction. 
 
@@ -1635,7 +1661,7 @@ Increment by 1:
 
 &nbsp;
 
-#### 4.9.7 Conditional
+#### 4.9.7 Conditional <a name="4.9.7"></a>
 
 Conditionals are just another aplication of the `jmp` instruction. 
 
