@@ -230,6 +230,8 @@ ___Instruction Prefixes___ appear at the beginning of an instruciton. They are o
 
 ___Opcode___ is a unique number that identifies the instruction. Each upcode is given a readable name, e.g. _add_ is 04. When a CPU sees 04 in it's instruction cache, it knows to call the instruction _add_. Opcode can be 1,2 or 3 bytes long and include additional 3-bit field in the _ModR/M_ byte when needed. 
 
+&nbsp;
+
 #### Example:
 
 For this code:  
@@ -259,6 +261,7 @@ TODO: Tables
 How to read the table :
 Have a code you want to look up. Look up the byte value to get the coresponding operands in the row and column. 
 
+&nbsp;
         
 #### Example:
 
@@ -273,6 +276,7 @@ ff 26 34 12
 `0xff` is the opcode.    
 The `0x26` is the _ModR/M_ byte. Looking up in the 16-bit table, the first operand is in the row equivalent to a _disp16_, which means a 16-bit offset. Since the instruction does not have a second operand, the column can be ignored. 
 
+&nbsp;
       
 #### Example:
 ```
@@ -283,11 +287,11 @@ Machine code :
 66 01 c8
 ```
 
-The interesting feature of this instruction is that `0x66` is not the opcode. `0x01` is he opcode. The `0x66` is an optional prefix. If the CPU is sqwitched to 32-bit mode, because of this prefix, the instruction operands are limited to 16-bit width.    
-
-If the CPU is in a 16-bit environment, then 32-bit is considered non-standard and there is a need for a prefix to be executed at this width. Otherwise, if there is none, they are executed at 16-bit. 
+The interesting feature of this instruction is that `0x66` is not the opcode. `0x01` is he opcode. The `0x66` is an optional prefix. If the CPU is sqwitched to 32-bit mode, because of this prefix, the instruction operands are limited to 16-bit width. If the CPU is in a 16-bit environment, then 32-bit is considered non-standard and there is a need for a prefix to be executed at this width. Otherwise, if there is none, they are executed at 16-bit. 
 
 The `0xc8` is the _ModR/M_ byte. Lookup in the table at _c8_ value, the first operand is _ax_, the column then gives the second as _cx_. 
+
+&nbsp;
 
 Why is the first operand in the row and the second in the column?
 
@@ -308,27 +312,26 @@ ___SIB___ is _Scale-Index-Base_ byte. This byte encodes ways to calculate the me
 Effective address = scale * index + base 
 ```
   
-_Index_ is an offset into an array.      
-_Scale_ is a factor of _index_. It is one of the values 1,2,4,8, any other is invalid. If you use 1, the offset must be calculated manually. For example, to get the address of the _n^th_ element in an array where each element is 12-bytes long, scale must be set to 1 because the length is 12 instead of 1,2,4 or 8 and a compiler must calculate the offset :
+___Base___ is the starting address.
+___Index___ is an offset into an array.          
+___Scale___ is a factor of _index_. It is one of the values 1,2,4,8, any other is invalid. If you use 1, the offset must be calculated manually. For example, to get the address of the _n^th_ element in an array where each element is 12-bytes long, scale must be set to 1 because the length is 12 instead of 1,2,4 or 8 and a compiler must calculate the offset :
 ```
 Effective address = 1*(12*n) + base
 ```
 
+&nbsp;
+
 Why use SIB?
 
-In this example, an additional `mul` instruction must be executed to get the offset which consumes more than 1 byte, while SIB only consumes 1 byte. If this is scales, it can be detrimental to te performance of the CPU. 
-       
-   
+In this example, an additional `mul` instruction must be executed to get the offset which consumes more than 1 byte, while SIB only consumes 1 byte. If this is scaled, it can be detrimental to te performance of the CPU. 
+
 The values 2,4 and 8 are not random. They map to 16-bit (2 bytes), 32-bit (4 bytes) and 64-bit (8 bytes).
-          
-     
-_Base_ is the starting address.
  
 Below is the table listing all 256 values of SIB byte :
 
 TODO: SIB Table
 
-
+&nbsp;
      
 #### Example:
 
@@ -338,13 +341,11 @@ Instruction :
 ```
 jmp [eax*2 + ebx]
 ```
-
-Code :
 ```
 00000000 67 ff 24 43
 ```
 
-The initial `0x67` is a predefined prefix for address-size override. After it comes `0xff` and the ModR/M byte `0x24`. The value of the ModR/M suggests that there exists a SIB byte, witch is `0x43`. 
+The initial `0x67` is a predefined prefix for address-size override. After it comes `0xff` and the ModR/M byte `0x24`. The value of the ModR/M suggests that there exists a SIB byte, which is `0x43`. 
 
 Lookup in te SIB table, the row tells us that `eax` is scaled by 2 and the column tells that the bases to be added is in `ebx`. 
 
@@ -353,6 +354,7 @@ Lookup in te SIB table, the row tells us that `eax` is scaled by 2 and the colum
         
 ___Displacement___ is the offset from the start of the base index. 
 
+&nbsp;       
        
 #### Example:
 
@@ -360,22 +362,19 @@ Instruction :
 ```
 jmp [0x1234]
 ```
-
-Code :
 ```
 ff 26 34 12
 ```
 `0x1234` which is generated as `34 12` in raw machine code is the _displacement_ and stands right next to the ModR/M byte `0x26`. 
 
+&nbsp;
        
-#### Example 4.5.6
+#### Example
 
 Instruction :
 ```
 jmp [eax * 4 + 0x1234]
 ```
-
-Code :
 ```
 67 ff 24 85 34 12 00 00
 ```
@@ -388,7 +387,8 @@ Code :
 1 | 0 | 0 | 0 | 0 | 1 | 0 | 1 
 ```
 The total bits combine into `10000101` which is `0x85` in hex. By value, if a register after the displacement is not specified, it is set to EBP register, and thus the 6^th column (bit pattern 101).
-       
+      
+&nbsp;
     
 #### Example:
 
@@ -404,6 +404,7 @@ The SIB becomes `0x86`.
      
 ___Immediate___ When an instruction accepts a fixed value, eg. 0x1234, as an operand, this optional field holds the value. It is different from displacement because the value is not necessarly used as offset, but an arbitrary value of anything. 
 
+&nbsp;
       
 #### Example:
 
@@ -411,7 +412,6 @@ Instruction:
 ```
 mov eax, 0x1234
 ```
-Code:
 ```
 66 b8 34 12 00
 ```
