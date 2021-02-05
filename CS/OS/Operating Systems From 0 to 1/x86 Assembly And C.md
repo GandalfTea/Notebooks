@@ -430,15 +430,17 @@ In the instruction reference manual, from chapter 3 onward every x86 instruction
 
 Every instruction has the following common structure:
 ```
-Opcode	    Instruction 	Op/En	    64/32-bit Mode       CPUID		Description
-					Feature flag.
+Opcode	    Instruction 	Op/En	    64/32-bit Mode       CPUID		Description		Feature flag.
 ```
+&nbsp;
 
 ___Opcode___  There can be more than one opcode for an instruction. In this column can be other notations aside hexadecimal numbers. For example `/r` indicates that the _ModR/M_ byte contains a _reg_ operand and an _r/m_ operand. The details are listed in the Intel Manual. 
 
+&nbsp;
       
-___Instruction___ gives the assembly instruction that can be used. They are more than just a rename of the upcode as they might include specific propertied for the instruction. For example, `re18` represents a relative address from 128 bytes before the end of te instrucion to 127 bytes after the end of the instruction. Similarly `rel16/re132` also represent addresses, but with the operand size of 16/32-bit instead of 8-bit like `re18`.
+___Instruction___ gives the assembly instruction that can be used. They are more than just a rename of the opcode as they might include specific propertied for the instruction. For example, `re18` represents a relative address from 128 bytes before the end of te instrucion to 127 bytes after the end of the instruction. Similarly `rel16/re132` also represent addresses, but with the operand size of 16/32-bit instead of 8-bit like `re18`.
 
+&nbsp;
      
 ___Op/En___ is short for _Operand/Encoding_. It specifies how a _ModR/M_ byte encodes the operands that an instruction requires. If a variant of an istruction requires operands, then an additional table names _Instruction Operand Encoding_ is added for explaining operand encoding, with the following structure :
 ```
@@ -446,22 +448,31 @@ Op/En  | Operand 1   | Operand 2   | Operand 3    | Operand 4
 ```
 The operands can be readable, or writable, or both. The symbol _r_ means redable, _w_ means writable. For example, when Operand 1 field contains _ModRM:r/m(r)_, it means it's only readable. 
 
-
+&nbsp;
       
 ___64/32-bit mode___ indicates whether the opcode sequence is supported in a 64-bit and possibly 32-bit mode. 
 
+&nbsp;
        
 ___CPUID Feature Flag___ indicates a particular CPU feature must be available to enable the instruction. 
 
+&nbsp;
+
 ___Compat/Leg Mode___  Many instructions do not have this CPUID field, instead it is replaced with Compat/Leg Mode, standing for _Compatibility or Legacy Mode_.  This mode enables 64-bit variants of instructions to run normally in 16 or 32-bit mode. 
 
+&nbsp;
 
 ___Description___ specifies the purpose of the instructions and how it works in detail. 
 
+&nbsp;
 
 ___Operation___ is pseudo-code that implements an instruction.
 
-_Flags affected_ lists the possible changes to system flags in EFLAGS register. 
+&nbsp;
+
+___Flags affected___ lists the possible changes to system flags in EFLAGS register. 
+
+&nbsp;
 
 ___Exceptions___ list the possible errors that can occur during execution. They fall into one of the following categories :
 * Protected Mode Exception
@@ -487,7 +498,6 @@ TODO: Table Picture.
 
 Each row lists a vriant of the `jmp` instruction. The first vatiant has the opcode `EB cb` with the equivalent form `jmp rel8`. Here, `rel8` means 128-bit offset, counting from the end of the instruction. The end of an instruction is the next byte after the last byte of the instruction. Consider this assembly code :
 
-
 ```
 jmp main
 jmp main2
@@ -510,8 +520,6 @@ The first `jmp main` instruction is generated into `eb fe` and copies the addres
 
 Similarly, the `jmp main2` instruction is generated into `eb 02` witch means the offset is +2. The end address is at 04, adding them together we get the destination address 06, witch is the start instruction marked by the lable `main2`
 
-&nbsp;
-
 The same rule is applied to _rel16_ and _rel32_ encoding. In the example, the code `jmp 0x1234` uses _rel16_ (meaning 2-byte offset) and is generated into `e9 2b 12`. As table 4.7.1 shows, the `e9` opcode takes a `cw` operand, witch is a 2-byte offset. Notice that the offset value is `2b 12` while it is supposed to be `32 12`. This is not wrong. _rel8/rel16/rel32_ id an offset, not an address. An offset is a distance from a point. Since no lable is given but a number, the offset is calculated from the start of a program. In this case, the start is address 00. The end of `jmp 0x1234` is the address 09, therefore the offset is calculated as : 0x1234 - 0x9 = 0x122b.
 
 &nbsp;
@@ -521,14 +529,13 @@ The jump instruction with the opcode `FF /4` enables jumpindg to a near absolute
 ```
 jmp [0x1234]
 ```
-is generated into :
 ```
 ff 26 34 12
 ```
 
-
 Since this is 16-bit code, we use table 4.5.1. ModR/M value 26 means `disp16`, witch means a 16-bit offset from the current index, which is the base address stores in DS register. In this case, `jmp [0x1234]` is implicitly understood as jmp [ds:0x1234], which means the destination address is 0x1234 bytes away from the start of a data segment. 
 
+&nbsp;
 
 The jmp instruction with opcode `FF /5` enables jumping to a _far absolute_ address stored in a memory location (as opposed to `/4` which means stored in a register). In short, _a far pointer_. In order to generate it, the keyward `far` is needed to tell `nasm` we are using a far pointer :
 
@@ -548,25 +555,26 @@ The far address consumes total of 5 bytes for a 16-bot segment and 32-bit addres
 
 As can be seen above, the blue part is a segment address, loaded into _cs_ register with value 0x5678. The red part is the memory address within that segment, loaded into _eip_  register with value 0x1234 and start execution from there. 
 
+&nbsp;
+
 The jmp instruction with `EA` opcode jump to a direct absolute address :
 
 Instruction:
 ```
 jmp 0x5678:0x1234
 ```
-Generated into :
 ```
 ea 34 12 78 56
 ```
 
-The address ox5678 (78 56):0x1234 (34 12) is right next to the opcode, ulkine _FF /5_.
+The address 0x5678 (78 56):0x1234 (34 12) is right next to the opcode, ulkine _FF /5_.
 
 &nbsp;
 
 ### 4.8 Examine Compiled Data
 
 
-This section examines how data definition in C maps to its assembly form. The generated code is extracted from the _.bss_ section. That means the assembly code displayed has _no_?.
+This section examines how data definition in C maps to its assembly form. The generated code is extracted from the _.bss_ section. That means the assembly code displayed has _no_.
 
 The code-assembly listing is not random, but based on chapter 4 of Volume 1, _Data Type_. The chapter lists fundamental data types that x86 hardware operated on. 
 
@@ -650,7 +658,7 @@ Assembly :
   60105e: 	23 01 			and 	eax,DWORD PTR [rcx]
 ```
 
-_gcc_ generates the variables as seen above. Since this is data section, the assembly listing carries no meaning. When _byte_ is declared with _uint8_t_, gcc guarantees that the size is always 1 byte. You might notice the extra `00` next to `12`, this is normal as _gcc_ adds extra _padding bytes_. To make it easier to see, we can look at the _readelf_ putput of the _.data_ section :
+_gcc_ generates the variables as seen above. Since this is data section, the assembly listing carries no meaning. When _byte_ is declared with _uint8_t_, gcc guarantees that the size is always 1 byte. You might notice the extra `00` next to `12`, this is normal as _gcc_ adds extra _padding bytes_. To make it easier to see, we can look at the _readelf_ output of the _.data_ section :
 ```
 $ readelf -x .data hello
 ```
@@ -664,7 +672,6 @@ Hex dump of section `.data`:
   0x00601040  efcdab89  67452301  00000000  00000000  ....gE#............
   0x00601050  00000000  00000000  efcdab89  67452301  ...............gE#.
 ```
-
 
 ___byte___ : 0x00601030 : 1200      
 ___word___ : 0x00601030 : 3412       
@@ -681,6 +688,7 @@ Variables are alocated space depending on their type and in the declaration orde
 
 If _char_ is already 1 byte, why bother with _int8_t_? Because `char` is not guaranteed to always be 1 byte but a minimum of 1 byte. In C, a byte is the size of a _char_, which is defined as the smallest unit. There are hardware devices where the smallest addresable unit is 16-bit or even larger, which means _char_ is 2 bytes in size. A byte in such a platform is actually 2 units of 8-bit bytes. 
 
+&nbsp;
 
 Not all architectures support the double quadword type. _gcc_ does provide support for 128-bit number if the CPU is 64-bit. By specifying a variable of type `__int128` or `unsigned __int128`, we get a 128-bit variable. 
 
@@ -841,11 +849,15 @@ The sample code creates 4 variables : `ns`, `i`, `bf`, `bf2`. The definition of 
 1. If the new data fits after .data, which are 24-bits, then the total size of `bit_field` is still 4 bytes, or 32-bits. 
 2. If the new data does not fit, the remaining bits are still allocated in new storage, without the previous bits. 
 
+&nbsp;
+
 In the example, 4 data members each can access 8 bits of information, together can access 4 bytes of the integer first declared by `.data1`. As can be seen by the assembly code, the values of `bf` fallow natural order as written in the C code : `12 34 56 78`. In contrast, the value of `i` is a number as a whole, so it is subject to the rule of little endianess ans thus contains the value `78 56 34 12`. Note that the final byte in `bs`is `804a02f`, but next to it is the number `12`. This `12` does not belong to the `bf`. _objdump_ is just being confused that `78` is an opcode. `78` coresponds to `js` instruction, and it requires an operand. For that reason, _objdump_ grabs whatever next byte it finds after `78`. A better tool to view assembly is `gbd`, which will ne used in later chapters. 
 
 Unlike in `bs`, each data member in `ns` is fully allocated as an integer, 4 bytes each, 16 total. As we can see, a bit field and normal struct are different: bit field structure data at the bit level, while normal structu works at byte level. 
 
-Finally, te struct `bf2` is the same as `bf`, but it contains one more data member : `.data5` defined as _char_.  For this reason, another 4 bytes are allocated just for `.data5`, even though it can only access 4 bits of information. The final values of `bf2` are : `12 34 56 78 0f 00 00 00`. The reamining 3 byes must be accessed by the mean of a pointer, or casting to another data type that can fully access 4 bytes.
+&nbsp;
+
+Finally, the struct `bf2` is the same as `bf`, but it contains one more data member : `.data5` defined as _char_.  For this reason, another 4 bytes are allocated just for `.data5`, even though it can only access 4 bits of information. The final values of `bf2` are : `12 34 56 78 0f 00 00 00`. The reamining 3 byes must be accessed by the mean of a pointer, or casting to another data type that can fully access 4 bytes.
 
 &nbsp;
 
@@ -891,7 +903,11 @@ Even if `a8` is an array with 2 elements, each 1 byte long, it still allocated 4
 
 `a16` has 2 elements, each 2 bytes long. Since 2 elements equal 4 bytes, there is no padding.  The value is `34 12 78 56`, with `a16[0]` being `34 12` and `a16[1]` being `78 56`. 
 
+&nbsp;
+
 Note that _objdump_ is confused again, as the opcode is `de`, calling `fidivr` that requires another operand, only the values `78, 56, 34, 12, f0, de, bc, 9a` belong to `a32`, the rest being garbage. `a32[0]` is `78 56 34  12` and `a32[1]` is `f0 de bc 9a`. 
+
+&nbsp;
 
 Finally, `a64` has 2 elements, 8 bytes each. The total size is 16 bytes, which is the natural allignment, therefore no padding is added. The values for `a62[0]` and `a64[1]` are the same : `f0 de bc 9a 78 56 34 12`.
       
@@ -900,8 +916,9 @@ Finally, `a64` has 2 elements, 8 bytes each. The total size is 16 bytes, which i
 `a32` : 	    78 56 34 12 | f0 de bc 9a
 `a64` : f0 de bc 9a 78 56 34 12 | f0 de bc 9a 78 56 34 12 
 
+&nbsp;
 
-Concerning multi-dimentional arrasys :
+Concerning multi-dimentional arrays :
 
 
 ```c
@@ -945,9 +962,9 @@ Technically all arrays are translates into flat bytes. A 2x2 array is allocated 
 ### 4.9 Examining Compiled Code
 
 
-To examine how the compiler turns high level code into assembly, we will use the following commans :
+To examine how the compiler turns high level code into assembly, we will use the following command :
 ```
-$ objdump --bo-show-raw-insn -M intel -S -D <file> | less
+$ objdump --bo-show-raw-insn -M intel -S -D <file>
 ```
 `-S` is to demonstrate the connection between high level and low level code and `--no-show-raw-insn` is added to omit the opcodes for clarity.
 
@@ -955,7 +972,7 @@ $ objdump --bo-show-raw-insn -M intel -S -D <file> | less
 
 #### 4.9.1 Data Transfer
 
-We explored how data is created and laid out in memory. Once they are allocated, they must be accessible and writable. Data transfer instructions move data between memory and registers and between registers.
+Once data is allocated, they must be accessible and writable. Data transfer instructions move data between memory and registers and between registers.
 
 ```c
 #include <stdint.h>
@@ -1003,18 +1020,34 @@ return 0;
 ```
 The general data movement is performed with the `mov` instructions. Despite the name, it actually copies data from one destination to another.
 
-The line `80483dc:	mov	ebp,esp` moves data from the `esp` to the register `ebp`. This instruction has the opcode _89_. 
+&nbsp;
 
-The lines 
+````
+80483dc:	mov	ebp,esp
+```` 
+This line moves data from the `esp` to the register `ebp`. This instruction has the opcode _89_. 
+
+&nbsp;
+
 ```
 80483e1: 	mov 	eax,ds:0x804a018
 80483e6: 	mov 	DWORD PTR [ebp-0x8],eax
 ```
- copies data from one memory location (the `i` variable) to another (`j`). There is only need of `mov`, one copies the data from a memory to a register, and another from the register to the destination location. 
+These lines copy data from one memory location (the `i` variable) to another (`j`). There is only need of `mov`, one copies the data from a memory to a register, and another from the register to the destination location. 
 
-The line ` 80483e9: 	mov 	DWORD PTR [ebp-0x4],0xabcdef` copies an immediate value into memory. 
+&nbsp;
 
-The line `80483f0: 	mov 	eax,0x0` copies immediate data into a register. 
+``` 
+80483e9: 	mov 	DWORD PTR [ebp-0x4],0xabcdef
+```` 
+This line copies an immediate value into memory. 
+
+&nbsp;
+
+```
+80483f0: 	mov 	eax,0x0
+``` 
+This line copies immediate data into a register. 
 
 &nbsp;
 
@@ -1022,6 +1055,9 @@ The line `80483f0: 	mov 	eax,0x0` copies immediate data into a register.
 
 
 Expression :
+
+&nbsp;
+
 ```c
 int add = i + j;
 ```
@@ -1032,6 +1068,8 @@ int add = i + j;
 80483e9:	mov	DWORD PTR [ebp-0x34], eax
 ```
 Variables `i` and `j` are stored in `eax` and `edx` respectively, then added together using the `add` instruction, and the final result is stores into `eax`. Then, the result is saved into the local variable `add`, which is at location [ebp-0x34].
+
+&nbsp;
 
 ```c
 int sub = i - j;
@@ -1044,6 +1082,8 @@ int sub = i - j;
 Similar to the `add`, there is an instruction for subtraction called `sub`. Here, _gcc_ translates woth `eax` reloaded with `i` and `eax` carrying the result from the previous addition. Then, `j` is subrtacted from `i`. After that, the value is saved into the variable `sub` at location `[ebp-0x30]`.
 
    
+&nbsp;   
+   
 ```c
 int mul = i + j;
 ```
@@ -1054,6 +1094,8 @@ int mul = i + j;
 ```
 
 `eax` is reloded, since is carries the previous calculation. `imul` performs signed multiplication. `eax` is reloded with `i`, then multiplied with `j` and stores the result back in `eax`. Then the result is moved into variable `mul` at location `[ebp-0x34]`.
+
+&nbsp;
 
 ```c
 int div = i / j;
@@ -1069,6 +1111,7 @@ Similar to `imul`, `ivid` performs signed division. But different from _imul_, o
 2. `cdq` converts the double word value in `eax` into a quadword value stred in the pair of registers `edx:eax` by copying the signed (bit 31) of the value in `eax` into every bit positoin in `edx. The pair `edx:eax` is the dividend, which is the variable `i`, and the operand to `idiv` is the divisor, the variable `j`. 
 3. The result is stores into the pait `edx:eax` registers, with the quotient in `eax` and remainder in `edx`. The quotient is stored in the variable `div` at location `[ebp-ox30].
 
+&nbsp;
 
 ```c
 int mod = i % j;
@@ -1082,8 +1125,9 @@ int mod = i % j;
 
 The same `idiv` instruction also perforn the modulo operation, since it also calculated a remainder and stores in the variable `mod`, at location `[ebp-0x2c]`.
 
+&nbsp;
 
-```
+```c
 int neg = -i;
 ```
 ```
@@ -1094,6 +1138,7 @@ int neg = -i;
 
 `neg` replaces the value of operand (destination operand) with it's complement (this operation is equivalent to subtractiong the operand from 0). The value `i` in `eax` is replaced with `-i` using `neg`, the new value is stored in the variable `neg` at `[ebp-0x28]`.
 
+&nbsp;
 
 ```c
 int and = 1 & j;
@@ -1106,6 +1151,7 @@ int and = 1 & j;
 
 `and` performs a bitwise AND operation on two operands and stores the result in the variable `and` at `[ebp-0x24]`.
 
+&nbsp;
 
 ```c
 int or = i | j;
@@ -1117,6 +1163,8 @@ int or = i | j;
 ```
 `or` performs a bitwise OR on two operands and stores the result in the variable `or` at `[ebp-0x20]`.
 
+&nbsp;
+
 ```c
 int xor = i ^ j;
 ```
@@ -1126,6 +1174,8 @@ int xor = i ^ j;
 8048433:	mov	DWORD PTR [ebp-0x1c], eax
 ```
 Performs a bitwise XOR and stores the result in `xor` at `[ebp-0x1c]`.
+
+&nbsp;
 
 ```c
 int not = ~i;
@@ -1137,6 +1187,7 @@ int not = ~i;
 ```
 Performs a bitwise NOT (1 is set to 0, and each 0 is set to 1) and stores the result in the variable `not` at `[ebp-ox18]`.
 
+&nbsp;
 
 ```c
 int shl = i << 8;
@@ -1152,6 +1203,7 @@ Visual representation of shift :
 
 TODO: Photo of shift.
 
+&nbsp;
 
 ```c
 int shr = i >> 8;
@@ -1170,6 +1222,7 @@ TODO: IMAGE OF SAR
 
 Notice that initialy, the sign bit is 1, but after 1-bit and 10-bit shifts, the shifted-out bits are filled with zeros. With `sar`, the sign bit (most important bit) is preserved. That is, if the sign bit is 0, the new bits always get the value 0, if it is 1, new bits are always 1. 
 
+&nbsp;
 
 ```c
 char equal1 = (i == j);
@@ -1182,6 +1235,8 @@ char equal1 = (i == j);
 ```
 
 `cmp` compares variable `i` and `j`. `sete` stores the value 1 to the `al` register if the comparison is equal, or 0 otherwise. The general name for variants of `set` instruction is calles _SETcc_. The suffix _cc_ dnotes the condition being tested for _EFLAGS_ register. The result is stored in variable `equal1`. 
+
+&nbsp;
 
 ```
 int equal2 = (i == j);
@@ -1204,6 +1259,7 @@ after movzx eax, al:
 00 | 00 | 00 | 78 |
 ```
 
+&nbsp;
 
 ```c
 char greater = (i > j);
@@ -1216,6 +1272,8 @@ char greater = (i > j);
 ```
 Similar to equality, but used `setg` for greater comparison instead.
 
+&nbsp;
+
 ```c
 char less = (i < j);
 ```
@@ -1226,6 +1284,8 @@ char less = (i < j);
 8048480:	mov	BYTE PTR [ebp-ox3f],al
 ```
 `setl` does less comparison. 
+
+&nbsp;
 
 ```c
 char greater_equal = (i >= j);
@@ -1238,6 +1298,8 @@ char greater_equal = (i >= j);
 ```
 Use `setge` for greater or equal comparison. 
 
+&nbsp;
+
 ```c
 char less_equal = (i <= j);
 ```
@@ -1248,6 +1310,8 @@ char less_equal = (i <= j);
 8048498:	mov	BYTE PTR [ebp-0x3d],al
 ```
 Use `setle` for less than or equal comparison. 
+
+&nbsp;
 
 ```c
 int logical_and = (i && j);
@@ -1277,6 +1341,8 @@ Logical AND is one of the syntaxes that is made entirely in software with simple
     b. Jump to the instruction at 0x80484b3 to set variable `logical_and` at [ebp-ox8] o 1.
 
 
+&nbsp;
+
 ```c
 int logical_or = (i || j);
 ```
@@ -1292,6 +1358,8 @@ int logical_or = (i || j);
 ```
 Similar to above.
 
+&nbsp;
+
 ```c
 ++i;
 --i;
@@ -1303,6 +1371,7 @@ Similar to above.
 
 Made from existing instructions. There are specific instrucitons for this called `inc` and `dec` that cause a _partial flag register stall_, this happend when an instruction modifies a part of the flag register and the following instruction is dependent on the outcome of the flags. The manual sugests these should be replaced with `sub` and `add`.
 
+&nbsp;
 
 ```c
 int i1 = i++;
@@ -1316,6 +1385,7 @@ int i1 = i++;
 
 `i` is copied into `eax` at 0x80484d9. The value of `eax` + `0x1` is copied into `edx` as an _effective address_ at 0x80484dc. The `lea` (_load effective address_) instruction copies a memory address into a register. According to volume 2, the source operand is a memoty address specified with one of the processors addresing mode. This means, the source operand must be specified by the addressing modes defined in 16-bit/32-bit ModR/M byte tables. After loading the incremented value into `edx`, the value of `i` is incresead by 1 at 0x80484df. The previous `i` is stores back at `i1` at [ebp-0x8] by instruction 0x80484e2.
 
+&nbsp;
 
 ```c
 int i2 = ++i;
@@ -1332,6 +1402,7 @@ The primary differences are:
 
 The prefix-increment syntax is faster than the suffic-increment one.
 
+&nbsp;
 
 ```c
 int i3 = i--;
@@ -1344,6 +1415,8 @@ int i3 = i--;
 ```
 
 Similar to `i++`.
+
+&nbsp;
 
 ```c
 int i4 = --i;
@@ -1366,6 +1439,7 @@ A stack is a contiguous array of memory locations that holds a collection of dat
 
 TODO: Image.
 
+&nbsp;
 
 #### 4.9.4 Automatic Variables
 
@@ -1394,10 +1468,13 @@ int foo() {
 ```
 `a` and `b` are local ariables to the unnamed code block. 
 
+&nbsp;
 
 When a local variable is created, it is pushed on the stack. When it goes out of scope, it is popped. When an argument is passed from a caller to a callee, it is pushed onto the stack, when it is returned it is popped. Because they are automatically alocated, they are called ___automatic variables___. 
 
 A base frame pointer points to the start of the current function frame, and is kept in the `ebp` register. Whenever a function is called, it is allocated with it's own dedicated storage on stack, called a ___stack frame___. Here are placed all local variables and arguments. 
+
+&nbsp;
 
 When a function needs a local variable or an argument, it uses `ebp` to access the variable:
 * All local variables are allocated after the `ebp` pointer. To access them, a number is subtracted from the pointer to reach the location of the variable. 
@@ -1406,7 +1483,9 @@ When a function needs a local variable or an argument, it uses `ebp` to access t
 
 TODO: Image
 
-Example:
+&nbsp;
+
+#### Example:
 
 ```c
 int add(int a, int b) {
@@ -1530,10 +1609,14 @@ int main(int argc, char *argv[]){
 	80483ff:	90			nop
 ```
 
+&nbsp;
+
 Initializing `i` to 0 :
 ```
 80483e1:	mov	DWORD PTR [eb-0x4],0x0
 ```
+
+&nbsp;
 
 Compare `i` to 10 by using `jle` and compare it to 9. If true, jump to 0x80483ea.
 ```
@@ -1543,6 +1626,7 @@ Compare `i` to 10 by using `jle` and compare it to 9. If true, jump to 0x80483ea
 80483f2:	jle	80483ea <main+0xf>
 ```
 
+&nbsp;
 
 Increment by 1:
 ```
