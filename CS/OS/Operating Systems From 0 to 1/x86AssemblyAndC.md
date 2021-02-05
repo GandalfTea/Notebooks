@@ -7,9 +7,9 @@ In this chapter we explore assembly language, and how it connects to C.
 
 ### 4.1  objdump
 
-_objdump_ is a programs that displays information about objet files. Later it will be used to debug. Now we use it to examine how high level source code maps to assembly code.
+_objdump_ is a programs that displays information about object files. Later it will be used to debug. Now we use it to examine how high level source code maps to assembly code.
 
-Suppose we have an executable binary named _hello_ compiled from _hello.c_ that printsd _Hello World_. We can use `objdump -d` to only display assembled contents of executable sections. 
+Suppose we have an executable binary named _hello_ compiled from _hello.c_ that printsd _Hello World_. We can use `-d` to only display assembled contents of executable sections. 
 
 ```
 $ objdump -d hello
@@ -17,28 +17,18 @@ $ objdump -d hello
 &nbsp;
 
 
-A _section_ is a block of memory that contains either program code or data. A code section can be executed by the CPU while a data one cannot. With this command, non-executable sections such as _.data_ and _.bss_, debug sections, etc, are not displayed. 
-
-On the other hand,
+A _section_ is a block of memory that contains either program code or data. A code section can be executed by the CPU while a data one cannot. With the `-d` command, non-executable sections such as _.data_ and _.bss_, debug sections, etc, are not displayed. On the other hand, `-D` displays assembly contents of all sections:
 ```
 $ objdump -D hello
 ```
-displays assembly contents of all sections.    
 
 &nbsp;
 
-The output overruns the terminal screen. To make it easier to read, send all output to `less` :
-
-```
-$ objdump -d hello | less
-```
-
-&nbsp;
 
 To mix source code and assembly, the binary must be compiled using `-g` option to include source code in it, then add `-S` option :
 
 ```
-$ objdump -S hello | less
+$ objdump -S hello
 ```
 
 &nbsp;
@@ -46,7 +36,7 @@ $ objdump -S hello | less
 The default syntax used by _objdump_ is AT&T syntax. To chnge it to the Intel syntax do :
 
 ```
-$ objdump -M intel -D hello | less
+$ objdump -M intel -D hello
 ```
 
 When using the `-M` option, the `-D` or `-d` must be explicitly supplied. 
@@ -56,7 +46,7 @@ When using the `-M` option, the `-D` or `-d` must be explicitly supplied.
 We will also write a 32-bit kernel, therefore we will need to compile a 32-bit binary and examine it in 32-bit mode :
 
 ```
-$ objdump -M i386,intel -D hello | less
+$ objdump -M i386,intel -D hello
 ```
 
 `-M i386` tells _objdump_ to display assembly content using the 32-bit layout. 
@@ -104,7 +94,7 @@ There is an optional forth collumn that is a comment, appears when there is a re
 lea r12,[rip+0x2008ee] # 600e10 <__frame_dummy_init_array_entry>
 ```
 
-To inform that the reference address `[rip+0x2008ee]` is 0x600e10, where the variable `__frame_dummy_init_array_entry` is.
+To inform the reader that the reference address `[rip+0x2008ee]` is 0x600e10, where the variable `__frame_dummy_init_array_entry` is.
 
 &nbsp;
 
@@ -135,9 +125,7 @@ A dissasembled section might also contain ___labels___. A lable is a name given 
 ### 4.3 Intel Manuals
 
 
-The best way to understand assembly is to understand the underlying computer architecture and what the machine does. To do so, we must rely on information provided by vendors. To understand Intel's instruction set, we need the document : _Intel 64 and IA-32 architectures software developer's manual combined volumes 2A, 2B, 2C and 2D: Instructions set reference, A-Z_. The document can be retrieved here.
-
-TODO: Put link here. 
+The best way to understand assembly is to understand the underlying computer architecture and what the machine does. To do so, we must rely on information provided by vendors. To understand Intel's instruction set, we need the document : _Intel 64 and IA-32 architectures software developer's manual combined volumes 2A, 2B, 2C and 2D: Instructions set reference, A-Z_. The document can be retrieved [here](https://github.com/GandalfTea/Notebooks/tree/master/CS/OS/Operating%20Systems%20From%200%20to%201/Intel%20Manuals).
 
 Chapter 1: brief information about manual and notations used.
 Chapter 2: in-dept explanation of the anatomy aof an assembly instruction.
