@@ -3,6 +3,7 @@
 
 In this chapter we explore assembly language, and how it connects to C. 
 
+&nbsp;
 
 ### 4.1  objdump
 
@@ -13,8 +14,10 @@ Suppose we have an executable binary named _hello_ compiled from _hello.c_ that 
 ```
 $ objdump -d hello
 ```
+&nbsp;
 
-A _section_ is a block of memoty that contains either program code or data. A code section can be executed by the CPU while a data one cannot. With this command, non-executable sections such as _.data_ and _.bss_, debug sections, etc, are not displayed. 
+
+A _section_ is a block of memory that contains either program code or data. A code section can be executed by the CPU while a data one cannot. With this command, non-executable sections such as _.data_ and _.bss_, debug sections, etc, are not displayed. 
 
 On the other hand,
 ```
@@ -22,11 +25,15 @@ $ objdump -D hello
 ```
 displays assembly contents of all sections.    
 
+&nbsp;
+
 The output overruns the terminal screen. To make it easier to read, send all output to `less` :
 
 ```
 $ objdump -d hello | less
 ```
+
+&nbsp;
 
 To mix source code and assembly, the binary must be compiled using `-g` option to include source code in it, then add `-S` option :
 
@@ -34,7 +41,7 @@ To mix source code and assembly, the binary must be compiled using `-g` option t
 $ objdump -S hello | less
 ```
 
-
+&nbsp;
      
 The default syntax used by _objdump_ is AT&T syntax. To chnge it to the Intel syntax do :
 
@@ -44,7 +51,7 @@ $ objdump -M intel -D hello | less
 
 When using the `-M` option, the `-D` or `-d` must be explicitly supplied. 
 
-   
+   &nbsp;
 
 We will also write a 32-bit kernel, therefore we will need to compile a 32-bit binary and examine it in 32-bit mode :
 
@@ -54,11 +61,13 @@ $ objdump -M i386,intel -D hello | less
 
 `-M i386` tells _objdump_ to display assembly content using the 32-bit layout. 
 
+&nbsp;
+      
       
 ### 4.2 Reading the output
 
 
-At the start of te output, the file format is displayed :
+At the start of the output, the file format is displayed :
 
 ```
 hello : file format elf64-x86-64
@@ -83,9 +92,11 @@ Each dissasembly section displays its actual content, a sequence of assembly ins
 4004d6:		55			push   rbp
 ```
 
-`4004d8`   - address of assembly instruction : 0x4004d6.
-`55`	   - instruction in raw hex values : 0x55.
-`push rbp` - assembly instruction. Depending on the section, might be meaningfull or meaningless. Depends on weather they are in a _.text_ section or _.data_. _objdump_ does not distinguish between the two. 
+`4004d8`   - address of assembly instruction : 0x4004d6.    
+`55`	   - instruction in raw hex values : 0x55.       
+`push rbp` - assembly instruction. Depending on the section, might be meaningfull or meaningless. Depends on weather they are in a _.text_ section or _.data_. _objdump_ does not distinguish between the two.       
+
+&nbsp;
 
 There is an optional forth collumn that is a comment, appears when there is a reference to an address :
 
@@ -93,10 +104,11 @@ There is an optional forth collumn that is a comment, appears when there is a re
 lea r12,[rip+0x2008ee] # 600e10 <__frame_dummy_init_array_entry>
 ```
 
-it to inform that the reference address `[rip+0x2008ee]` is 0x600e10, where the variable `__frame_dummy_init_array_entry` is.
+To inform that the reference address `[rip+0x2008ee]` is 0x600e10, where the variable `__frame_dummy_init_array_entry` is.
 
+&nbsp;
 
-A dissasembled section might also contain _labels_. A lable is a name given to an assembly instruction. It specifies the purpose of the block to the human reader. For example, the `.text` contain such lables to denote where the code starts. The below example contains two labels, `_start` and `_deregister_tm_clones`. The `_start` function starts at address 4003e0, to the left of the function name. Right below the label we can seee the instruction at address 4003e0. The label is simply a name of a memory address. 
+A dissasembled section might also contain ___labels___. A lable is a name given to an assembly instruction. It specifies the purpose of the block to the human reader. For example, the `.text` contain such lables to denote where the code starts. The below example contains two labels, `_start` and `_deregister_tm_clones`. The `_start` function starts at address 4003e0, to the left of the function name. Right below the label we can seee the instruction at address 4003e0. The label is simply a name of a memory address. 
 
 ```
 00000000004003e0 <_start>:
@@ -117,6 +129,9 @@ A dissasembled section might also contain _labels_. A lable is a name given to a
    .
 ```
 
+
+&nbsp;
+
 ### 4.3 Intel Manuals
 
 
@@ -129,11 +144,13 @@ Chapter 2: in-dept explanation of the anatomy aof an assembly instruction.
 Chapter 3 - 5: every instruction of the _x86_64_ architecture.
 Chapter 6: safer mode extensions. 
 
+&nbsp;
 
 The first volume, _Intel 64 and IA-32 Architecture Software Developer's Manual Volume 1: Basic Architecture_ describes the basic architecture and programming environment of Intel Processors. Here, chapter 5 gives the summary of all intel instructions. 
 
 Read section 1.3 in volume 2, excclude sections 1.3.5 and 1.3.7.
 
+&nbsp;
 
 ### 4.4 Experiment with assembly code
 
@@ -161,6 +178,8 @@ $ hd test
 ```
 
 The file only consists of 3 bytes : `66`, `ff`, `e0` which is the equivalent of `jmp eax`. 
+
+&nbsp;
 
 If we were to use _elf_ format :
 
@@ -204,6 +223,7 @@ Note : using bin format puts _nasm_ by defaut into 16-bit mode. To enable 32-bit
 bits 32
 ```
 
+&nbsp;
 
 ### 4.5 Anatomy of an Assembly Instruction
 
@@ -213,13 +233,16 @@ All assembly instructions are a fixed size series of bits. The length depends on
 
 TODO: Photo
 
+&nbsp;
         
 ___Instruction Prefixes___ appear at the beginning of an instruciton. They are optional because in practice, a prefix is just another assembly instruction inserted before another assembly instruction. Instructions with 2 or 3-byte opcodes include prefixes by default. 
 
        
+&nbsp;
+
 ___Opcode___ is a unique number that identifies the instruction. Each upcode is given a readable name, e.g. _add_ is 04. When a CPU sees 04 in it's instruction cache, it knows to call the instruction _add_. Opcode can be 1,2 or 3 bytes long and include additional 3-bit field in the _ModR/M_ byte when needed. 
 
-#### Example 4.5.1:
+#### Example:
 
 For this code:  
 ```
@@ -231,6 +254,8 @@ ff 26 34 12
 ```
 The `0xff` is the opcode.        
       
+
+&nbsp;
 
 ___ModR/M___ specifies operands of an instruction. Operand can either be a register, a memory location or immediate value. This component is made from 3 parts :
 
@@ -247,7 +272,7 @@ How to read the table :
 Have a code you want to look up. Look up the byte value to get the coresponding operands in the row and column. 
 
         
-#### Example 4.5.2:
+#### Example:
 
 An instruction uses this addressing mode:
 ```
@@ -261,7 +286,7 @@ ff 26 34 12
 The `0x26` is the _ModR/M_ byte. Looking up in the 16-bit table, the first operand is in the row equivalent to a _disp16_, which means a 16-bit offset. Since the instruction does not have a second operand, the column can be ignored. 
 
       
-#### Example 4.5.3:
+#### Example:
 ```
 add eax, ecx
 ```
@@ -288,6 +313,7 @@ The _mod_ field divides addressing modes into 4 different categories. Further co
 
    
    
+&nbsp;
    
 ___SIB___ is _Scale-Index-Base_ byte. This byte encodes ways to calculate the memory position into an elemenent of an array. SIB is based on the formula for calculationg an effective address :
 ```   
@@ -316,7 +342,7 @@ TODO: SIB Table
 
 
      
-#### Example 4.5.4:
+#### Example:
 
 
 Instruction :
@@ -335,11 +361,12 @@ The initial `0x67` is a predefined prefix for address-size override. After it co
 Lookup in te SIB table, the row tells us that `eax` is scaled by 2 and the column tells that the bases to be added is in `ebx`. 
 
    
+&nbsp;
         
 ___Displacement___ is the offset from the start of the base index. 
 
        
-#### Example 4.5.5:
+#### Example:
 
 Instruction :
 ```
@@ -364,10 +391,10 @@ Code :
 ```
 67 ff 24 85 34 12 00 00
 ```
-`0x67` is an address-size override prefix. It changes from default 16-bit to non-default 32-bit. 
-`0xff` is the opcode.
-`0x24` is the ModR/M byte. The value suggests that a SIB follows. 
-`0x85` is the SIB byte. According to the table, the byte can be destructed into bits as follows :
+`0x67` is an address-size override prefix. It changes from default 16-bit to non-default 32-bit.    
+`0xff` is the opcode.      
+`0x24` is the ModR/M byte. The value suggests that a SIB follows.       
+`0x85` is the SIB byte. According to the table, the byte can be destructed into bits as follows :      
 ```
   SS  |     R/m   |    REG
 1 | 0 | 0 | 0 | 0 | 1 | 0 | 1 
@@ -375,7 +402,7 @@ Code :
 The total bits combine into `10000101` which is `0x85` in hex. By value, if a register after the displacement is not specified, it is set to EBP register, and thus the 6^th column (bit pattern 101).
        
     
-#### Example 4.5.7
+#### Example:
 
 If the example uses another register. Instruction :
 ```
@@ -385,11 +412,12 @@ The SIB becomes `0x86`.
 `34 12 00 00` is the displacement. This is 4 bytes in size, equivalent to 32-bit. 
 
          
+&nbsp;
      
 ___Immediate___ When an instruction accepts a fixed value, eg. 0x1234, as an operand, this optional field holds the value. It is different from displacement because the value is not necessarly used as offset, but an arbitrary value of anything. 
 
       
-#### Example 4.5.8
+#### Example:
 
 Instruction:
 ```
@@ -400,11 +428,12 @@ Code:
 66 b8 34 12 00
 ```
 
-`0x66` is operand-sized override prefix. Similar to the address-size override prefix, this prefic enables operand-size to be non-default.     
-`0xb8` is one of the opcodes for _mov_.    
-`0x1234` is the value to be stores in register _eax_.
+`0x66` is operand-sized override prefix. Similar to the address-size override prefix, this prefic enables operand-size to be non-default.        
+`0xb8` is one of the opcodes for _mov_.     
+`0x1234` is the value to be stores in register _eax_.      
 
 
+&nbsp;
         
 ### 4.6 Understand an instruction in detail.
 
@@ -417,13 +446,13 @@ Opcode	    Instruction 	Op/En	    64/32-bit Mode       CPUID		Description
 					Feature flag.
 ```
 
-_Opcode_  There can be more than one opcode for an instruction. In this column can be other notations aside hexadecimal numbers. For example `/r` indicates that the _ModR/M_ byte contains a _reg_ operand and an _r/m_ operand. The details are listed in the Intel Manual. 
+___Opcode___  There can be more than one opcode for an instruction. In this column can be other notations aside hexadecimal numbers. For example `/r` indicates that the _ModR/M_ byte contains a _reg_ operand and an _r/m_ operand. The details are listed in the Intel Manual. 
 
       
-_Instruction_ gives the assembly instruction that can be used. They are more than just a rename of the upcode as they might include specific propertied for the instruction. For example, `re18` represents a relative address from 128 bytes before the end of te instrucion to 127 bytes after the end of the instruction. Similarly `rel16/re132` also represent addresses, but with the operand size of 16/32-bit instead of 8-bit like `re18`.
+___Instruction___ gives the assembly instruction that can be used. They are more than just a rename of the upcode as they might include specific propertied for the instruction. For example, `re18` represents a relative address from 128 bytes before the end of te instrucion to 127 bytes after the end of the instruction. Similarly `rel16/re132` also represent addresses, but with the operand size of 16/32-bit instead of 8-bit like `re18`.
 
      
-_Op/En_ is short for _Operand/Encoding_. It specifies how a _ModR/M_ byte encodes the operands that an instruction requires. If a variant of an istruction requires operands, then an additional table names _Instruction Operand Encoding_ is added for explaining operand encoding, with the following structure :
+___Op/En___ is short for _Operand/Encoding_. It specifies how a _ModR/M_ byte encodes the operands that an instruction requires. If a variant of an istruction requires operands, then an additional table names _Instruction Operand Encoding_ is added for explaining operand encoding, with the following structure :
 ```
 Op/En  | Operand 1   | Operand 2   | Operand 3    | Operand 4
 ```
@@ -431,22 +460,22 @@ The operands can be readable, or writable, or both. The symbol _r_ means redable
 
 
       
-_64/32-bit mode_ indicates whether the opcode sequence is supported in a 64-bit and possibly 32-bit mode. 
+___64/32-bit mode___ indicates whether the opcode sequence is supported in a 64-bit and possibly 32-bit mode. 
 
        
-_CPUID Feature Flag_ indicates a particular CPU feature must be available to enable the instruction. 
+___CPUID Feature Flag___ indicates a particular CPU feature must be available to enable the instruction. 
 
-_Compat/Leg Mode_  Many instructions do not have this CPUID field, instead it is replaced with Compat/Leg Mode, standing for _Compatibility or Legacy Mode_.  This mode enables 64-bit variants of instructions to run normally in 16 or 32-bit mode. 
-
-
-_Description_ specifies the purpose of the instructions and how it works in detail. 
+___Compat/Leg Mode___  Many instructions do not have this CPUID field, instead it is replaced with Compat/Leg Mode, standing for _Compatibility or Legacy Mode_.  This mode enables 64-bit variants of instructions to run normally in 16 or 32-bit mode. 
 
 
-_Operation_ is pseudo-code that implements an instruction.
+___Description___ specifies the purpose of the instructions and how it works in detail. 
+
+
+___Operation___ is pseudo-code that implements an instruction.
 
 _Flags affected_ lists the possible changes to system flags in EFLAGS register. 
 
-_Exceptions_ list the possible errors that can occur during execution. They fall into one of the following categories :
+___Exceptions___ list the possible errors that can occur during execution. They fall into one of the following categories :
 * Protected Mode Exception
 * Real-Address Mode Exception
 * Virtual-8086 Mode Exeption
@@ -458,6 +487,7 @@ _Exceptions_ list the possible errors that can occur during execution. They fall
 For our OS, we only use Protected Mode Exceptions and Real-Address Mode Exceptions. 
 
 
+&nbsp;
 
 ### 4.7 Example: `jmp` instruction.
 
@@ -488,10 +518,15 @@ Opcode  | eb | fe | eb | 02 | eb | fa | e9 | 2b | 12 | 00 |
 
 The first `jmp main` instruction is generated into `eb fe` and copies the address 00 and 01. The end of the first `jmp main` is at address 02, past the last byte witch is located at address 01.  The value `fe` is equivalent to -2, since `eb` opcode uses only a byte (8 bits) for relative addressing. The offset is -2 and the end address of the first `jmp main` is 02, adding them together we get 00 which is the destination address for jumping to. 
 
+&nbsp;
+
 Similarly, the `jmp main2` instruction is generated into `eb 02` witch means the offset is +2. The end address is at 04, adding them together we get the destination address 06, witch is the start instruction marked by the lable `main2`
+
+&nbsp;
 
 The same rule is applied to _rel16_ and _rel32_ encoding. In the example, the code `jmp 0x1234` uses _rel16_ (meaning 2-byte offset) and is generated into `e9 2b 12`. As table 4.7.1 shows, the `e9` opcode takes a `cw` operand, witch is a 2-byte offset. Notice that the offset value is `2b 12` while it is supposed to be `32 12`. This is not wrong. _rel8/rel16/rel32_ id an offset, not an address. An offset is a distance from a point. Since no lable is given but a number, the offset is calculated from the start of a program. In this case, the start is address 00. The end of `jmp 0x1234` is the address 09, therefore the offset is calculated as : 0x1234 - 0x9 = 0x122b.
 
+&nbsp;
 
 The jump instruction with the opcode `FF /4` enables jumpindg to a near absolute address stored in general-purpose register or memory. In short _absolute indirect_. The symbol `/4` is the column with digit 4 in table 4.5.1. For example :
 
@@ -538,6 +573,7 @@ ea 34 12 78 56
 
 The address ox5678 (78 56):0x1234 (34 12) is right next to the opcode, ulkine _FF /5_.
 
+&nbsp;
 
 ### 4.8 Examine Compiled Data
 
@@ -551,6 +587,7 @@ The _objdump_ command used will be :
 $ objdump -z -M intel -S -D -j .data -j .bss <object file> | less
 ```
 
+&nbsp;
 
 #### Fundamental Data Types
 
@@ -566,9 +603,12 @@ TODO: Image
 
 From the Manual., section 4.1.1, volume 1:
 
-_Words, doublewords, and quadwords do not need to be aligned in memory on natural boundries. The natural boundries are even-number addresses, evenly divisible by four and addresses evenly divisable by eight, respectivly. To improve the performance of programs, data structures (especially stacks) should be aligned on natural boundries whenever possible. The reason for this is that the processor requires two memory addresses to make an unaligned memory access; aligned access requires only one memory access. A word or doubleword operand that crosses a 4-byte boundry or a quadword operand that crosses an 8-byte boundry is consideres unaligned and requires twoo separate memory bus cycles for access.
+_Words, doublewords, and quadwords do not need to be aligned in memory on natural boundries. The natural boundries are even-number addresses, evenly divisible by four and addresses evenly divisable by eight, respectivly. To improve the performance of programs, data structures (especially stacks) should be aligned on natural boundries whenever possible. The reason for this is that the processor requires two memory addresses to make an unaligned memory access; aligned access requires only one memory access. A word or doubleword operand that crosses a 4-byte boundry or a quadword operand that crosses an 8-byte boundry is consideres unaligned and requires twoo separate memory bus cycles for access._
 
-Some instrucitons that operate on double quadwords require memoty operands to be aligned on natural boundry. Those instrucitons generate a general-protection exception (`#GP`) if an unaligned operand is specified. A natural boundty for a double quadword is any address evenly divisable by 16. Other instructions that operate on double quadwords permit unaligned access (without exception). However, aditional memory bus cycles are required to access unaligned data from memory._
+_Some instrucitons that operate on double quadwords require memoty operands to be aligned on natural boundry. Those instrucitons generate a general-protection exception (`#GP`) if an unaligned operand is specified. A natural boundty for a double quadword is any address evenly divisable by 16. Other instructions that operate on double quadwords permit unaligned access (without exception). However, aditional memory bus cycles are required to access unaligned data from memory._
+
+
+&nbsp;
 
 In C, the following primitives map to the fundamental types. Must unclude the _stdint.h_.
 
@@ -638,15 +678,18 @@ Hex dump of section `.data`:
 ```
 
 
-byte : 0x00601030 : 1200   
-word : 0x00601030 : 3412   
-dword : 0x00601030 : 77563412   
-qword : 0x00601030 : efcdab89 67452301     
-dqword1 : 0x00601040 : efcdab89 67452301 00000000 00000000       
-dqword2 : 0x00601050 : 00000000 00000000 efcdab90 67452301      
+___byte___ : 0x00601030 : 1200      
+___word___ : 0x00601030 : 3412       
+___dword___ : 0x00601030 : 77563412       
+___qword___ : 0x00601030 : efcdab89 67452301        
+___dqword1___ : 0x00601040 : efcdab89 67452301 00000000 00000000          
+___dqword2___ : 0x00601050 : 00000000 00000000 efcdab90 67452301         
 
 
 Variables are alocated space depending on their type and in the declaration order. Intel is a _little-endian machine_ which means smaller addresses hold bytes with smaller value, larger hold larger value.  For example, 0x1234 is displayed as `34 12`, `34` apears first at address 0x601032, then `12` at 0x601033. The decimal values within a byte is unchanges, so we see `34 12` instead of `43 21`. 
+
+
+&nbsp;
 
 If _char_ is already 1 byte, why bother with _int8_t_? Because `char` is not guaranteed to always be 1 byte but a minimum of 1 byte. In C, a byte is the size of a _char_, which is defined as the smallest unit. There are hardware devices where the smallest addresable unit is 16-bit or even larger, which means _char_ is 2 bytes in size. A byte in such a platform is actually 2 units of 8-bit bytes. 
 
@@ -656,12 +699,16 @@ Not all architectures support the double quadword type. _gcc_ does provide suppo
 The data types in C that map to the fundamental types are called _unsigned numbers_. Other than numerical calculation, they can also be used as a tool for structuring data in memory. We will see this application later in the book. 
 
 
+&nbsp;
+
 In all the examples above, smaller numbers can be cast into bigger data types, but if you try to cast a bigger number into a smaller type, 2 things happen :
 1. The value is grater than the max value supported by the smaller type, so it needs to truncating the size and causing incorrect value. 
 2. The value is smaller than the max value, so it fits. 
 
 However, the value might be unknown until runtime. It is best to not let implicit conversions to the compiler. It can cause subtle bugs.
 
+
+&nbsp;
 
 #### 4.8.2 Pointer Data Types
 
@@ -713,6 +760,7 @@ Disassembly of section .bss:
 
 Pointer `p1` holds a direct address with the value 0x1234. `p2` holds the address of the variable `i`.  Note that both pointers are 8 bytes in size.
 
+&nbsp;
 
 #### 4.8.3 Bit Field Data Type
 
@@ -811,6 +859,7 @@ Unlike in `bs`, each data member in `ns` is fully allocated as an integer, 4 byt
 
 Finally, te struct `bf2` is the same as `bf`, but it contains one more data member : `.data5` defined as _char_.  For this reason, another 4 bytes are allocated just for `.data5`, even though it can only access 4 bits of information. The final values of `bf2` are : `12 34 56 78 0f 00 00 00`. The reamining 3 byes must be accessed by the mean of a pointer, or casting to another data type that can fully access 4 bytes.
 
+&nbsp;
 
 #### 4.8.4 String Data Members
 
@@ -903,6 +952,7 @@ Assembly :
 
 Technically all arrays are translates into flat bytes. A 2x2 array is allocated with 4 bytes, and a 2x2x2 with 8 bytes. 
 
+&nbsp;
 
 ### 4.9 Examining Compiled Code
 
@@ -913,6 +963,7 @@ $ objdump --bo-show-raw-insn -M intel -S -D <file> | less
 ```
 `-S` is to demonstrate the connection between high level and low level code and `--no-show-raw-insn` is added to omit the opcodes for clarity.
 
+&nbsp;
 
 #### 4.9.1 Data Transfer
 
@@ -977,6 +1028,7 @@ The line ` 80483e9: 	mov 	DWORD PTR [ebp-0x4],0xabcdef` copies an immediate valu
 
 The line `80483f0: 	mov 	eax,0x0` copies immediate data into a register. 
 
+&nbsp;
 
 #### 4.9.2 Expressions
 
@@ -1316,6 +1368,7 @@ int i4 = --i;
 Similar to `++i`.
 
 
+&nbsp;
 
 #### 4.9.3 Stack
 
@@ -1403,6 +1456,7 @@ The rule is that, the closer a variable on the stack is to `ebp`, the closer it 
 
 TODO: IMage
 
+&nbsp;
 
 #### 4.9.5 Function Call and Return
 
@@ -1448,6 +1502,8 @@ Upon finishing the `add` function, the stack does 2 pop instructions by adding `
 
 At the end of a function, _gcc_ places a `leave` instruction to clean up all allocated space for local variables and pop the frame pointer. 
 
+
+&nbsp;
 
 #### 4.9.6 Loop
 
@@ -1505,6 +1561,7 @@ Increment by 1:
 80483ea:	add	DWORD PTR [ebp-0x4],0x1
 ```
 
+&nbsp;
 
 #### 4.9.7 Conditional
 
