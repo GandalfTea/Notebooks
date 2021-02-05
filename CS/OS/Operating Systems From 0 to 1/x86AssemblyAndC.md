@@ -1134,5 +1134,426 @@ Notice that initialy, the sign bit is 1, but after 1-bit and 10-bit shifts, the 
 ```c
 char equal1 = (i == j);
 ```
+```
+8048450:	mov	eax,DWORD PTR [ebp+0x8]
+8948453:	cmp	eax,DWORD PTR [ebp+0xc]
+8048456:	sete	al
+8048459:	mov	BYTE PTR [ebp-0x41],al
+```
+
+`cmp` compares variable `i` and `j`. `sete` stores the value 1 to the `al` register if the comparison is equal, or 0 otherwise. The general name for variants of `set` instruction is calles _SETcc_. The suffix _cc_ dnotes the condition being tested for _EFLAGS_ register. The result is stored in variable `equal1`. 
+
+```
+int equal2 = (i == j);
+```
+```
+804845c:	mov	eax,DWORD PTR [ebp+0x8]
+804845f:	cmp	eax,DWORD PTR [ebp+0xc]
+8048462:	sete 	al
+8048465:	movzx	eax,al
+8048468:	mov	DWORD PTR [ebp-0xc],eax
+```
+
+This also searches for equality, difference being the _int_ type. The `movzx` instuction, variant of `mov` copies the result inro a destintion operand and fills the remaining bytes with 0. In this case, since `eax` is 4 bytes wide, after copying the first byte in `al`, the remaining bytes of `eax` are filled with 0 to endure the `eax` arries the same value as `al`.
+
+```
+eax before move:
+12 | 34 | 56 | 78 |
+
+after movzx eax, al:
+00 | 00 | 00 | 78 |
+```
+
+
+```c
+char greater = (i > j);
+```
+```
+804846b:	mov	eax,DWORD PTR [ebp+0x8]
+804846e:	emp	eax,DWORD PTR [ebp+0xc]
+8048471:	setg	al
+8048474:	mov	BYTE PTR [ebp-0x40],al
+```
+Similar to equality, but used `setg` for greater comparison instead.
+
+```c
+char less = (i < j);
+```
+```
+8048477:	mov	eax,DWORD PTR [ebp+0x8]
+804847a:	cmp	eax,DWORD PTR [ebp+0xc]
+804847d:	setl	al
+8048480:	mov	BYTE PTR [ebp-ox3f],al
+```
+`setl` does less comparison. 
+
+```c
+char greater_equal = (i >= j);
+```
+```
+8048483:	mov	eax,DWORD PTR [ebp+0x8]
+8048486:	cmp	eax,DWORD PTR [ebp+0xc]
+8048489:	setge	al
+804848c:	mov	BYTE PTR [ebp-0x3e],al
+```
+Use `setge` for greater or equal comparison. 
+
+```c
+char less_equal = (i <= j);
+```
+```
+804848f:	mov	eax,DWORD PTR [ebp+0x8]
+8048492:	cmp	eax,DWORD PTR [ebp+0xc]
+8048495:	setle	al
+8048498:	mov	BYTE PTR [ebp-0x3d],al
+```
+Use `setle` for less than or equal comparison. 
+
+```c
+int logical_and = (i && j);
+```
+```
+804849b:	cmp	DWORD PTR [ebp+0c8], 0x0
+804849f:	je	80484ae <expr+0xd3>
+80484a1:	cmp	DWORD PTR [ebp+0xc], 0x0
+80484a5:	je	80484ae <expr+0xd3>
+80484a7:	mov	eax,0x1
+80484ac:	jmp	80484b3 <expr+0xd8>
+80484ae:	mov	eax, 0x0
+80484b3:	mov	DWORD PTR [ebp-0x8], eax
+```
+
+Logical AND is one of the syntaxes that is made entirely in software with simpler instrucitons. The algorithm is simple:
+1. Check if `i` is 0 with the instrucition at : 0c804849b.     
+    a. If true, jump to 0x80484ae and set `eax` at 0.      
+    b. Set the variable `logical_and` to 0, as is the next instruction after : 0x8044ae.      
+     
+2. If `i` is not 0, check if `j` is 0 with instruction at: 0c80484a1.  
+    a. If true, jump to 0x80484ae and set `eax` to 0.    
+    b. Set the variable `logical_and` to 0, as is the next instruction after : 0x80484ae.    
+
+3. If both `i` and `j` are not 0, the result is certenly 1.
+    a. Set acordingly with instruction : ox80484a7.
+    b. Jump to the instruction at 0x80484b3 to set variable `logical_and` at [ebp-ox8] o 1.
+
+
+```c
+int logical_or = (i || j);
+```
+```
+80484b4:	cmp	DWORD PTR [ebp+0x8],0x0
+80484ba:	jne	80484c2 <expr+0xe7>
+80484bc:	cmp	DWORD PTR [ebp+0xc],0x0
+80484c0:	je	80484c9 <ebp+0xc>
+80484c2:	mov	eax,0x1
+80484c7:	jmp	80484ce <exp+0xf3>
+80484c9:	mov	eax,0x1
+80484ce:	mov	DWORD PTR [ebp-0x4],eax
+```
+Similar to above.
+
+```c
+++i;
+--i;
+```
+```
+80484d1:	and	DWORD PTR [ebp+0x8],0x1
+80484d5:	sub	DWORD PTR [ebp+0x8],0x1
+```
+
+Made from existing instructions. There are specific instrucitons for this called `inc` and `dec` that cause a _partial flag register stall_, this happend when an instruction modifies a part of the flag register and the following instruction is dependent on the outcome of the flags. The manual sugests these should be replaced with `sub` and `add`.
+
+
+```c
+int i1 = i++;
+```
+```
+80484d9:	mov	eax,DWORD PRT [ebp+0x8]
+80484dc:	lea	edx,[eax+0x1]
+80484df:	mov	DWORD PTR [ebp+0x8],edx
+80484e2:	mov 	DWORD PTR [ebp-0x10],eax
+```
+
+`i` is copied into `eax` at 0x80484d9. The value of `eax` + `0x1` is copied into `edx` as an _effective address_ at 0x80484dc. The `lea` (_load effective address_) instruction copies a memory address into a register. According to volume 2, the source operand is a memoty address specified with one of the processors addresing mode. This means, the source operand must be specified by the addressing modes defined in 16-bit/32-bit ModR/M byte tables. After loading the incremented value into `edx`, the value of `i` is incresead by 1 at 0x80484df. The previous `i` is stores back at `i1` at [ebp-0x8] by instruction 0x80484e2.
+
+
+```c
+int i2 = ++i;
+```
+```
+80484e5:	add	DWORD PTR [ebp+0x8],0x1
+80484e9:	mov	eax, DWORD PTR [ebp+0x8]
+80484ec:	mov	DWORD PTR [ebp=0xc],eax
+```
+The primary differences are:
+* `add` is used instead of `lea` to increse `i` directly.
+* new value is stored in `i2`.
+* only 3 instructions long instead of 4.
+
+The prefix-increment syntax is faster than the suffic-increment one.
+
+
+```c
+int i3 = i--;
+```
+```
+80484ef:	mov	eax,DWORD PTR [ebp+0x8]
+80484f2:	lea	edz,[eax-0x1]
+80484f5:	mov	DWORD PTR [ebp+0x8],edx
+80484f8:	mov	DWORD PTR [ebp-0x8],eax
+```
+
+Similar to `i++`.
+
+```c
+int i4 = --i;
+```
+```
+80484fb:	sub	DWORD PTR [ebp+0x8],0x1
+80484ff:	mov	eax,DWORD PTR [ebp+0x8]
+8048502:	mov	DWORD PTR [ebp-0x4],eax
+```
+Similar to `++i`.
+
+
+
+#### 4.9.3 Stack
+
+A stack is a contiguous array of memory locations that holds a collection of data. When a new element is addeed, the stack _grows down_ in memory towards lesser addresses, and _shrinks up_ towards greater addresses when an element is removed. x86 uses the `esp` register to point to the top of the stack, newest element. A stack can be anywhere in main memory. x86 provides two operations for manipulating stacks:
+  * `push` adds a new element ontop of stack.
+  * `pop` removed top element.
+
+TODO: Image.
+
+
+#### 4.9.4 Automatic Variables
+
+Local variables are variables that exist within a scope delimited by braces. The most common scope is a function but there can be unnamed code blocks.
+
+```c
+void foo() {
+	int a;
+	int b;
+}
+```
+`a` and `b` are local variables that belong to `foo`.
+
+```
+int foo() {
+	int i;
+	
+	{
+		int a = 1;
+		int b = 2;
+		{
+			return i = a + b;
+		}
+	}
+}
+```
+`a` and `b` are local ariables to the unnamed code block. 
+
+
+When a local variable is created, it is pushed on the stack. When it goes out of scope, it is popped. When an argument is passed from a caller to a callee, it is pushed onto the stack, when it is returned it is popped. Because they are automatically alocated, they are called ___automatic variables___. 
+
+A base frame pointer points to the start of the current function frame, and is kept in the `ebp` register. Whenever a function is called, it is allocated with it's own dedicated storage on stack, called a ___stack frame___. Here are placed all local variables and arguments. 
+
+When a function needs a local variable or an argument, it uses `ebp` to access the variable:
+* All local variables are allocated after the `ebp` pointer. To access them, a number is subtracted from the pointer to reach the location of the variable. 
+* All arguments are allocated before the `ebp` pointer, thus we need to add a number to the pointer to access them.
+* The `ebp` itself points to the return address of the caller.
+
+TODO: Image
+
+Example:
+
+```c
+int add(int a, int b) {
+	int i = a + b;
+	return i;
+}
+```
+```
+#include <stdint.h>
+
+int add(int a, int b) {
+		80483db:	push	ebp
+		80483dc:	mov	ebs,esp
+		80483de:	sub	esp,0x10
+
+	int i = a + b;
+		80483e1:	mov	edx,DWORD PTR [ebp+0x8]
+		80483e4:	mov	eax,DWORD PTR [ebp+0xc]
+		80483e7:	add	eax,edx
+		80483e9:	mov	DWORD PTR [ebp-0x4],eax
+	return i;
+		80483ec:	mov	edx,DWORD PTR [ebp-0x4]
+}
+		80483ef:	leave
+		80483f0:	ret
+```
+
+
+[ebp-0x4] is the local variable `i`, since it is allocated after `ebp`, with the length of 4 bytes (an int). `a` and `b` are arguments that can be accessed with `ebp`:
+* [ebp+0x8] accesses `a`.
+* [ebp+0xc] accesses `b`.
+
+
+The rule is that, the closer a variable on the stack is to `ebp`, the closer it is to the function name.
+
+TODO: IMage
+
+
+#### 4.9.5 Function Call and Return
+
+
+```c
+#include <stdio.h>
+
+int add(int a, int b) {
+	int local = 0x12345;
+
+	return a + b;
+}
+
+int main(int argc, char *argv[]) {
+	add(1,1);
+	
+	return 0;
+}
+```
+
+For every function call, _gcc_ pushed arguments on the stack in reverse order with the _push_ instruction. That is, in reverse order than C, to ensure the relative order between arguments. Then, _gcc_ generates a _call_ instruction, that pushes a return address before transferring control to `add` function.
+
+
+```
+080484f2 <main>:
+int main (int argc, char *argv[]) {
+	80483f2:	push	ebp
+	80483f3:	mov	ebp,esp
+
+	   add(1,2);
+	80483f5:	push	0x2
+	80483f7:	push	0x1
+	80483f9:	call	80483db <add>
+	80483fe:	add	esp,0x8
+
+	   return 0;
+	8048401:	mov	eax,0x0
+}
+	8048406:	leave
+	8048407:	ret
+```
+Upon finishing the `add` function, the stack does 2 pop instructions by adding `0x8` to the stack pointer `esp`. At the end, a `leave` instruciton is executed and main return with a `ret` instruction. A `ret` instruction transfers program execution back to the caller, to the instruction right after the `call` instructoin. The reason it can do this is that the return address implicitly pushed by the `call` instruction is the address right after the `call` instruction.
+
+At the end of a function, _gcc_ places a `leave` instruction to clean up all allocated space for local variables and pop the frame pointer. 
+
+
+#### 4.9.6 Loop
+
+It is simply resetting the instruction pointer to an already executed instruciton and start all over again. It is a `jmp` instruction. 
+
+```c
+#include <stdio.h>
+
+int main(int argc, char *argv[]){
+	for (int i = 0; i < 10; i++) {
+	}
+	return 0;
+}	
+```
+```
+#include <stdio.h>
+int main(int argc, char *argv[]){
+	80483db:	push	ebp
+	80483dc:	mov	ebp,esp
+	80483de:	sub	esp,0x10
+
+	  for (int i = 0; i < 10; i++) {
+	80483e1:	mov	DWORD PTR [ebp-0x4],0x0
+	80483e8:	jmp	80483ee <main+0x13>
+	80483ea:	add DWORD PTR [ebp-0x4],0x1
+	80483ee:	cmp	DWORD PTR [ebp-0x4], 0x9
+	80484f2:	jle	80483ea <main+0xf>
+	  }
+	  return 0;
+	80483f4:	b8 00 00 00 00		mov	eax,0x0
+}
+	80483f9:	c9			leave
+	80483fa:	c3			ret
+	80483fb:	66 90			xchg	ax,ax
+	80483fd:	66 90			xchg	ax,ax
+	80483ff:	90			nop
+```
+
+Initializing `i` to 0 :
+```
+80483e1:	mov	DWORD PTR [eb-0x4],0x0
+```
+
+Compare `i` to 10 by using `jle` and compare it to 9. If true, jump to 0x80483ea.
+```
+80483e8:	jmp	80483ee <main+0x13>
+. . .
+80483ee:	cmp	DWORD PTR [ebp-0x4], 0x9
+80483f2:	jle	80483ea <main+0xf>
+```
+
+
+Increment by 1:
+```
+80483ea:	add	DWORD PTR [ebp-0x4],0x1
+```
+
+
+#### 4.9.7 Conditional
+
+Conditionals are just another aplication of the `jmp` instruction. 
+
+```c
+#include <stdio.h>
+
+int main(int argc, char *argv[]){
+	int i = 0;
+	
+	if (argc){
+		i = 1;
+	} else {
+		i = 0;	
+	}
+
+	return 0;
+}
+```
+```
+int main(argc, char *argv[]){
+	80483db:	push	ebp
+	80483dc:	mov	ebp,esp
+	80483de:	sub	esp,0x10
+
+	   int i = o;
+	80483e1:	mov	DWORD PTR [ebp-0x4],0x0
+	
+	   if(argc){
+	80483e8:	cmp	DWORD PTR [ebp+0x8],0x0
+	80483ec:	je	80483f7 <main+0x1c>
+	  
+	 	i = 1;
+	80483ee:	mov DWORD PTR [ebp-0x4],0x1
+	80483f5:	jmp	80483fe <main+0x23>
+
+		} else {
+		     i = 0;
+	80483f5:	mov	DWORD PTR [ebp-0x4],0x0
+
+	   	}
+		return 0;
+	80483fe:	mov	eax,0x0
+	}
+	8048403:	leave
+	8048404:	ret
+```
+
+First, it compares to see if `argc` is False, or 0. If true, continues to 0x80383ee for copying 1 to `i`. Else, it jumps to the else at 0x80483f7. Else branch compares to see if condition is true.
 
 
