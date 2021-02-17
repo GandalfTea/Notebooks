@@ -245,7 +245,7 @@ This is a simpler introduction to the in-depth view of instruction format before
 
 All assembly instructions are a fixed size series of bits. The length depends on how complicated it is. Still, they all share a common format describet in the picture below. The parts are :
 
-TODO: Photo
+<img src="https://i.imgur.com/cs6RiNS.png" alt="img" style="zoom: 10%;" />
 
 &nbsp;
         
@@ -281,7 +281,8 @@ ___ModR/M___ specifies operands of an instruction. Operand can either be a regis
 
 The following tables list all possible 256 values of ___ModR/M___ byte and how each value maps to an addressing mode and a register, in 16-bit and 32-bit modes.
 
-TODO: Tables
+<img src="https://i.imgur.com/Rg2XtD7.png" alt="img" style="zoom: 10%;" />
+<img src="https://i.imgur.com/o78P6cE.png" alt="img" style="zoom: 10%;" />
 
 
 How to read the table :
@@ -355,7 +356,7 @@ The values 2,4 and 8 are not random. They map to 16-bit (2 bytes), 32-bit (4 byt
  
 Below is the table listing all 256 values of SIB byte :
 
-TODO: SIB Table
+<img src="https://i.imgur.com/FWc0EoW.png" alt="img" style="zoom: 10%;" />
 
 &nbsp;
      
@@ -519,7 +520,7 @@ For our OS, we only use Protected Mode Exceptions and Real-Address Mode Exceptio
 
 This is the opcode table:
 
-TODO: Table Picture.
+<img src="https://i.imgur.com/Nx1eJLw.png" alt="img" style="zoom: 10%;" />
 
 
 Each row lists a vriant of the `jmp` instruction. The first vatiant has the opcode `EB cb` with the equivalent form `jmp rel8`. Here, `rel8` means 128-bit offset, counting from the end of the instruction. The end of an instruction is the next byte after the last byte of the instruction. Consider this assembly code :
@@ -575,7 +576,7 @@ generated into :
 
 Since `28` is the value in the 5th column of the table 4.5.2 that refers to [eax], we successfully geeratedan instruction for a far jump. After the CPU runs the instrunction, the program counter _eip_ and code segment register _cs_  is set to the memory address, stored in the memory locaition that _eax_ points to, and the CPU starts fetching code from the new address in _cs_ and _eip_. As an example :
 
-TODO: Photo
+<img src="https://i.imgur.com/j65QpKw.png" alt="img" style="zoom: 10%;" />
 
 The far address consumes total of 5 bytes for a 16-bot segment and 32-bit address, which is encoded as m16:32 from table 4.7.1.
 
@@ -620,7 +621,7 @@ The basic types are based on sizes, each is twice as big as the previous one :
 * 8 bytes (64 bits)    
 * 16 bytes (128 bits)    
 
-TODO: Image
+<img src="https://i.imgur.com/1tgm0aR.png" alt="img" style="zoom: 10%;" />
 
 
 From the Manual., section 4.1.1, volume 1:
@@ -741,8 +742,7 @@ Pointers are variables that hold memory addresses. x86 works with two types of p
 * _Far Pointer_ is also an offset like a near pointer but with an explicit segment selector. 
 
 
-TODO: Image
-
+TODO: Photo 
 
 C only provides support for near pointers, since far pointers are platform dependent, such as x86.  In applicatoin code, you can assume that the address of current segment starts at 0, so the offset is actually any memory address from 0 to max address. 
 
