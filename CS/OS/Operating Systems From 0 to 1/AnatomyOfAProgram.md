@@ -279,14 +279,14 @@ Then, all the sections are listed in the format :
 	Size		EntSize		Flags  Links  Info  Align
 ```
 
-___Nr___ is the index of each section.
-___Name___ is the name of each section.
-___Type___ is the type of each section.
-___Address___ the starting _virtual_ address of each section. 
-___Offset___ is the distance in bytes from the first byte of a file to the start of a section.
-___Size___ size in bytes of each section.
-___EntSize___ Some sections hold a table of fixes-size entries. For each section, this member gives the size in bytes of each entry. The number is 0 if the section does not hold a table of fixed-size entries.
-___Flags___ describes attributes of a section. Flags together with a type define the purpose of a section. Two sections can of the same type but serve different purposes. For example, _.text_ and _.data_ sections are the same type. But, _.data_ holds the initialized data of a program and is given read and write permission, but not executable, while _.text_ holds executable instructions of a program.
+___Nr___ is the index of each section.          
+___Name___ is the name of each section.     
+___Type___ is the type of each section.     
+___Address___ the starting _virtual_ address of each section.     
+___Offset___ is the distance in bytes from the first byte of a file to the start of a section.     
+___Size___ size in bytes of each section.      
+___EntSize___ Some sections hold a table of fixes-size entries. For each section, this member gives the size in bytes of each entry. The number is 0 if the section does not hold a table of fixed-size entries.     
+___Flags___ describes attributes of a section. Flags together with a type define the purpose of a section. Two sections can of the same type but serve different purposes. For example, _.text_ and _.data_ sections are the same type. But, _.data_ holds the initialized data of a program and is given read and write permission, but not executable, while _.text_ holds executable instructions of a program.    
 
 ELF gives information to enable an OS with such protection mechanism. However, running on bare metal, nothing can prevent from doing anything. Our OS could execute _.data_ sections and modify _.text_.
 
@@ -305,8 +305,6 @@ Later, when witing the OS, we will handcraft the kernel image by explicitly link
 &nbsp;
 
 ___Align___ is a value that enforces the offset of a section should be divisible by the value. Only 0 and positive interal powers of 2 are allowed. Values 0 and 1 mean the section has no alignment constraint. 
-
-&nbsp;
 
 Example
 
@@ -391,7 +389,6 @@ Section '' has no data to dump.
 
 ___NOTE___ marks a section with special information that other programs will check for compatibility, conformance. For example, by a vendor or a system builder.
 
-&nbsp;
 
 Example
 
@@ -406,7 +403,6 @@ Example
 	0000000000000024  0000000000000   A      0     0     4
 ```
 
-&nbsp;
 
 Examining the second section with the command:
 ```
@@ -422,7 +418,6 @@ Hex dump of section '.note.ABI-tag':
 
 ___PROGBITS___ indicates a section holding the main content of the program, either code or data.
 
-&nbsp;
 
 Example
 
@@ -488,7 +483,6 @@ There are other sections that are mainly needed for dynamic linking between prog
 
 ___SYMTAB___ and ___DYNSYM___ hold symbol tables. A _symbol table_ is an array of entries that describe symbols in a program. A _symbol_ is a name assigned to an entity in a program. The type of the entity is also the sype of the symbol. Possible types on entity:
 
-&nbsp;
 
 Example
 
@@ -528,16 +522,16 @@ Symbol table '.symtab' contains 67 entries:
      65: 0000000000000000    0 NOTYPE    WEAK    DEFAULT  UND _ITM_registerTMCloneTable
      66: 00000000004003c8    0 FUNC      GLOBAL  DEFAULT  11 _init
 ```
-___TLS___ is the symbol associated with _Thread-Logal-Storage_.
-___Num___ is the index of the table entry.
-___Value___ is the virtual memory address where the symbol is located.
-___Size___ is the size of the entry.
-___Type___ is a symbol type:
- 	_NOTYPE_ :  means type is not specified.
- 	_OBJECT_ :  means the symbol is a data object. In C, any variable definition is of type _OBJECT_
- 	_FUNC_ : the symbol is associated with a function or executable code.
- 	_SECTION_ : assicoated with a section, exists primarily for realocation.
- 	_FILE_ : the symbol is the name of a source file associated with an executable binary.
+___TLS___ is the symbol associated with _Thread-Logal-Storage_.        
+___Num___ is the index of the table entry.     
+___Value___ is the virtual memory address where the symbol is located.   
+___Size___ is the size of the entry.   
+___Type___ is a symbol type:   
+ 	_NOTYPE_ :  means type is not specified.   
+ 	_OBJECT_ :  means the symbol is a data object. In C, any variable definition is of type _OBJECT_    
+ 	_FUNC_ : the symbol is associated with a function or executable code.    
+ 	_SECTION_ : assicoated with a section, exists primarily for realocation.    
+ 	_FILE_ : the symbol is the name of a source file associated with an executable binary.    
  	_COMMON_ : the symbol labels an uninitialized variable. This is when, in C, a global variable is declared but not initialized, or initialized with an external keyward. Those variables are in _.bss_.
 
 
@@ -550,7 +544,6 @@ ___Bind___ is the scope of the symbol.
 
 __Local__ are symbols only visible in the object file that defined them.In C, the _static_ keyward marks a symbol as local to only the file that defines it.
 
-&nbsp;
 
 Example
 
@@ -595,7 +588,6 @@ Symbol table '.symtab' contains 72 entries:
 
 __Global__ are symbols that are accesible by other object files when linking together. Those are non-static functions and non-static global data. The _extern_ modifier marks a symbol as externally defined but accessible in the final exeutable binary, making it _GLOBAL_.
 
-&nbsp;
 
 Example
 
@@ -608,7 +600,6 @@ Example
 
 __WEAK__ are symbols whose definition can be redefined. Normally, a symbol with multiple definitions is marked as an error by the compiler. When a definition is marked as _WEAK_, this is not the case.
 
-&nbsp;
 
 Example
 
@@ -664,7 +655,7 @@ ___Ndx___ is the index of the section that the symbol is in. it also has those s
 
 ___Name___ is the symbol name. 
 
-&nbsp;
+
 
 Example :
 
@@ -679,7 +670,7 @@ Num:		Value   Size   Type      Bind   Vis    Ndx   Name
 
 ___STRTAB___ holds a table of null-terminated strings, called _string table_. The first and last byte in this section is always a NULL character. It exists because a string can be reused by other sections to represent symbol and section names, so a program like _readelf_ or _objdump_ can display various objects in a program, e.g. variables, functions, section names, in human-readable text instead of raw hex address.
 
-&nbsp;
+
 
 Example
 
@@ -785,8 +776,6 @@ ___DYNAMIC___ holds information for dynamic linking.
 
 ___NOBITS___ is similar to _PROGBITS_ but occupies no space.
 
-&nbsp;
-
 Example
 
 
@@ -822,8 +811,6 @@ ___INT_ARRAY___ is an array of function pointers for program initialization. Whe
 The reason this happens it to ensure that shared object files that have no _main()_ function are executed, and to estamblish a proper environment for _main()_ to run in. It also allows for more modularity, as the main applocation code is not responsible for establishing an environment for an external file, as the file itself does that.
 
 We will not use any _.init_ or _INIT_ARRAY_ in out OS, for simplicity.
-
-&nbsp;
 
 Example
 
@@ -910,7 +897,6 @@ The attribute `section(...)` puts a function in a perticular section rather than
 
 ___FINI_ARRAY___ is an array of functional pointers for program termination, called after exiting _main()_. If the application terminates abnormally, such as through a _abort()_ or crash, the _.finit_array_ is ignored. 
 
-&nbsp;
 
 Example
 
@@ -999,24 +985,23 @@ $ readelf -l <binary file>
 
 A program header has types :
 
-_PHDR_ specifies the location and size of the program header itself.
-_INTERP_ specifies location and size of null-terminated path name to invoke as an interpreter for linking runtime libraries. 
-_LOAD_ specifies loadable segment.
-_DYNAMIC_ specifies dynamic linking information.
-_NOTE_ specifies the location and size of auxiliary information.
-_TLS_ specifies _Thread-Local-Storage_ template, formed from the combination of all section with the flag TLS.
-_GU_STACK_ indicates weather a program's stack should be executable or not. 
+_PHDR_ specifies the location and size of the program header itself.       
+_INTERP_ specifies location and size of null-terminated path name to invoke as an interpreter for linking runtime libraries.     
+_LOAD_ specifies loadable segment.    
+_DYNAMIC_ specifies dynamic linking information.    
+_NOTE_ specifies the location and size of auxiliary information.    
+_TLS_ specifies _Thread-Local-Storage_ template, formed from the combination of all section with the flag TLS.    
+_GU_STACK_ indicates weather a program's stack should be executable or not.     
 
 
 &nbsp;
 
 A segment also has permissions:
 
-_R_ Read
-_W_ Write
-_E_ Executable
+_R_ Read    
+_W_ Write    
+_E_ Executable  
 
-&nbsp;
 
 Example
 ```
@@ -1098,6 +1083,7 @@ Why does the OS use segments not sections? A segment is the perspective of an OS
 
 
 To understand the last point, consider an example of linking two object files:
+&nbsp;
 _hello.c_
 ```c
 #include <stdio.h>
