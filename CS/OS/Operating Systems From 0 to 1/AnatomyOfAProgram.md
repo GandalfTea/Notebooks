@@ -19,7 +19,8 @@ It is composed of :
     * Metadata
 
 
-TODO: Photo.
+<img src="https://i.imgur.com/9WKT3yz.png" alt="img" style="zoom: 10%;" />
+
 
 Later, we will compile out kernel as an ELF executable with GCC, and explicitly specify how segments are created and where they are loaded in memory using a _linker script_, a text file to instruct how a linker should generate binary. 
 
@@ -27,9 +28,8 @@ Later, we will compile out kernel as an ELF executable with GCC, and explicitly 
 
 ### 5.1 Reference Documents
 
-The ELF specifications for x86 are maintained on Github. You can access them here.
+The ELF specifications for x86 are maintained on Github. You can access them [here](https://github.com/hjl-tools/x86-psABI/wiki/X86-psABI).
 
-TODO: Link https://github.com/hjl-tools/x86-psABI/wiki/X86-psABI
 
 
 ### 5.2 ELF header
@@ -256,8 +256,9 @@ ___Flags___ describes attributes of a section. Flags together with a type define
 
 ELF gives information to enable an OS with such protection mechanism. However, running on bare metal, nothing can prevent from doing anything. Our OS could execute _.data_ sections and modify _.text_.
 
+<img src="https://i.imgur.com/eNHTuVP.png" alt="img" style="zoom: 10%;" />
+<img src="https://i.imgur.com/6YjtyTC.png" alt="img" style="zoom: 10%;" />
 
-TODO: Section Flags Table
 
 
 ___Link and Info___ are numbers that reference the indexes of sections, symbol table entries, hash table entries. ___Link___ field only holds the index of a section, while ___Info___ field holds an index of a section, a symbol table entry or hash table entry, depending on the type of section.
@@ -572,12 +573,14 @@ no message is printed and the correct value is returned.
 
 ___Vis___ is the visibility of the symbol. The values are :
 	
-TODO: Table
+<img src="https://i.imgur.com/LCkJyJ5.png" alt="img" style="zoom: 10%;" />
+
 
 
 ___Ndx___ is the index of the section that the symbol is in. it also has those special values :
 
-TODO: TABLE
+<img src="https://i.imgur.com/WG0AbeB.png" alt="img" style="zoom: 10%;" />
+
 
 
 ___Name___ is the symbol name. 
@@ -647,7 +650,9 @@ String dump of section '.shstrtab':
 ```
 The implementation of a string tabele is a contiguous array of null-terminated strings. The index of the string is the position of the first character in the array. For example, in the above dump, _.symtab_ is at index 1, NULL is at index 0. The length of _.symtab_ is 7, plus the NULL character, meaning 8 bytes in total. So, _.strtab_ starts at index 9, and so on.
 
-TODO: Tables
+
+<img src="https://i.imgur.com/QckuqWr.png" alt="img" style="zoom: 10%;" />
+
 
 The output of _.strtab_:
 ```
@@ -861,9 +866,10 @@ ___SYMTAB_SHNDX___ is a section containing extended section indexes, that are as
 
 
 
-When you understand sectio types, you can understand the values in _Link__ and _Info_ fields.
+When you understand section types, you can understand the values in _Link__ and _Info_ fields.
 
-TODO: TABLE
+<img src="https://i.imgur.com/fqg2KpQ.png" alt="img" style="zoom: 10%;" />
+
 
 
 ### 5.5 Program header table
