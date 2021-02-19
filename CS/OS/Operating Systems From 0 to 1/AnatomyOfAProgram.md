@@ -1,10 +1,15 @@
 
 ## The Anatomy Of A Program
 
+&nbsp;
 
 Each program contains data and code. The hardware however, cannot distinguish between the two, so there is also _metadata_ to tell it which region of memory should be protected or modified, what to run, etc. When a program is compiled, it is stored in an _object_ file, which is just a block of binary. This can be combined with other object files to create an _executable_ file, that can run on a specific operating system.
 
+&nbsp;
+
 ___readelf___ is a program designed to display the _ELF_ metadata of a binary file, object or executable. It stands for _Executable and Linkable Format_, and is located at the top of the file, to provide the OS with info regarding main memory and execution. It lists sections of code and data, together with the memory addresses and other information. 
+
+&nbsp;
 
 It is composed of :
 
@@ -25,12 +30,14 @@ It is composed of :
 Later, we will compile out kernel as an ELF executable with GCC, and explicitly specify how segments are created and where they are loaded in memory using a _linker script_, a text file to instruct how a linker should generate binary. 
 
 
+&nbsp;
 
 ### 5.1 Reference Documents
 
 The ELF specifications for x86 are maintained on Github. You can access them [here](https://github.com/hjl-tools/x86-psABI/wiki/X86-psABI).
 
 
+&nbsp;
 
 ### 5.2 ELF header
 
@@ -65,6 +72,7 @@ Section header string table index:  28
 ```
 
 
+&nbsp;
 
 ___Magic___ displays the raw bytes that uniquely addresses a file in an ELF extcutable. Each byte gives a brief information :
 `7f 45 4c 46` Predefined values. The first byte is always `7F`, the remaining 3 bytes represent the string _ELF_.     
@@ -102,6 +110,9 @@ Value	  Description
 
 A _OS/ABI_ byte in a Magic field specifies the target OS _ABI_        
 
+
+&nbsp;
+
 ___Type___ identifies the object file type.         
 ```
 Value	   Description
@@ -117,33 +128,56 @@ Value	   Description
 
 The values `0xff00` and `0xffff` are reserved for the processor to define additional file types.
 
+&nbsp;
+
 ___Machine___ specifies the required architecture, eg. x86_64, MIPS, SPARC, etc. 
+
+&nbsp;
 
 ___Version___ specifies he version number of the current _object file_ (not the ELF headher version).
 
+&nbsp;
+
 ___Entry point address___ specifies the first code to be executed. The address of the _main_ function is the default, but it can be any function if explicitly specified to gcc. 
 
+&nbsp;
 
 ___Start of program headers___ is the offset of the program header table, in bytes. This number is 64 bytes, meaning the 65th byte is the start address of the program header table. As an example, if your program is loaded at address 0x10000 in memory, the start address is 0x10000 where the Magic fiels is, with the initial value 0x7f. The start of the program header would be 0x10000 + 0x40 = 0x10040.
 
+&nbsp;
+
 ___Start of section headers___ is the offset of the section header table in bytes.
+
+&nbsp;
 
 ___Flags___ hold processor-specific flags associated with the file. In a x86 machine, _EFLAGS_ register is set according to this value. 
 
+&nbsp;
+
 ___Size of this header___ specifies the total size of the ELF header in bytes. Here it is 64 bytes, equivalent to the _Start of program header_. Thise are not necessarily equivalent, as the program header might be placed away from the ELF header.
 
+&nbsp;
 
 ___Size of program headers___ specifies the size of each program header in bytes.
 
+&nbsp;
+
 ___Number of program headers___ specifies the total number of program headers.
+
+&nbsp;
 
 ___Size of section headers___ specifies the size of each section header in bytes.
 
+&nbsp;
+
 ___Number of section headers___ I wonder what this is.
+
+&nbsp;
 
 ___Section header string table index___ specifies the index of the header in the section header  that points to the section that holds all null-terminated strings.
 
 
+&nbsp;
 
 ### 5.3 Section header table
 
@@ -260,14 +294,19 @@ ELF gives information to enable an OS with such protection mechanism. However, r
 <img src="https://i.imgur.com/6YjtyTC.png" alt="img" style="zoom: 10%;" />
 
 
+&nbsp;
 
-___Link and Info___ are numbers that reference the indexes of sections, symbol table entries, hash table entries. ___Link___ field only holds the index of a section, while ___Info___ field holds an index of a section, a symbol table entry or hash table entry, depending on the type of section.
+___Link and Info___ are numbers that reference the indexes of sections, symbol table entries, hash table entries. ___Link___ field only holds the index of a section, while 
+___Info___ field holds an index of a section, a symbol table entry or hash table entry, depending on the type of section.
 
 Later, when witing the OS, we will handcraft the kernel image by explicitly linking the object files produced by gcc through a linker script. We will specify the memory layout of sections by specifying at what address they will appear in the final image. 
 
 
+&nbsp;
+
 ___Align___ is a value that enforces the offset of a section should be divisible by the value. Only 0 and positive interal powers of 2 are allowed. Values 0 and 1 mean the section has no alignment constraint. 
 
+&nbsp;
 
 Example
 
@@ -291,6 +330,8 @@ _Flags_ are A (Allocatable), meaning it consumes memory at runtime.
 _Info_ and _Link_ are 0 and 0, meaning this section links to no other section or enty in any table.
 _Align_ is 1, meaning no alignment.
 
+&nbsp;
+
 Example 2
 
 ```
@@ -307,6 +348,8 @@ _Flags_ are A (Allocatable) and X (Executable), meaning it consumes memory and c
 _Info_ and _Link_ are 0 and 0, meaning no connections.
 _Align_ is 16, meaning the starting address of the section should be divisible by 16, or 0x10, which it is: 0x3e0/0x10 = 0x3e.
 
+
+&nbsp;
 
 ### 5.4 Understand Section in-depth
 
@@ -325,6 +368,8 @@ $ readelf -x .data hello
 If a section contains strings, the flag _-x_ can be replaced with _-p_.
 
 
+&nbsp;
+
 ___NULL___ marks a section header as inactive and does not have an associated section. It is always the first entry of the section header table and means the actual information starts from 1.
 
 Example
@@ -342,7 +387,11 @@ Section '' has no data to dump.
 
 
 
+&nbsp;
+
 ___NOTE___ marks a section with special information that other programs will check for compatibility, conformance. For example, by a vendor or a system builder.
+
+&nbsp;
 
 Example
 
@@ -357,6 +406,8 @@ Example
 	0000000000000024  0000000000000   A      0     0     4
 ```
 
+&nbsp;
+
 Examining the second section with the command:
 ```
 $ readelf -x 2 hello
@@ -367,7 +418,11 @@ Hex dump of section '.note.ABI-tag':
   0x00400264 000000000 02000000 06000000 20000000 ............ ...
 ```
 
+&nbsp;
+
 ___PROGBITS___ indicates a section holding the main content of the program, either code or data.
+
+&nbsp;
 
 Example
 
@@ -417,6 +472,8 @@ Example
 	0000000000000034 0000000000000001   MS     0 	 0     1
 ```
 
+&nbsp;
+
 For out operating system, we need the following sections :
 
 ___.text___ holds all the compiled code.     
@@ -427,7 +484,11 @@ ___.bss___, short for _Block Started by Symbol_, holds uninitialized data of the
 There are other sections that are mainly needed for dynamic linking between programs. For such features, the OS must be a runtime envirionment. Because we work on bare metal, we are creating such an environment For simplicity we will not include those sections.
 
 
+&nbsp;
+
 ___SYMTAB___ and ___DYNSYM___ hold symbol tables. A _symbol table_ is an array of entries that describe symbols in a program. A _symbol_ is a name assigned to an entity in a program. The type of the entity is also the sype of the symbol. Possible types on entity:
+
+&nbsp;
 
 Example
 
@@ -479,11 +540,17 @@ ___Type___ is a symbol type:
  	_FILE_ : the symbol is the name of a source file associated with an executable binary.
  	_COMMON_ : the symbol labels an uninitialized variable. This is when, in C, a global variable is declared but not initialized, or initialized with an external keyward. Those variables are in _.bss_.
 
+
+&nbsp;
+
 ___Bind___ is the scope of the symbol.
 
+&nbsp;
 
 
 __Local__ are symbols only visible in the object file that defined them.In C, the _static_ keyward marks a symbol as local to only the file that defines it.
+
+&nbsp;
 
 Example
 
@@ -524,8 +591,11 @@ Symbol table '.symtab' contains 72 entries:
 ......... output omitted .........
 ```
 
+&nbsp;
 
 __Global__ are symbols that are accesible by other object files when linking together. Those are non-static functions and non-static global data. The _extern_ modifier marks a symbol as externally defined but accessible in the final exeutable binary, making it _GLOBAL_.
+
+&nbsp;
 
 Example
 
@@ -534,7 +604,11 @@ Example
     66: 080483e1       10 FUNC     GLOBAL  DEFAULT 14 main
 ```
 
+&nbsp;
+
 __WEAK__ are symbols whose definition can be redefined. Normally, a symbol with multiple definitions is marked as an error by the compiler. When a definition is marked as _WEAK_, this is not the case.
+
+&nbsp;
 
 Example
 
@@ -571,20 +645,26 @@ $ gcc math.c hello.c -o hello
 no message is printed and the correct value is returned. 
 
 
+&nbsp;
+
 ___Vis___ is the visibility of the symbol. The values are :
 	
 <img src="https://i.imgur.com/LCkJyJ5.png" alt="img" style="zoom: 10%;" />
 
 
 
+&nbsp;
+
 ___Ndx___ is the index of the section that the symbol is in. it also has those special values :
 
 <img src="https://i.imgur.com/WG0AbeB.png" alt="img" style="zoom: 10%;" />
 
 
+&nbsp;
 
 ___Name___ is the symbol name. 
 
+&nbsp;
 
 Example :
 
@@ -595,8 +675,11 @@ Num:		Value   Size   Type      Bind   Vis    Ndx   Name
 
 `main` is the 62nd entry in the table, starts at address ox0000000000400526, consumes 32 bytes, is a function, is in global scope, is visible to oter files that use it, is inside the 14th section, which is _.text_.
 
+&nbsp;
 
 ___STRTAB___ holds a table of null-terminated strings, called _string table_. The first and last byte in this section is always a NULL character. It exists because a string can be reused by other sections to represent symbol and section names, so a program like _readelf_ or _objdump_ can display various objects in a program, e.g. variables, functions, section names, in human-readable text instead of raw hex address.
+
+&nbsp;
 
 Example
 
@@ -690,10 +773,19 @@ String dump of section '.strtab':
 	[ 	1ea] _ITM_registerTMCloneTable
 ```
 
+&nbsp;
 
 ___HASH___ holds the symbol hash table, supporting symbol table access.
+
+&nbsp;
+
 ___DYNAMIC___ holds information for dynamic linking.
+
+&nbsp;
+
 ___NOBITS___ is similar to _PROGBITS_ but occupies no space.
+
+&nbsp;
 
 Example
 
@@ -715,10 +807,15 @@ The size of the _.bss_ section is 8 bytes, while the offset is the same for both
 
 The _.comment_ section has no starting address because it will be discarded once loaded into memory.
 
+&nbsp;
 
 ___REL___ holds realocation entries without exoplicit addends. This will be explained in 8.1.
 
+&nbsp;
+
 ___RELA___ holds realocation entries with explicit addends. This will be explained in 8.1.
+
+&nbsp;
 
 ___INT_ARRAY___ is an array of function pointers for program initialization. When a program is run, before getting to the _main()_ function, the code in _.init_ and in this section, _INT_ARRAY_ are executed first.
 
@@ -726,6 +823,7 @@ The reason this happens it to ensure that shared object files that have no _main
 
 We will not use any _.init_ or _INIT_ARRAY_ in out OS, for simplicity.
 
+&nbsp;
 
 Example
 
@@ -808,8 +906,11 @@ int main(int argc, char *argv[]) {
 
 The attribute `section(...)` puts a function in a perticular section rather than the default _.text_. Here, it is put in _init.array_. The section name can be anything.  Non-standard section names are often used for controlling the final binary layout of a compiled program. 
 
+&nbsp;
 
 ___FINI_ARRAY___ is an array of functional pointers for program termination, called after exiting _main()_. If the application terminates abnormally, such as through a _abort()_ or crash, the _.finit_array_ is ignored. 
+
+&nbsp;
 
 Example
 
@@ -827,6 +928,8 @@ int main(int argc, char *argv[]) {
 hello world
 destructor
 ```
+
+&nbsp;
 
 ___PREINIT_ARRAY___ is an array of functional pointers that are invoked before all other initialization functions in _INIT_ARRAY_. The only way to put functions into this section is with the `section()` attribute.
 ```c
@@ -858,9 +961,13 @@ init1
 hello world
 ```
 
+&nbsp;
+
 ___GROUP___ defines a section group, which is the same section that appears in different object files, but when merged into the final executable binary, only the one copy is kept and the rest are discarded. This section is only relevant in C++ object files, so we will not look at it further.
 
 
+
+&nbsp;
 
 ___SYMTAB_SHNDX___ is a section containing extended section indexes, that are associated with a symbol table. This section only appears when the _Ndx_ value of an entry in the symbol table exceeds the _LORESERVE_ value. This sectio then maps between a symbol and an actual index vale if a section header. 
 
@@ -870,6 +977,7 @@ When you understand section types, you can understand the values in _Link__ and 
 
 <img src="https://i.imgur.com/fqg2KpQ.png" alt="img" style="zoom: 10%;" />
 
+&nbsp;
 
 
 ### 5.5 Program header table
@@ -887,6 +995,8 @@ To view the info inside a program header table, use the command:
 $ readelf -l <binary file>
 ```
 
+&nbsp;
+
 A program header has types :
 
 _PHDR_ specifies the location and size of the program header itself.
@@ -898,12 +1008,15 @@ _TLS_ specifies _Thread-Local-Storage_ template, formed from the combination of 
 _GU_STACK_ indicates weather a program's stack should be executable or not. 
 
 
+&nbsp;
+
 A segment also has permissions:
 
 _R_ Read
 _W_ Write
 _E_ Executable
 
+&nbsp;
 
 Example
 ```
@@ -970,6 +1083,7 @@ _LOAD_ contains the following sections:
 The first number is the index in the program header table and the remaining text is a list of all the sections within the segment. 
 
 
+&nbsp;
 
 ### 5.6 Segments vs Sections
 
