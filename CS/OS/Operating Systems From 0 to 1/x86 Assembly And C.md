@@ -742,7 +742,8 @@ Pointers are variables that hold memory addresses. x86 works with two types of p
 * _Far Pointer_ is also an offset like a near pointer but with an explicit segment selector. 
 
 
-TODO: Photo 
+<img src="https://i.imgur.com/JTmaKTT.png" alt="img" style="zoom: 10%;" />
+
 
 C only provides support for near pointers, since far pointers are platform dependent, such as x86.  In applicatoin code, you can assume that the address of current segment starts at 0, so the offset is actually any memory address from 0 to max address. 
 
@@ -789,7 +790,7 @@ Pointer `p1` holds a direct address with the value 0x1234. `p2` holds the addres
 
 A _bit field_ is a cintiguous sequence of bits. They allow data structures at bit level. For example, a 32-bit data can hold multiple bit fields that represent multiple different pieces of information, such as bits 0-4 specifies the size of the data structure, bit 5-6 specifies permissions ans so on. 
 
-TODO: Image
+<img src="https://i.imgur.com/TSi2LEN.png" alt="img" style="zoom: 10%;" />
 
 ```c
 struct bit_field {
@@ -1227,7 +1228,8 @@ int shl = i << 8;
 `shl` (_shift logical left_) shifts the bits in the destination operand to the left by the number of bits specified in the source operand. In this case `eax` stres `i` and `shl` shifts `eax` by 8 bits to the left. The result is stored in `shl` at `[ebp-0x14]`. 
 Visual representation of shift :
 
-TODO: Photo of shift.
+<img src="https://i.imgur.com/Mq8PuSN.png" alt="img" style="zoom: 10%;" />
+
 
 &nbsp;
 
@@ -1244,7 +1246,7 @@ int shr = i >> 8;
 
 To visualise:
 
-TODO: IMAGE OF SAR
+<img src="https://i.imgur.com/GCCu0h2.png" alt="img" style="zoom: 10%;" />
 
 Notice that initialy, the sign bit is 1, but after 1-bit and 10-bit shifts, the shifted-out bits are filled with zeros. With `sar`, the sign bit (most important bit) is preserved. That is, if the sign bit is 0, the new bits always get the value 0, if it is 1, new bits are always 1. 
 
@@ -1463,7 +1465,8 @@ A stack is a contiguous array of memory locations that holds a collection of dat
   * `push` adds a new element ontop of stack.
   * `pop` removed top element.
 
-TODO: Image.
+<img src="https://i.imgur.com/cN5RzvT.png" alt="img" style="zoom: 10%;" />
+
 
 &nbsp;
 
@@ -1507,7 +1510,7 @@ When a function needs a local variable or an argument, it uses `ebp` to access t
 * All arguments are allocated before the `ebp` pointer, thus we need to add a number to the pointer to access them.
 * The `ebp` itself points to the return address of the caller.
 
-TODO: Image
+<img src="https://i.imgur.com/vwpieX6.png" alt="img" style="zoom: 10%;" />
 
 &nbsp;
 
@@ -1547,7 +1550,7 @@ int add(int a, int b) {
 
 The rule is that, the closer a variable on the stack is to `ebp`, the closer it is to the function name.
 
-TODO: IMage
+<img src="https://i.imgur.com/sXAMwFg.png" alt="img" style="zoom: 10%;" />
 
 &nbsp;
 
