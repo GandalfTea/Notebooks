@@ -1,6 +1,14 @@
 
 ## The Anatomy Of A Program
 
+* [Reference Documents](#5.1)
+* [ELF header](#5.2)
+* [Section header table](#5.3)
+* [Understand Section in-depth](#5.4)
+* [Program header table](#5.5)
+* [Segments vs Sections](#5.6)
+* [](#)
+
 &nbsp;
 
 Each program contains data and code. The hardware however, cannot distinguish between the two, so there is also _metadata_ to tell it which region of memory should be protected or modified, what to run, etc. When a program is compiled, it is stored in an _object_ file, which is just a block of binary. This can be combined with other object files to create an _executable_ file, that can run on a specific operating system.
@@ -32,14 +40,14 @@ Later, we will compile out kernel as an ELF executable with GCC, and explicitly 
 
 &nbsp;
 
-### 5.1 Reference Documents
+### 5.1 Reference Documents <a name="5.1"></a>
 
 The ELF specifications for x86 are maintained on Github. You can access them [here](https://github.com/hjl-tools/x86-psABI/wiki/X86-psABI).
 
 
 &nbsp;
 
-### 5.2 ELF header
+### 5.2 ELF header <a name="5.2"></a>
 
 To see the information of the ELF header:
 ```
@@ -179,7 +187,7 @@ ___Section header string table index___ specifies the index of the header in the
 
 &nbsp;
 
-### 5.3 Section header table
+### 5.3 Section header table <a name="5.3"></a>
 
 
 The smaller code or data sections must satisfy the following conditions :
@@ -349,7 +357,7 @@ _Align_ is 16, meaning the starting address of the section should be divisible b
 
 &nbsp;
 
-### 5.4 Understand Section in-depth
+### 5.4 Understand Section in-depth <a name="5.4"></a>
 
 We will be examining the contents of each section as a hexdump with the command :
 ```
@@ -966,7 +974,7 @@ When you understand section types, you can understand the values in _Link__ and 
 &nbsp;
 
 
-### 5.5 Program header table
+### 5.5 Program header table <a name="5.5"></a>
 
 
 
@@ -1070,7 +1078,7 @@ The first number is the index in the program header table and the remaining text
 
 &nbsp;
 
-### 5.6 Segments vs Sections
+### 5.6 Segments vs Sections <a name="5.6"></a>
 
 
 Why does the OS use segments not sections? A segment is the perspective of an OS, while a section is the perspective of a linker. Looking into the structure of a segment, we can see:
