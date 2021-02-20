@@ -7,7 +7,6 @@
 * [Understand Section in-depth](#5.4)
 * [Program header table](#5.5)
 * [Segments vs Sections](#5.6)
-* [](#)
 
 &nbsp;
 
