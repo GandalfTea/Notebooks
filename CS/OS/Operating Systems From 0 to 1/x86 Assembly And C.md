@@ -35,7 +35,7 @@ In this chapter we explore assembly language, and how it connects to C.
 
 _objdump_ is a programs that displays information about object files. Later it will be used to debug. Now we use it to examine how high level source code maps to assembly code.
 
-Suppose we have an executable binary named _hello_ compiled from _hello.c_ that printsd _Hello World_. We can use `-d` to only display assembled contents of executable sections. 
+Suppose we have an executable binary named _hello_ compiled from _hello.c_ that prints _Hello World_. We can use `-d` to only display assembled contents of executable sections. 
 
 ```
 $ objdump -d hello
@@ -43,7 +43,8 @@ $ objdump -d hello
 &nbsp;
 
 
-A _section_ is a block of memory that contains either program code or data. A code section can be executed by the CPU while a data one cannot. With the `-d` command, non-executable sections such as _.data_ and _.bss_, debug sections, etc, are not displayed. On the other hand, `-D` displays assembly contents of all sections:
+A _section_ is a block of memory that contains either program _code_ or _data_. A _code_ section can be executed by the CPU while a _data_ one cannot. 
+With the `-d` command, non-executable sections such as _.data_ and _.bss_, debug sections, etc, are not displayed. On the other hand, `-D` displays assembly contents of all sections:
 ```
 $ objdump -D hello
 ```
