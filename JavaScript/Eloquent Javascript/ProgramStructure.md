@@ -1,7 +1,11 @@
 
 ## Program Structure
 
+&nbsp;
+
 ### Expressions and Statements
+
+&nbsp;
 
 #### Binding variables
 
@@ -36,14 +40,19 @@ console.log(greeting + name);
 -> Hello Ayda
 ```
 
+&nbsp;
+
 #### Control Flow
 
+
+&nbsp;
 
 __Input__ can be taken like this:
 ```js
 let theNumber = Number(prompt("Pick a number"));
 ```
   
+&nbsp;
   
 __If statements__ look like in C++:
 ```js
@@ -68,6 +77,8 @@ if (num < 10) {
 }
 ```
 
+&nbsp;
+
 __while__ loops:
 ```js
 let number = 0;
@@ -77,6 +88,8 @@ while (number <= 12) {
 }
 ```
 
+&nbsp;
+
 __do-while__ loops:
 ```js
 let yourName;
@@ -85,6 +98,9 @@ do {
 } while(!yourName);
 console.log(yourName);
 ```
+
+&nbsp;
+
 __for__ loops:
 ```js
 for (let number = 0; number <= 12; number += 2) {
@@ -92,9 +108,13 @@ for (let number = 0; number <= 12; number += 2) {
 }
 ```
 
+&nbsp;
+
 
 To brake out of a loop, use the keyward `break`.
 
+
+&nbsp;
 
 __switch__ loops:
 ```js
@@ -113,6 +133,8 @@ switch(prompt("What is the weather like?")) {
 	break;
 }
 ````
+
+&nbsp;
 
 #### Comments
 
