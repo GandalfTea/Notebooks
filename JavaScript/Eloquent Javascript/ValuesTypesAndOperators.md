@@ -2,7 +2,12 @@
 
 ## Values, Types and Operators
 
+&nbsp;
+
 ### Values
+
+&nbsp;
+
 #### Numbers
 
 You can use `e` to represent exponents:
@@ -15,6 +20,8 @@ There are 3 special numbers:
 `Infinity` which represents positive infinity value.
 `-Infinity` negative infinity value.
 `Nan` Not A Number. Meaning even if it is a value of number type, error. For trying to do 0 / 0 or Infinity - Infinity.
+
+&nbsp;
 
 #### Strings
 
@@ -31,6 +38,9 @@ You can insert info into a string like this:
 ```js
 "half of 100 is ${100 / 2}"
 ```
+
+&nbsp;
+
 #### Unary 
 You can use `typeof` to get the type of a value.
 ```js
@@ -40,10 +50,14 @@ console.log(typeof 4.5)
 -> number
 ```
 
+&nbsp;
+
 #### Boolians
 
 
 Like Python.
+
+&nbsp;
 
 #### Logical Operators
 
@@ -60,6 +74,9 @@ console.log(false ? 1 : 2);
 -> 1
 -> 2
 ```
+
+&nbsp;
+
 #### Automatic conversion
 
 Basically Python
