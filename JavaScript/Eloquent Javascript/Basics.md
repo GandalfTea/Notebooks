@@ -41,7 +41,7 @@ is 2,998 x 10^8 = 299800000
 There are 3 special numbers:      
 `Infinity` which represents positive infinity value.     
 `-Infinity` negative infinity value.      
-`Nan` Not A Number. Meaning even if it is a value of number type, error. For trying to do 0 / 0 or Infinity - Infinity.     
+`NaN` Not A Number. Meaning even if it is a value of number type, error. For trying to do 0 / 0 or Infinity - Infinity.     
 
 &nbsp;
 
