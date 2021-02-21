@@ -1,4 +1,9 @@
-__Warning__: Those notes do not represent the entirety of the book. 
+__Warning__: The notes do not represent the entirety of the book. 
+
+
+ &nbsp;
+
+__Original textbook is free online [here](https://eloquentjavascript.net/)__
  
  &nbsp;
 
