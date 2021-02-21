@@ -79,7 +79,6 @@ console.log(false ? 1 : 2);
 
 #### Automatic conversion
 
-Basically Python
 ```js
 console.log(8 * null)
 -> 0
