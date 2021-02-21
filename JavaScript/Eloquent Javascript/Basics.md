@@ -38,10 +38,10 @@ You can use `e` to represent exponents:
 ```
 is 2,998 x 10^8 = 299800000
 
-There are 3 special numbers:
-`Infinity` which represents positive infinity value.
-`-Infinity` negative infinity value.
-`Nan` Not A Number. Meaning even if it is a value of number type, error. For trying to do 0 / 0 or Infinity - Infinity.
+There are 3 special numbers:      
+`Infinity` which represents positive infinity value.     
+`-Infinity` negative infinity value.      
+`Nan` Not A Number. Meaning even if it is a value of number type, error. For trying to do 0 / 0 or Infinity - Infinity.     
 
 &nbsp;
 
@@ -53,7 +53,7 @@ You can use backticks, single or double quotes.
 'String'
 "String"
 ```
-You can use `\n` for newline in string.
+You can use `\n` for newline in string.      
 Concatination is like Python.
 
 You can insert info into a string like this:
@@ -84,9 +84,9 @@ Like Python.
 
 #### Logical Operators <a name="1.2"></a>
 
-`&&` is AND
-`||` is OR
-`!` is NOT
+`&&` is AND     
+`||` is OR     
+`!` is NOT     
 
 Also the simple if statement:
 ```js
@@ -102,7 +102,6 @@ console.log(false ? 1 : 2);
 
 #### Automatic conversion <a name="1.3"></a>
 
-Basically Python
 ```js
 console.log(8 * null)
 -> 0
@@ -298,9 +297,9 @@ It can have 0 or more parameters.
 &nbsp;
 
 
-Scopes are the same as C++.
-`var` variables are visible throuought the function.
-`let` variables are only local to the code block.
+Scopes are the same as C++.     
+`var` variables are visible throuought the function.      
+`let` variables are only local to the code block.     
 
 ```js
 let x = 10;
