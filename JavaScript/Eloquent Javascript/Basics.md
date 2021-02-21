@@ -1,9 +1,36 @@
+ This file contains the first 3 chapters of the textbook.     
+      
+ 
+ * [Values, Types and Operators](#1)
+ 	*  [Values](#1.1)
+ 	*  [Logical Operators](#1.2)
+ 	*  [Automatic conversion](#1.3)
+ * [Program Structure](#2)
+ 	* [Expressions and Statements](#2.1) 
+ 		* [Binding variables](#2.1.1)
+ 	* [Control Flow](#2.2)
+ 	* [Comments](#2.3)
+ * [Functions](#3)
+ 	* [First method](#3.1)
+ 	* [Second method](3.2)
+ 	* [Third Method](#3.3)
+ 	* [Closure](#3.4)
+ 	* [Recursion](#3.5)
+ 	
+ 		
+
+&nbsp;
 
 
-## Values, Types and Operators
+## Values, Types and Operators  <a name="1"></a>
 
-### Values
-#### Numbers
+&nbsp;
+
+### Values  <a name="1.1"></a>
+
+&nbsp;
+
+#### Numbers  <a name="1.1.1"></a>
 
 You can use `e` to represent exponents:
 ```js
@@ -16,7 +43,9 @@ There are 3 special numbers:
 `-Infinity` negative infinity value.
 `Nan` Not A Number. Meaning even if it is a value of number type, error. For trying to do 0 / 0 or Infinity - Infinity.
 
-#### Strings
+&nbsp;
+
+#### Strings  <a name="1.1.2"></a>
 
 You can use backticks, single or double quotes.
 ```js
@@ -31,7 +60,10 @@ You can insert info into a string like this:
 ```js
 "half of 100 is ${100 / 2}"
 ```
-#### Unary 
+
+&nbsp;
+
+#### Unary   <a name="1.1.3"></a>
 You can use `typeof` to get the type of a value.
 ```js
 console.log(typeof 4.5)
@@ -40,12 +72,17 @@ console.log(typeof 4.5)
 -> number
 ```
 
-#### Boolians
+&nbsp;
+
+#### Boolians <a name="1.1.4"></a>
 
 
 Like Python.
 
-#### Logical Operators
+&nbsp;
+
+
+#### Logical Operators <a name="1.2"></a>
 
 `&&` is AND
 `||` is OR
@@ -60,7 +97,10 @@ console.log(false ? 1 : 2);
 -> 1
 -> 2
 ```
-#### Automatic conversion
+
+&nbsp;
+
+#### Automatic conversion <a name="1.3"></a>
 
 Basically Python
 ```js
@@ -78,13 +118,18 @@ console.log(false == 0)
 
 
 
+&nbsp;
 
 
-## Program Structure
+## Program Structure <a name="2"></a>
 
-### Expressions and Statements
+&nbsp;
 
-#### Binding variables
+### Expressions and Statements <a name="2.1"></a>
+
+&nbsp;
+
+#### Binding variables <a name="2.1.1"></a>
 
 It is done like so:
 ```js
@@ -117,15 +162,20 @@ console.log(greeting + name);
 -> Hello Ayda
 ```
 
-#### Control Flow
+&nbsp;
+
+#### Control Flow <a name="2.2"></a>
+
+&nbsp;
 
 
-__Input__ can be taken like this:
+__Input__ can be taken like this: 
 ```js
 let theNumber = Number(prompt("Pick a number"));
 ```
   
-  
+  &nbsp;
+
 __If statements__ look like in C++:
 ```js
 let theNumber = Number(prompt("Pick a number"));
@@ -149,6 +199,8 @@ if (num < 10) {
 }
 ```
 
+&nbsp;
+
 __while__ loops:
 ```js
 let number = 0;
@@ -158,6 +210,8 @@ while (number <= 12) {
 }
 ```
 
+&nbsp;
+
 __do-while__ loops:
 ```js
 let yourName;
@@ -166,6 +220,9 @@ do {
 } while(!yourName);
 console.log(yourName);
 ```
+
+&nbsp;
+
 __for__ loops:
 ```js
 for (let number = 0; number <= 12; number += 2) {
@@ -176,6 +233,7 @@ for (let number = 0; number <= 12; number += 2) {
 
 To brake out of a loop, use the keyward `break`.
 
+&nbsp;
 
 __switch__ loops:
 ```js
@@ -194,8 +252,9 @@ switch(prompt("What is the weather like?")) {
 	break;
 }
 ````
+&nbsp;
 
-#### Comments
+#### Comments <a name="2.3"></a>
 
 Single comment
 ```js
@@ -212,12 +271,13 @@ comment
 */
 ```
 
+&nbsp;
 
 
-## Functions
+## Functions <a name="3"></a>
 
 
-To define a function:
+To define a function: <a name="3.1"></a>
 
 ```js
 const square = function(x) {
@@ -235,6 +295,9 @@ It starts with the keyward `function`.
 
 It can have 0 or more parameters.
 
+&nbsp;
+
+
 Scopes are the same as C++.
 `var` variables are visible throuought the function.
 `let` variables are only local to the code block.
@@ -250,6 +313,9 @@ if (true) {
 convole.log(x + z);
 ```
 
+&nbsp;
+
+
 Functions can be passed as arguments and redefied:
 ```js
 let launchMissiles = function() {
@@ -261,8 +327,9 @@ if (safeMode) {
 }
 ```
 
+&nbsp;
 
-There is another way to create a function, which worked differently:
+There is another way to create a function, which worked differently: <a name="3.2"></a>
 ```js
 function square(x) {
 	return x * x;
@@ -278,8 +345,10 @@ function future() {
 }
 ```
 
+&nbsp;
 
-There is even another way to create a function, with a wierder syntax.
+
+There is even another way to create a function, with a wierder syntax. <a name="3.3"></a>
 ```js
 const power = (base, exponent) => {
 	let power = 1;
@@ -303,6 +372,8 @@ const horn = () => {
 ```
 
 There is no reason for this syntax. It does mostly the same thing as any function expression.
+
+&nbsp;
 
 
 You can have optional arguments.
@@ -331,6 +402,7 @@ console.log(minus(10,5));
 -> 5
 ```
 
+&nbsp;
 
 
 You can have predefined values for parameters:
@@ -340,7 +412,9 @@ function power(base, exponent = 2) {
 }
 ```
 
-#### Closure
+&nbsp;
+
+#### Closure <a name="3.4"></a>
 
 What happens to local bindings when the function call is no longer available?
 ```js
@@ -373,7 +447,9 @@ console.log(twice(5));
 ```
 
 
-#### Recursion
+&nbsp;
+
+#### Recursion <a name="3.5"></a>
 
 You can do recursion
 
