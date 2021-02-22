@@ -24,3 +24,17 @@ Chapter 1, 2, 3 : [___Basics___](https://github.com/GandalfTea/Notebooks/blob/ma
  	* Third Method
  	* Closure
  	* Recursion
+
+ &nbsp;
+
+Chapter 4 : [___Data Structures: Objects and Arrays___](https://github.com/GandalfTea/Notebooks/blob/master/JavaScript/Eloquent%20Javascript/ObjectsAndArrays.md)
+
+* Arrays
+* Objects
+* Log Example
+* Other array methods
+* String Properties
+* Rest Parameters
+* The Math Object
+* Destructuring
+* JSON
