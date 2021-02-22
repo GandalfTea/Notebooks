@@ -1,10 +1,23 @@
 
 ## Data Structures: Objects and Arrays
 
+&nbsp;
+
+1. [Arrays](#1)    
+2. [Objects](#2)     
+3. [Log Example](#3)     
+4. [Other array methods](#4)     
+5. [String Properties](#5)     
+6. [Rest Parameters](#6)     
+7. [The Math Object](#7)    
+8. [Destructuring](#8)     
+9. [JSON](#9)      
+
+
 
 &nbsp;
 
-#### Arrays
+#### Arrays <a name="1"></a>
 
 Array syntax:
 ```js
@@ -39,7 +52,7 @@ console.log(listOfNumbers);
 
 &nbsp;
 
-#### Objects
+#### Objects <a name="2"></a>
 
 
 Syntax for objects:
@@ -151,7 +164,7 @@ console.log(object2.value);
 &nbsp;
 
 
-#### Log Example
+#### Log Example <a name="3"></a>
 
 Creating a log that computes the corelation between different activities.
 
@@ -336,7 +349,7 @@ console.log(phi(tableFor("peanut teeth", JOURNAL)));
 &nbsp;
 
 
-#### Other array methods
+#### Other array methods <a name="4"></a>
 
 &nbsp;
 
@@ -393,7 +406,7 @@ console.log(remove(["a", "b", "c", "d"], 2));
 &nbsp;
 
 
-#### String Properties
+#### String Properties <a name="5"></a>
 
 &nbsp;
 
@@ -480,7 +493,7 @@ console.log(string[1]);
 &nbsp;
 
 
-#### Rest Parameters
+#### Rest Parameters <a name="6"></a>
 
 &nbsp;
 
@@ -525,8 +538,8 @@ console.log(["never", ...words, "you", "up"]);
 
 &nbsp;
 
-
-#### The Math Object
+ 
+#### The Math Object <a name="7"></a>
 
 &nbsp;
 
@@ -564,7 +577,7 @@ console.log(Math.floor(Math.random() * 10));
 &nbsp;
 
 
-#### Destructuring
+#### Destructuring <a name="8"></a>
 
 &nbsp;
 
@@ -605,7 +618,7 @@ console.log(name);
 
 &nbsp;
 
-#### JSON
+#### JSON <a name="9"></a>
 
 &nbsp;
 
@@ -628,7 +641,7 @@ An entry looks like this:
 &nbsp;
 
 
-You use the functions `JSON.stringify` and `JSON.parse` to concert to and from this format.  The first returns a JSON-encoded string, the second takes such a string and converts it to the value it encodes.
+You use the functions `JSON.stringify` and `JSON.parse` to convert to and from this format.  The first returns a JSON-encoded string, the second takes such a string and converts it to the value it encodes.
 
 ```js
 let string = JSON.stringify({squirrel: false,
