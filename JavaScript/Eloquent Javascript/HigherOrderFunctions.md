@@ -14,7 +14,7 @@
 
 &nbsp;
 
-You can use the `=>` function declaration a _lambda_ like function:
+You can use the `=>` function to declare a _lambda_ like function:
 ```js
 let labels = [];
 repeat(5, i => {
