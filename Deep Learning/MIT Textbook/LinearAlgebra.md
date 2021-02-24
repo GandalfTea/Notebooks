@@ -1,4 +1,4 @@
-Î
+
 
 ## Linear Algebra
 ### Chapter 2
@@ -77,7 +77,8 @@ An important operation on matrices is the __transpose__. The transpose of a matr
 TODO: Photo of matric diagonal line.
 
 ```
-The transpose of a martix results in a new matrix where the rows of the original become the columns and the columns become the rows. As an example:
+The transpose of a martix results in a new matrix where the rows of the original become 
+the columns and the columns become the rows. As an example:
 
     A = [ 5  4    A^T = [ 5  4  7 -1
 	  4  0		  4  0 10  8 ]
@@ -121,10 +122,11 @@ TODO: Matrix multiplication formula.
 The dot product multiplication of two martices is done like so:
 
 [ 1  2  3      [ 7   8 	    [ 58  64
-  4  5  6]  X 	 9  10  =    139 154]
+  4  5  6]  X 	 9  10   =   139 154]
 		 11 12]
 
-The calculation for the first number is done by the first row of the first martix and the first column of the second martix. It is done like this:
+The calculation for the first number is done by the first row of the first martix and the 
+first column of the second martix. It is done like this:
 
 (1, 2, 3) * (7, 9, 11) = 1 * 7 + 2 * 9 + 3 * 11 = 58
 
