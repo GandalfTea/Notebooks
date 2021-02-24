@@ -1,4 +1,4 @@
-
+Î
 
 ## Linear Algebra
 ### Chapter 2
@@ -18,18 +18,25 @@ N - Natural Numbers are numbers that are positive, often used for counting.
  Controversy surrounds the ideea if it includes 0 or not.
 ```
 
-* ___Vectors___ are comprised from an array of numbers. The numbers are arranged in order. We identify each number by it's index in that order. The first element of _x_ is _x_<sub>1</sub>, second is _x_<sub>2</sub>, etc. We must also specify what kind of numbers they are. If each element is in _R_, and the vector has _n_ elements, then the vector lies in the set formed by taking the Cartesian product of _R_ _n_ times, denoted as _R<sup>n</sup>_. 
+* ___Vectors___ are comprised from an array of numbers. The numbers are arranged in order. We identify each number by it's index in that order. The first element of _x_ is _x_<sub>1</sub>, second is _x_<sub>2</sub>, etc. We must also specify what kind of numbers they are. If each element is in _R_, and the vector has _n_ elements, then the vector lies in the set formed by taking the Cartesian product of _R_ _n_ times, denoted as _R_<sup>n</sup>. 
 ```
 Cartesian Product - It is a product between two sets of numbers (arrays).
 It is calculated as the set of all possible ordered pairs with the first
 element from X (first set) and the second from Y (second set).
 
-X * Y = {(x,y): x is in X and y is in Y}
+X x Y = {(x,y): x is in X and y is in Y}
 
-TODO: Photo from wikipedia
+  Y   1     2     3  
+  
+  X 
+-------------------------- X x Y
+  x (x,1) (x,2) (x,3)
 
-In this case, the vector lies in the set R^2 because there are two vectors, X and Y.
+  y (y,1) (y,2) (y,3)
 
+  z (z,1) (z,2) (z,3)
+
+In this case, vector X is in R^3 because it has 3 elements.
 ```
 When we need to explicitly identify the elements, we write them as a column like so:
 
@@ -40,17 +47,19 @@ We can think of vectors as identifying points in space, with each element giving
 Sometimes we need to index a set of elements of a vector. In this case, we define a set containing the indices and write the set as a subscript. For example, to access x<sub>1</sub>, x<sub>3</sub> and x<sub>6</sub>, we define the set _S_ = {1,3,6} and write ___x___<sub>S</sub>. We use the - sign to index the complement of a set. For example, ___x___<sub>-1</sub> is the vector containing all elements of ___x___ except for _x_<sub>1</sub>. Likewise, ___x___<sub>-S</sub> is a vector containing all elements of ___x___ except for the elements in _S_.
 
 
-* ___Matrices___ are a 2D array of numbers. Each element has two indeces instead of one. They are usually named using uppercase bold typeface, such as ___A___. If a real-valued matrix (consisting only of real numbers) ___A___ has a height of _m_ and a width of _n_, we say that ___A___ is in _R_<sup>_m_ * _n_</sup>. 
+* ___Matrices___ are a 2D array of numbers. Each element has two indices instead of one. They are usually named using uppercase bold typeface, such as ___A___. If a real-valued matrix (consisting only of real numbers) ___A___ has a height of _m_ and a width of _n_, we say that ___A___ is in _R_<sup>_m_ x _n_</sup>.        
+
 We idenify elements with subscript, like this :
 _A_<sub>1,1</sub>, _A_<sub>m,n</sub>.     
-We identify all the elements in the row _i_ as _A_<sub>i,:</sub>.     
-Likewise, we identify all elements in the _i_ column as _A_<sub>:,i</sub>.    
+    
+We identify all the elements in the row _i_ as _A_<sub>i, : </sub>.     
+Likewise, we identify all elements in the _i_ column as _A_<sub> : ,i</sub>.    
 
 When explicitly identifying the elements of a matrix, we display them like this:
 
 TODO: Photo
 
-Sometimes, we need to index matric-valued expressions that are not just a single letter. We use subscript after the expression but do not convert anything to lowercase. For example _f_(___A___)<sub>i,j</sub> gives element (_i,j_) of the martic computed by applying a function _f_ to ___A___.
+Sometimes, we need to index matrix-valued expressions that are not just a single letter. We use subscript after the expression but do not convert anything to lowercase. For example _f_(___A___)<sub>i,j</sub> gives element (_i,j_) of the martix computed by applying a function _f_ to ___A___.
 
 
 * ___Tensors___ are arrays of numbers arranged on a regular grid with a variable number of axes. We identify the element of ___A___ at coordinates (_i,j,k_)  by ___A___<sub>_i,j,k_</sub>.
@@ -62,46 +71,80 @@ Strictly speaking we refer to a tensor as such if it has >= 3 dimensions.
 ```
 
 
-An important operation on matrices is the __transpose__. The transpose of a matrix is te mirror image of the matrix across a diagonal line, called the __main diagonal__, running down and to the right, starting from the upper left corner. We denote the transpose of a matric ___A___ as ___A___<sup>T</sup>, as in defined as: (___A___<sup>T</sup>)<sub>_i,j_</sub> = _A_<sub>_i,j_</sub>. A graphical representation of this process is:
-```
-For lack of a better alternative, I will use a capital T to display the transpose symbol. 
-Please know this is not usually the case.
-```
+An important operation on matrices is the __transpose__. The transpose of a matrix is the mirror image of the matrix across a diagonal line, called the __main diagonal__, running down and to the right, starting from the upper left corner. We denote the transpose of a matrix ___A___ as ___A___<sup>T</sup>, as in defined as: (___A___<sup>T</sup>)<sub>_i,j_</sub> = _A_<sub>_i,j_</sub>. A graphical representation of this process is:
 
 
 TODO: Photo of matric diagonal line.
 
+```
+The transpose of a martix results in a new matrix where the rows of the original become the columns and the columns become the rows. As an example:
 
+    A = [ 5  4    A^T = [ 5  4  7 -1
+	  4  0		  4  0 10  8 ]
+	  7 10
+	 -1  8]
 
-Vectors are matrices with a single column, therefore the transpose of a vector is a matrix with only one row. Sometimes we define a vector by writing it as a row matric, then use the transpose operator to turn it into a standard column vector. For example: ___x___ = [_x_<sub>1</sub>,_x_<sub>2</sub>, _x_<sub>3</sub>]<sup>T</sup>.
+```
+Vectors are matrices with a single column, therefore the transpose of a vector is a matrix with only one row. Sometimes we define a vector by writing it as a matrix row, then use the transpose operator to turn it into a standard column vector. For example: ___x___ = [_x_<sub>1</sub>,_x_<sub>2</sub>, _x_<sub>3</sub>]<sup>T</sup>.
 
+```
+A vector, that is esentially an array, when transposed, becomes a vertical martix row.
 
-A scalar is esentially a mmatrix with a single entry. From this, we can see that the transpose of a is scalar itself: _a_ = _a_<sup>T</sup>.
+A = [1, 2, 3, 4, 5 ... n]
+
+A^T = [ 1
+        2
+	3
+	...
+	n ]
+
+```
+
+A scalar is esentially a matrix with a single entry. From this, we can see that the transpose of a is scalar itself: _a_ = _a_<sup>T</sup>.
 
 We can add matrices to each other as long as they have the same shape by adding the coresponding elements : ___C___ = ___A___ + ___B___ where _C_<sub>_i,j_</sub> = _A_<sub>_i,j_</sub> + _B_<sub>_i,j_</sub>.
 
-We can also add a scalar to a martix, or multiply a matric by a scalar. This is done by performing the operation on each element of the matrix: ___D___ = _a_ * ___B___ + _c_ where _D_<sub>_i,j_</sub> = _a_ * _B_<sub>_i,j_</sub> + _c_.
+We can also add a scalar to a martix, or multiply a matrix by a scalar. This is done by performing the operation on each element of the matrix: ___D___ = _a_ * ___B___ + _c_ where _D_<sub>_i,j_</sub> = _a_ * _B_<sub>_i,j_</sub> + _c_.
 
 
-In the context of deep learning we will also use some less conventional notation. We allow the addition of a matric and a vector, resulting in another matrix: ___C___ = ___A___ + ___b___ where ___C___<sub>_i,j_</sub> = _A_<sub>_i,j_</sub> + _b_<sub>_j_</sub>. This is done by adding the vector to each row of the matrix. This eliminated the need to define a matrix wit ___b___ copied into each row during addition. The name of this operation, the implicit copying of ___b___ to many locations is called __broadcasting__. 
+In the context of deep learning we will also use some less conventional notation. We allow the addition of a matrix and a vector, resulting in another matrix: ___C___ = ___A___ + ___b___ where ___C___<sub>_i,j_</sub> = _A_<sub>_i,j_</sub> + _b_<sub>_j_</sub>. This is done by adding the vector to each row of the matrix. This eliminated the need to define a matrix wit ___b___ copied into each row during addition. The name of this operation, the implicit copying of ___b___ to many locations is called __broadcasting__. 
 
 
 ### 2.2 Multiplying Matrices and Vectors
 
 
-Multiplication of matrices is one of the most important operation. When calculating the _matrix product_ of matrices ___A___ and ___B___, it results in a third matric ___C___. In order for this to happen, ___A___ must have the same number of columns as ___B___ has rows. For example, if ___A___ is of shape _m * n_ and ___B___ is of shape _n * p_, the resulting matrix ___C___ will be of shape _m * p_. We show this product like this: ___C___ = ___AB___. The product operation is defined by:
+Multiplication of matrices is one of the most important operation. When calculating the _matrix product_ of matrices ___A___ and ___B___, it results in a third matrix ___C___. In order for this to happen, ___A___ must have the same number of columns as ___B___ has rows. For example, if ___A___ is of shape _m x n_ and ___B___ is of shape _n x p_, the resulting matrix ___C___ will be of shape _m x p_. We show this product like this: ___C___ = ___AB___. The product operation is defined by:
 
 TODO: Matrix multiplication formula.
 
+```
+The dot product multiplication of two martices is done like so:
+
+[ 1  2  3      [ 7   8 	    [ 58  64
+  4  5  6]  X 	 9  10  =    139 154]
+		 11 12]
+
+The calculation for the first number is done by the first row of the first martix and the first column of the second martix. It is done like this:
+
+(1, 2, 3) * (7, 9, 11) = 1 * 7 + 2 * 9 + 3 * 11 = 58
+
+For the first row and second column:
+
+(1, 2, 3) * (8, 10, 12) = 1 * 8 + 2 * 10 + 3 * 12 = 64
+ 
+And so on for the remaining second row with both columns of the second matrix.
+```
 
 The standard product of two matrices is not just a matrix containing the product of the individual elements. Such a product is called __element-wise product__ or __Hadamard product__. 
 
 
 The dot product between two vectors ___x___ and ___y___ of the same dimensionality is the matrix product ___x___<sup>T</sup>___y___. We can think of the matrix product ___C___ = ___AB___ as computing _C_<sub>_i,j_</sub> as the dot product between row _i_ of ___A___ an column _j_ of ___B___.
 
-There are many useful properties that make mathematical analysis of matrices more conveniant. For example, matrix multiplication is distributive : ___A___(___B___+___C___) = ___AB___ + ___AC___. 
 
+There are many useful properties that make mathematical analysis of matrices more conveniant. For example, matrix multiplication is distributive :    
+___A___(___B___+___C___) = ___AB___ + ___AC___. 
 
+  
 It is also associative:
 ___A___(___BC___) = (___AB___)___C___.
 
@@ -113,9 +156,11 @@ Matrix multiplication is not commutative (the condition ___AB___ = ___BA___ does
 ___x___<sup>T</sup>___y___ = ___y___<sup>T</sup>___x___.
 
 
-The transpose of a matric product has a simple form:
+The transpose of a matrix product has a simple form:
 
 (___AB___)<sup>T</sup> = ___B___<sup>T</sup>___A___<sup>T</sup>
+
+
 
 This allows us to demonstrate the equasion : ___x___<sup>T</sup>___y___ = ___y___<sup>T</sup>___x___ by exploiting the fact that the value of such a product is a scaler and therefore equal to its own transpose:
 
@@ -124,17 +169,19 @@ ___x___<sup>T</sup>___y___ = (___x___ <sup>T</sup>___y___<sup>T</sup>)<sup>T</su
 
 
 
-This is enough linear algebra to write doen a system of linear equasions:
+This is enough linear algebra to write down a system of linear equasions:
+
 
 ___Ax___ = ___b___
 
-where ___A___ is a known vector and is in _R_<sup>_m_ * _n_</sup>, ___b___ is a known vector and in _R_<sup>_m_</sup> and ___x___ is a cector of unknown variables we would like to solve for in _R_<sup>_n_</sup>. Each element _x_<sub>_i_</sub> od ___x___ is one of those unknown variables. Each row of ___A___ and each element of ___b___ provide another constraint. We can rewrite the equasion from above as:
-___A___<sub>1 , :</sub>___x___ = _b_<sub>1</sub>
-___A___<sub>2 , :</sub>___x___ = _b_<sub>2</sub>
+where ___A___ is a known vector and is in _R_<sup>_m_ x _n_</sup>, ___b___ is a known vector and in _R_<sup>_m_</sup> and ___x___ is a vector of unknown variables we would like to solve for in _R_<sup>_n_</sup>. Each element _x_<sub>_i_</sub> of ___x___ is one of those unknown variables. Each row of ___A___ and each element of ___b___ provide another constraint. We can rewrite the equasion from above as:      
+___A___<sub>1 , : </sub>___x___ = _b_<sub>1</sub>
+___A___<sub>2 , : </sub>___x___ = _b_<sub>2</sub>
 . . .
-___A___<sub>_m_ , :</sub>___x___ = _b_<sub>_m_</sub>
+___A___<sub>_m_ , : </sub>___x___ = _b_<sub>_m_</sub>
 
-Or even more explicitly as :
+
+Or even more explicitly as :      
 ___A___<sub>1,1</sub>_x_<sub>1</sub> + ___A___<sub>1,2</sub>_x_<sub>2</sub> + . . . + ___A___<sub>1,_n_</sub>_x_<sub>_n_</sub> = _b_<sub>1</sub>
 
 ___A___<sub>2,1</sub>_x_<sub>1</sub> + ___A___<sub>2,2</sub>_x_<sub>2</sub> + . . . + ___A___<sub>2,_n_</sub>_x_<sub>_n_</sub> = _b_<sub>2</sub>
@@ -151,12 +198,13 @@ Matrix vector product notation provides a more compact representation for equasi
 
 ### 2.3 Identity and Inverse Matrices
 
-In linear algebra, there is a powerful tool called __matric inversion__ that enables us to solve the equasion : ___Ax___ = ___b___  for many values of ___A___.
+In linear algebra, there is a powerful tool called __matrix inversion__ that enables us to solve the equasion : ___Ax___ = ___b___  for many values of ___A___.
+
 
 In order to understand matric inversion, we first need to introduce the concept of an __identity matrix__. An identity matrix is a matrix that does not change any vector when we multply tht vector by the matrix. We show the identity matrix that preserves _n_-dimensional vectors as ___I___ <sub>_n_</sub>. Formally, ___I___ <sub>_n_</sub> is in _R_<sup>_n_ * _n_</sup>, and for all ___x___ in _R_<sup>_n_</sup>,___I___ <sub>_n_</sub>___x___ = ___x___.
 
 
-The structure of the identity matrix is simple: all entries along the main diagonal are 1, while all the other entries are zero. As an example:
+The structure of the identity matrix is simple: all entries along the main diagonal are 1, while all the other entries are zero. As an example:      
 [ 1 0 0      
   0 1 0      
   0 0 1 ]   
@@ -164,13 +212,14 @@ The structure of the identity matrix is simple: all entries along the main diago
 The matrix inverse of ___A___ is denoted as ___A___<sup>-1</sup> and is defined as the matrix such as that ___A___<sup>-1</sup>___A___ = ___I___<sub>_n_</sub>.
 
 
-We can now solve the equasion ___Ax___ = ___b___ by the following steps:
-
+We can now solve the equasion ___Ax___ = ___b___ by the following steps:      
+    
 ___Ax___ = ___b___     
 ___A___<sup>-1</sup>___Ax___ =  ___A___<sup>-1</sup>___b___     
 ___I___<sub>_n_</sub>___x___ =  ___A___<sup>-1</sup>___b___     
 ___x___ =  ___A___<sup>-1</sup>___b___.
-      
+    
+  
 This process is dependent on it being possible to find ___A___<sup>-1</sup>. We discuss the conditions for the existance of ___A___<sup>-1</sup> in the following section. 
 
 When ___A___<sup>-1</sup> exists, many algorithms can find it in closed form. In theory, the same inverse matrix can be used to solve the equation for many different values of ___b___. It is primarely useful as a theoretical tool, and should not actually be used in practice for most software applications. This is because ___A___<sup>-1</sup> can only be represented with limited precision on a digital computer. Algorithms that make use of the value of ___b___ can usually obtain more accurate estimates of ___x___.
