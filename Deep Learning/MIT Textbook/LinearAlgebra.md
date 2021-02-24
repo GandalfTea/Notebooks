@@ -89,7 +89,7 @@ the columns and the columns become the rows. As an example:
 Vectors are matrices with a single column, therefore the transpose of a vector is a matrix with only one row. Sometimes we define a vector by writing it as a matrix row, then use the transpose operator to turn it into a standard column vector. For example: ___x___ = [_x_<sub>1</sub>,_x_<sub>2</sub>, _x_<sub>3</sub>]<sup>T</sup>.
 
 ```
-A vector, that is esentially an array, when transposed, becomes a vertical martix row.
+A vector, that is esentially an array, when transposed, becomes a vertical vector (or vice versa). vectors are just a 1 column or row matrix. 
 
 A = [1, 2, 3, 4, 5 ... n]
 
@@ -205,11 +205,19 @@ In linear algebra, there is a powerful tool called __matrix inversion__ that ena
 
 In order to understand matric inversion, we first need to introduce the concept of an __identity matrix__. An identity matrix is a matrix that does not change any vector when we multply tht vector by the matrix. We show the identity matrix that preserves _n_-dimensional vectors as ___I___ <sub>_n_</sub>. Formally, ___I___ <sub>_n_</sub> is in _R_<sup>_n_ * _n_</sup>, and for all ___x___ in _R_<sup>_n_</sup>,___I___ <sub>_n_</sub>___x___ = ___x___.
 
+```
+The Identity Matrix is the equivalent of a 1 in simple calculations. 
+It does not change the thng multiplied by it.
+```
 
-The structure of the identity matrix is simple: all entries along the main diagonal are 1, while all the other entries are zero. As an example:      
+The structure of the identity matrix is simple: all entries along the main diagonal are 1, while all the other entries are 0. 
+
+As an example:      
+```
 [ 1 0 0      
   0 1 0      
   0 0 1 ]   
+```
 
 The matrix inverse of ___A___ is denoted as ___A___<sup>-1</sup> and is defined as the matrix such as that ___A___<sup>-1</sup>___A___ = ___I___<sub>_n_</sub>.
 
@@ -230,20 +238,35 @@ When ___A___<sup>-1</sup> exists, many algorithms can find it in closed form. In
 ### 2.4 Linear Dependence and Span
 
 
-In order for ___A___<sup>-1</sup> to exist, the equasion ___Ax___ = ___b___ must have exactly one solution for every value of ___b___. It is also possible for this system of equasions to have no solutions or infinitely many solutions for some value of ___b___. It is impossible, however, to have more than one but less than infinitely many solutions for a particular ___b___ ; if both ___x___ and ___y___ are solutions, then ___z___ = Alpha ___x___ + (1 - Alpha)___y___ is also a solution for any real Alpha.
+In order for ___A___<sup>-1</sup> to exist, the equation ___Ax___ = ___b___ must have exactly one solution for every value of ___b___. It is also possible for this system of equations to have no solutions or infinitely many solutions for some value of ___b___. It is impossible, however, to have more than one but less than infinitely many solutions for a particular ___b___ ; if both ___x___ and ___y___ are solutions, then ___z___ = Alpha ___x___ + (1 - Alpha)___y___, is a solution for any real Alpha.
 
 
-To analyze how many solutions the equasion has, think of the columns of ___A___ as specifying directions we can travel in from the _origin_ (the point specified by the vector of all zeros), then determine how many ways there are of reaching ___b___. In this view, each element of ___x___ specifies how far we should travel in each of those directions, with _x_<sub>_i_</sub> specifying how far to move in te direction of column _i_ :
+To analyze how many solutions the equation has, think of the columns of ___A___ as specifying directions we can travel in from the _origin_ (the point specified by the vector of all zeros), then determine how many ways there are of reaching ___b___. In this view, each element of ___x___ specifies how far we should travel in each of those directions, with _x_<sub>_i_</sub> specifying how far to move in the direction of column _i_ :
 
-TODO: Equasion
+TODO: Equation
 
 This kind of operation is called __linear combination__. Formally, a linear combination of some set of vectors {___v___<sup>(1)</sup>, . . . ___v___<sup>(_n_)</sup>} is given by multiplying each vector ___v___<sup>(_i_)</sup> by a coresponding scalar coefficient and adding the result:
 
-TODO: Equasion
+TODO: Equation
+
+```
+In simpler terms, a Linear Combination is an expression constructed by a set of terms (in this case, vectors) 
+that are each multiplied by a constant (in this case, scalar) and adding the result:
+
+(scalar)(vector 1) + (scalar)(vector 2) + . . . + (scalar)(vector n)
+
+```
  
 The __span__ of a set of vectors is the set of all points obtainable by linear combination of the original vectors.
 
-Determining weather ___Ax___ = ___b___ has a solution amounts therefore to resting weather ___b___ is in the span of the columns of ___A___. This particular span is known as the __column space__, or the __range__ of ___A___. 
+```
+The set of all linear combinations of a set of vectors is called the span. 
+This is written as Span(v1, v2, v3). For example, if we have a set of vectors v1, v2 and v3. 
+We can multiply each to any real number c : c1v1 + c2v2 + c3v3. 
+c does not need to be the same for all vectors. 
+```
+
+Determining weather ___Ax___ = ___b___ has a solution amounts therefore to testing weather ___b___ is in the span of the columns of ___A___. This particular span is known as the __column space__, or the __range__ of ___A___. 
 
 
 
@@ -255,11 +278,11 @@ This is only one requirement. There are other conditions. For example, it is pos
 Formally, this kind of redundancy is known as __linear dependence__. A set of vectors is _linearly independent_ if no vectors in the set is a lienar combination of the other vectors. If one is, it adds nothing to the set's span. What this means is that for the column space of the vector to encompass all of _R_<sup>(_m_)</sup>, the matrix must contain at least one set of _m_ linearly independent columns. Each set must contain exactly _m_ linearly independent columns, not at least _m_. No set of _m_-dimentional vectors can have more than _m_ mutually independent columns, but a matrix with more than _m_ columns may have more than one such set. This condition is sufficient for the equasion to have a solution for every value of ___b___. 
 
 
-For the martix to have an invers, we mst also ensure that the equasion ___Ax___ = ___b___ has _at most_ one solution for each value of ___b___. To do so, we must make certain that the martix has at most _m_ columns. Otherwise, there is more than one wat of parametrizing each solution. 
+For the martix to have an invers, we mst also ensure that the equasion ___Ax___ = ___b___ has _at most_ one solution for each value of ___b___. To do so, we must make certain that the martix has at most _m_ columns. Otherwise, there is more than one way of parametrizing each solution. 
 
 
 This all means that the marix must be _square_, _m_ = _n_, and that all the columns be linearly independent. 
-A square martix with linearly idependent columns is known as a __singular__. If ___A___ is not square or if it is a singular, solving te equasion is still possible, but we cannot use the method of matrix inversion to find the solution. 
+A square martix with linearly dependent columns is known as a __singular__. If ___A___ is not square or if it is a singular, solving te equasion is still possible, but we cannot use the method of matrix inversion to find the solution. 
 
 
 So far we have discussed martix inverses as being multiplied on the left. It is also possible to define an inverse that is multiplied on the right: ___AA___<sup>-1</sup> = ___I___. For square martices, the left inverse and right inverse are equal. 
@@ -268,6 +291,97 @@ So far we have discussed martix inverses as being multiplied on the left. It is 
 
 
 ### 2.5 Norms
+
+
+Sometimes we need to measure the size of a vector. In machine learning, this is usually done using a function called a __norm__. Formally, the _L_<sup>_p_</sup> norm is given by the equation:
+
+TODO: Photo of norm equation
+
+
+for _p_ in _R_, _p_ >= 1
+
+
+Simply put, the norm of a vector ___x___ measures the distance from the origin to the point ___x___. A norm is any function _f_ that satisfies the following properties:
+* _f_(___x___) = 0   meaning   x = 0
+* _f_(___x___ + ___y___) <= _f_(___x___) + _f_(___y___) (the triangle ine1uality)
+* for all Alpha in _R_,  _f_(Alpha * ___x___) = |Aplpa| _f_(___x___)
+
+
+The _L_<sup>2</sup> norm, with _p_ = 2 is known as the __Euclidean norm__, which is simply the Euclidean distance from the origin to the point where ___x___ is. This norm is used very frequently in machine learning and is denoted simply as ||x||, with no subscript 2.  It is also common to measure the size of a vector using the squared _L_<sup>2</sup> norm, which can be calculated simply as ___x___<sup>T</sup>___x___.
+
+Computationally and mathematically, it is easier to work with the squared _L_<sup>2</sup> norm as supposed to the simple _L_<sup>2</sup>. For example, each derivative of the squared _L_<sup>2</sup> with respect to each element of ___x___ depends only on the specific element of ___x___, while all the derivatives of the _L_<sup>2</sup> norm depend on the entire vector. Despite of this, in many cases the squared _L_<sup>2</sup> norm may be undesirable because it increses very slowly near the origin. In machine learning applications, it is important to discriminate between elements that are exactly 0 and elements that are small but not 0. In these cases, we use a function that grows at the same rate in all locations and has the same simplcity as _L_<sup>2</sup>,  _L_<sup>1</sup> norm.
+
+The _L_<sup>1</sup> norm can be simplified to :
+
+TODO: Equation of L1
+
+
+As mentioned before, this norm is used in cases where we must differenciate between elements very close to 0 and 0. Every time an element of ___x___ moves away from 0 by an amount, _L_<sup>1</sup> norm increases by that same amount. 
+
+
+We sometimes refer to the size of a vector by counting the non-zero elements it contains. Some people refer to this as _L_<sup>0</sup> norm. This is wrong. A number of entries is not a norm because it does not increse if we scale the vector by any amount. The _L_<sup>1</sup> norm is often used as a substitute for the number of non-zero entries. 
+
+
+One other norm that is common in machine learning is the _L_<sup>infinity</sup> norm, also known as the __max norm__. This norm simplifies to the absolute value of the element with the margest magnitude in the vector:
+
+TODO: L infinity equation.
+
+
+Sometimes we also wish to measure the size of a matrix. In deep learning, the most common way to do this is with the otherwise obscure __Frobenius norm__:
+
+TODO: Frobenius norm
+
+
+This is analogous to the _L_<sup>2</sup> norm of a vector. 
+
+
+The dot product of two vectors can also be rewritten in terms of the norms : ___x___<sup>T</sup> = ||x||<sup>2</sub>||y||<sub>2</sub>cosO, where O is the angle between ___x___ and ___y___.
+
+
+
+### 2.6 Special Kinds of Matrices and Vectors
+
+
+Some special kinds of matrices and vectors have proven themselves to be very useful.
+
+__Diagonal__ matrices consist mostly of zeros and have non-zero entries only along the main diagonal. Formally, a matrix ___D___ is diagonal only if _D_<sub>_i,j_</sub> = 0 for all _i_ != _j_. The identity matrix is a good example of a diagonal matrix. We denote a square diagonal matrix, who's diagnoal entries are given by te vector ___v___ as : diag(___v___). 
+
+Diagonal matrices are of interest because multiplying by them is very computationally efficient. To compute diag(___v___)___x___, we only need to scale each element _x_<sub>_i_</sub> by _v_<sub>_i_</sub>. In other words, diag(___v___)___x___ is the _Hadamard product_ (or element-wise product) of ___v___ and ___x___. 
+
+
+Inverting a square diagonal martix is also very efficient. The inverting exists only if every diagonal entry is non-zero. In that case, diag(___v___)<sup>-1</sup> - diag([1/_v_<sub>1</sub>, ..., 1/_v_<sub>_n_</sub>]<sup>T</sup>). 
+
+We may derive some general machine learning algorithm in terms of arbitrary matrices but obtain a less expensive (and less descriptive) algorithm by restrictiong some matrices to be diagnoal.
+
+
+Not all diagnoal matrices need to be square, but non-square diagnoal matrices do not have an inverse. We can still multiply them cheaply. For a non-square diagonal matrix ___D___, the product ___Dx___ will involve scaling every element of ___x___ and, if ___D___ is taller than it is wide, concatinate some zeros to the result, or discard some of the last elements of the vector if ___D___ is wider than tall.
+
+
+
+A __symmetric__ matrix is any matrix that is equal to it's own transpose : ___A___ = ___A___<sup>T</sup>.
+
+Symmetric matrices often arise when the entries are generated by some function of two arguments that is not dependent on the order of the arguments. For example, if ___A___ is a matrix of distance measurements, with ___A___<sub>_i,j_</sub> giving the distance between the point _i_ to the point _j_, then ___A___<sub>_i,j_</sub> = ___A___<sub>_j,i_</sub> because distance functions are symmetric. 
+
+
+
+A __unit vector__ is a vector with __unit norm__ : ||___X___||<sub>2</sub> = 1
+
+Teo vectors, ___x___ and ___y___ are __orthogonal__ to each other if ___x___<sup>T</sup>___y___ = 0. If both vectors have non-zero norm, this means that they are at a 90 degree angle to each other. In _R_<sup>_n_</sup>, only _n_ vectors may be mutually orthogonal with non-zero norm. We call the vectors that are orthogonal and have non-zero norm __orthonormal__.
+
+
+An __orthogonal matrix__ is a square matrix whose rows are mutually orthonormal and whose columns are mutually orthonormal :
+___A___<sup>T</sup>___A___ = ___AA___<sup>T</sup> = ___I___.
+
+This implies that:
+___A___<sup>-1</sup> = ___A___<sup>T</sup>
+
+
+They are of interest because it is very cheap to compute the inverse. Pay attention to the fact that their rows are not merely orthogonal byt fully _orthonormal_. 
+
+
+
+### 2.7 Eigendecomposition
+
 
 
 
