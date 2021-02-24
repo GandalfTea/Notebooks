@@ -3,8 +3,18 @@
 
 ## Higher-Order Functions
 
+&nbsp;
 
-You can use the `=>` function declaration like a _lambda_:
+1. [Lambda-like functions](#1)
+2. [Script Data Set](#2)
+
+&nbsp;
+
+#### Lambda-like functions <a name="1"></a>
+
+&nbsp;
+
+You can use the `=>` function declaration a _lambda_ like function:
 ```js
 let labels = [];
 repeat(5, i => {
@@ -18,6 +28,8 @@ console.log(labels);
 -> ["unit 1", "Unit 2", "Unit 3", "Unit 4", "Unit 5"]
 ```
 
+
+&nbsp;
 
 You can also have functions that change other functions:
 ```js
@@ -38,9 +50,13 @@ noisy(Math.min)(3, 2, 1);
 -> Called with [3, 2, 1], returned 1
 ```
 
-#### Script Data Set
+&nbsp;
+
+#### Script Data Set <a name="2"></a>
 
 We have a data set about scripts, in all sorts of languages like Latin, Unicode, Arabic, etc. 
+
+&nbsp;
 
 Every script has some data about it:
 ```
@@ -55,6 +71,8 @@ Every script has some data about it:
 ```
 `ranges` refers to the Unicode ranges assigned to it.     
 `direction` means the direction of reading, in this case, left-to-right.   
+
+&nbsp;
 
 To find all the scripts in the data set that are still in use, we can do:
 ```js
@@ -73,6 +91,7 @@ console.log(filter(SCRIPTS, script => script.living));
 ```
 This is already a standard array method.
 
+&nbsp;
 
 
 The `map` method applies a function to all elements of an array and returns a new array with the values. 
@@ -92,6 +111,7 @@ console.log(map(rtlScripts, s => s.name));
 
 This is also a standard array method.
 
+&nbsp;
 
 The function `reduce` (also called `fold`) builds a value by repeatedly taking a single element from an array and combining it with the current value:
 ```js
@@ -109,6 +129,8 @@ concole.log(reduce([1, 2, 3, 4], (a,b) => a + b, 0);
 ```
 -> 10
 ```
+
+&nbsp;
 
 To find the average year of origin, we need to compose operations:
 ```js
@@ -132,6 +154,8 @@ console.log(Math.round(average(
 ```
 
 
+&nbsp;
+
 In order to go through the data set and figure out what script a piece of text is using, we can do this:
 ```js
 function characterScript(code) {
@@ -151,6 +175,8 @@ concole.log(characterScript(121));
 ```
 -> {name: "Latin", ...}
 ```
+
+&nbsp;
 
 To count the characters belonging to each script:
 ```js
@@ -177,6 +203,8 @@ console.log(countBy([1, 2, 3, 4, 5]. n => n > 2));
 
 `findIndex` finds the first value for the function input.
 
+
+&nbsp;
 
 Using this, we can rewrite the function `textScript`:
 
