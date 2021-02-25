@@ -423,18 +423,6 @@ Bring it to the left side:
 
 Av - Lambda * Iv = 0
 
-
-The determinant is a number calculated from a square matrix.
-To calculate the determinant, you do this:
-
-A = [ a  b  c
-      d  e  f
-      g  h  i]
-
-det(A) = a(ei-fh) - b(di-fg) + c(dh-eg)
-
-
-
 We can solve for Lambda using the determinant:
 
 det(A - Lambda * Iv) = 0
@@ -495,6 +483,88 @@ A matrix whose eigenvalues are all positive is called __positive definite__. A m
 
 
 ### 2.8 Singular Value Decomposition   
+
+Another way to decompose a matrix is by __singular value decomposition__ (SVD). In this method, the matrix is decomposed into __singular vectors__ and __singular values__. SVD allows us to descover the same information revealed by eigendecomposition, but it is more widely applicable. Every real matrix has a SVD, the same is not true for eigendecomposition. For example, if a matrix is not square, the eigendecomposition is not defined and we must use SVD.
+
+ 
+Eigendecomposition entails analyzing a matrix ___A___ to descover a matrix ___V___ of eigenvectors and a vector of eigenvalues _Lambda_ such that: ___A___ = ___V___ diag(_Lambda_)___V___<sup>-1</sup>.
+
+
+The single value decomposition is similar, except this time we will rewrite ___A___ as the product of three matrices:
+
+___A___ = ___UDV___<sup>T</sup>
+
+
+Suppose ___A___ is an _m_ x _n_ matrix. ___U___ is an _m_ x _m_ matrix, ___D___ is an _m_ x _n_ matrix and ___V___ is an _n_ x _n_ matrix. ___U___ and ___V___ are both orthogonal matrices. ___D___ is a diagonal matrix, not necesarily square. 
+
+The elements along the diagonal of ___D___ are known as __singular values__ of  the matrix ___A___. The columns of ___U___ are known as __left-singular vectors__ and the columns of ___V___ as the __right-singular vectors__.
+
+
+
+We can actually interpret the SVD of ___A___ in terms of the eigendecomposition of functions of ___A___. The left-singlue vectors of ___A___ are the eigenvectors of ___AA___<sup>T</sup>. The right-singular vectors are the eigenvectors of ___A___<sup>T</sup>___A___. The non-zero singular values of ___A___ are the square roots of the eigenvalues of ___A___<sup>T</sup>___A___. The same is true for ___AA___<sup>T</sup>.
+
+Perhaps the most useful feature of the SVD is that we can use it to partially generalize matrix iversion to non-square matrices. This is explained in the next section.
+
+
+### 2.9 The Moore-Penrose Pseudoinverse
+
+Matrix inversion is not defined for matrices that are not square.
+
+Suppose we want to make a left-inverse ___B___ of a matrix ___A___ so we can solve the linear equation ___Ax___ = ___y___ by left-multiplying each side to obtain : ___x___ = ___By___.
+
+Depending on the structure of the matrix, it may not be possible to design a unique mapping from ___A___ to ___B___. If ___A___ is taller than it is wide, it is possible for the equation to have no solutions. If it is wider than toller, there could be muliple possible solutions.
+
+
+The __Moore-Penrose pseudoinverse__ enables us to make some headway in those cases. The pseudoinverse of ___A___ is defined as a matrix :
+
+
+TODO: equation
+
+
+Algorithms for computing the pseudoinverse are not based on this definition, but rather on the formula : ___A___<sup>+</sup> = ___VD___<sup>+</sup>___U___<sup>T</sup>, where ___U___, ___D___ and ___V___ are the singular value decomposition of ___A___, and the pseudoinverse ___D___<sup>+</sup> of a diagonal matrix ___D___ is obtained by taking the reciprocal of it's non-zero elements then transposing it.
+
+When ___A___ has more columns than rows, solving a linear equation using the pseudoinverse provides one of the many possible solutions. Specifically, it provides the solution ___X___ = ___A___<sup>+</sup>___y___ with minimal Eucledian norm ||___x___||<sub>2</sub> among all possible solutions.
+
+When ___A___ had more rows than columns, it is possible to have no solution. In this case, the pseudoinverse gives us the ___x___ for which ___Ax___ is as close as possible to ___y___ in terms of Euclidean norm ||___Ax___ - ___y___||<sub>2</sub>.
+
+
+### 2.10 The Trace Operator
+
+
+The trace operator gives the sum of all the diagonal entries of a matrix:
+
+TODO: equation
+
+
+It is useful for many reasons. Some operations that are difficult to specify without resorting to summation notation can be specified using matrix products and the trace operator. 
+
+For example, the trace operator offers an alternative way of writing the Frebenius norm of a matrix:
+
+TODO: norm
+
+Writing an expression using the trace operator lets us manipulate the expression using many different identities. For example, the operator is invatiant to the transpose operator :
+
+Tr(___A___) = Tr(___A___<sup>T</sup>).
+
+The trace of a square matrix composed of many factors is also invariant to moving the last factor into the first position, if the shapes of the corresponding matrices allow the resulting product to be defined:
+
+Tr(___ABC___) = Tr(___CAB___) = Tr(___BCA___)
+
+or more generally,
+
+TODO: equation
+
+
+This invariance to cyclic permutations holds even if the resulting product has a different shape. For example, for ___A___ in _R_<sup>_m_ x _n_</sup> and ___B___ in _R_<sup>_n_ x _m_</sup>, we have: Tr(___AB___) = Tr(___BA___) even though ___AB___ is in _R_<sup>_m_ x _m_</sup> and ___BA___ is in _R_<sup>_n_ x _n_</sup>.
+
+Another important thin is that a scalar it it's own trace: _a_ = Tr(_a_).
+
+
+
+### 2.11 The Determinant
+
+The determinant of a square matrix, shown as det(___A___) is a function that maps matrices to real scalars. The determinant is equal to the product of all eigenvalues of the matrix. The absolute value of the determinant can be thouht of as a measure of how much multiplication by the matrix expands or contracts space. If the determinant is 0, then space is contracted completely at least on one dimension, causing it to lose all its volume. If the determinant is 1, then the transformation preserves volume.
+
 
 
 
