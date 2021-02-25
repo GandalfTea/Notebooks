@@ -89,7 +89,8 @@ the columns and the columns become the rows. As an example:
 Vectors are matrices with a single column, therefore the transpose of a vector is a matrix with only one row. Sometimes we define a vector by writing it as a matrix row, then use the transpose operator to turn it into a standard column vector. For example: ___x___ = [_x_<sub>1</sub>,_x_<sub>2</sub>, _x_<sub>3</sub>]<sup>T</sup>.
 
 ```
-A vector, that is esentially an array, when transposed, becomes a vertical vector (or vice versa). vectors are just a 1 column or row matrix. 
+A vector, that is esentially an array, when transposed, becomes a vertical vector (or vice versa). 
+Vectors are just a 1 column or row matrix. 
 
 A = [1, 2, 3, 4, 5 ... n]
 
@@ -207,7 +208,7 @@ In order to understand matric inversion, we first need to introduce the concept 
 
 ```
 The Identity Matrix is the equivalent of a 1 in simple calculations. 
-It does not change the thng multiplied by it.
+It does not change the thing multiplied by it.
 ```
 
 The structure of the identity matrix is simple: all entries along the main diagonal are 1, while all the other entries are 0. 
@@ -303,8 +304,8 @@ for _p_ in _R_, _p_ >= 1
 
 Simply put, the norm of a vector ___x___ measures the distance from the origin to the point ___x___. A norm is any function _f_ that satisfies the following properties:
 * _f_(___x___) = 0   meaning   x = 0
-* _f_(___x___ + ___y___) <= _f_(___x___) + _f_(___y___) (the triangle ine1uality)
-* for all Alpha in _R_,  _f_(Alpha * ___x___) = |Aplpa| _f_(___x___)
+* _f_(___x___ + ___y___) <= _f_(___x___) + _f_(___y___) (the triangle inequality)
+* for all Alpha in _R_,  _f_(Alpha * ___x___) = |Alpha| _f_(___x___)
 
 
 The _L_<sup>2</sup> norm, with _p_ = 2 is known as the __Euclidean norm__, which is simply the Euclidean distance from the origin to the point where ___x___ is. This norm is used very frequently in machine learning and is denoted simply as ||x||, with no subscript 2.  It is also common to measure the size of a vector using the squared _L_<sup>2</sup> norm, which can be calculated simply as ___x___<sup>T</sup>___x___.
@@ -335,7 +336,7 @@ TODO: Frobenius norm
 This is analogous to the _L_<sup>2</sup> norm of a vector. 
 
 
-The dot product of two vectors can also be rewritten in terms of the norms : ___x___<sup>T</sup> = ||x||<sup>2</sub>||y||<sub>2</sub>cosO, where O is the angle between ___x___ and ___y___.
+The dot product of two vectors can also be rewritten in terms of the norms : ___x___<sup>T</sup> = ||x||<sub>2</sub>||y||<sub>2</sub>cosO, where O is the angle between ___x___ and ___y___.
 
 
 
@@ -381,6 +382,120 @@ They are of interest because it is very cheap to compute the inverse. Pay attent
 
 
 ### 2.7 Eigendecomposition
+
+
+Many mathematical objects can be understood better by breaking them into constituent parts , or finding some properties of them that are universal, not caused by the way we choose to represent them. 
+
+An example of this can be how integers decompose into prime factors. The way we represent the number 12 changes depending on weather we write it in base 10 or in binary, but it will always be true that 12 = 2 * 2 * 3. From this representation, we can conclude useful properties, like the fact tat 12 is not divisible by 5, and that many multiples of 12 will be divisible by 3. 
+
+In the same way, we can decompose matrices in ways that show us information about their functional properties that is not obvious from their representation as an array of elements. 
+
+One of the most used methods of matric decomposition is called __eigendecomposition__ in which we decompose a matrix into a set of __eingenvectors__ annd __eigenvalues__.
+
+
+
+An __eigenvector__ of a square matrix ___A___ is a non-zero vector ___v___ such that multiplication by ___A___ alters only the scale of ___v___:
+
+___Av___ = Lambda * ___v___.
+
+```
+The symbol of Lambda (which I cannot put here) is the Half-Life logo symbol.
+
+What is ment here by saying "alters only the scale of v" is that, any result you get when multiplying the eigenvector to the original matrix is a multiple of the eigenvector.
+
+When multiplying the vector by the matrix, the direction of the vector doesn't change.
+```
+
+
+The scalar Lambda is knows as the __eigenvalue__ corresponding to this eigenvector. (It is also possible to find a left eigenvector such that ___v___<sup>T</sup>___A___ = Lambda ___v___<sup>T</sup>).
+
+```
+How to find the eigenvalue and eigenvector:
+
+It all starts from the equasion:   Ax = Lambda * x.
+
+First, we have to find the eigenvalue. This starts by inputing an identity matrix 
+so that we are dealing with matrix vs matrix:
+
+Av = Lambda * Iv
+
+Bring it to the left side:
+
+Av - Lambda * Iv = 0
+
+
+The determinant is a number calculated from a square matrix.
+To calculate the determinant, you do this:
+
+A = [ a  b  c
+      d  e  f
+      g  h  i]
+
+det(A) = a(ei-fh) - b(di-fg) + c(dh-eg)
+
+
+
+We can solve for Lambda using the determinant:
+
+det(A - Lambda * Iv) = 0
+
+When we apply this to an actual matrix:
+
+det( [-6   3		   [ 1  0   
+       4   5]  -  Lambda *   0  1])    =   0
+
+which is:
+
+det( [ -6-Lambda      3
+           4	   5-Lambda] )  = 0
+
+(-6-Lambda)(5-Lambda) - 3 * 4 = 0
+
+
+Meaning the quadratic equasion:
+
+Lambda^2 + Lambda - 42 = 0
+
+
+Solving this gets us to the answer:
+
+Lambda = -7 and 6
+
+Once you have the eigenvalue, you can solve the main equasion for the egenvector. 
+
+```
+
+
+If ___v___ is an eigenvector of ___A___, so is any rescale of the vector _s____v___ for _s_ in _R_, _s_ != 0. Moreover, _s____v___ still has the same eigenvalue. For this reason, we usually look only for unit eigenvectors.
+
+
+Suppose that a matrix ___A___ has _n_ linearly independent eigenvectors {___v___<sup>(1)</sup>, ..., ___v___<sup>(_n_)</sup>} with corresponding eigenvalues {Lambda<sup>(1)</sup>, ..., Lambda<sup>(_n_)</sup>}. We can concatinate all the eigenvectors into a matrix ___V___ with one eigenvector per column: ___V___ = [___v___<sup>(1)</sup>, ..., ___v___<sup>(_n_)</sup>]. Likewise, we can concatinate all the eigenvalues to form a vector _Lambda_ = [Lambda<sup>(1)</sup>, ..., Lambda<sup>(_n_)</sup>]. The __eigendecomposition__ of ___A___ is then given by:
+
+___A___ = ___V___ diag(_Lambda_)___V___<sup>-1</sup>
+
+
+Constructing matrices with specific eigenvalues and eigenvectors enables us to stretch space in desired directions. Yet we often want to _decompose_ matrices into eigenvalues and eigenvectors. Doing this helps us analyze certain properties of the martix. 
+ 
+Not all matrices can be decomposed into eigenvalues and eigenvectors. In some cases, the decomposition exists, but it involeves complex rather than real numbers. In this book we mostly look at a specific class of matrices that have a simple decomposition. Specifically, every real symmetric matrix can be decomposed into an expression using only real-valued eigenvectors and eigenvalues:
+
+___A___ = ___Q * Lambda *Q___<sup>T</sup>
+
+___Q___ is an orthogonal matrix composed of eigenvectors of ___A___. _Lambda_ is a diagonal matrix (vector). The eigenvalue from _Lambda_<sub>_i,j_</sub> is associated with the eigenvalue in column _i_ of ___Q___, denoted as ___Q___<sub> : ,i </sub>. Because ___Q___ is an orthogonal matrix, we can think of ___A___ as scaling space by _Lambda_<sub>_i_</sub> in direction ___v___<sup>(_i_)</sup>.
+
+TODO: Figure 2.3
+
+While any real symmetric matrix ___A___ is guaranteed to have a eigendecomposition, it may not be unique. If any two or more eigenvectors share the same eigenvalue, then any set of orthogonal vectors lying in their span are also eigenvectors with that same eigenvalue, and we could equivalently choose a ___Q___ using those eisenvectors instead. By convention, we usually sort the entries of _Lambda_ in descending order. Under this convention, the eigendecomposition is unique only if all the eigenvalues are unique.
+
+The eigendecomposition tells us a lot of useful facts about the matrix. The matrix is only singular if and only if any of the eigenvalues are zero. The eigendecomposition of a real symmetric matrix can also be used to optimise quadratic ecpressions of the form _f_(___x___) = ___x___<sup>T</sup>___Ax___ subject to ||___x___||<sub>2</sub> = 1. Wheneve ___x___ is equal to an eigenvalue of ___a___, _f_ takes on the value of the corresponding eigenvalue. The maximum value of _f_ within the constraint region is the maximum eigenvalue and its minumum value within the constraint region is the minumum eigevalue.
+
+
+A matrix whose eigenvalues are all positive is called __positive definite__. A matrix whose eigenvalues are all positive or zero is called __positive semidefinite__. Likewise, if all eigenvalues are negative it is called __negative definite__ and if there are also zeros, it is called __negative semidefinite__. Positive semidefinite matrices are interesting because they guarantee that for all ___x___, ___x___<sup>T</sup>___Ax___ >= 0. Positive definite matrices aditionally guarantee that ___x___<sup>T</sup>___Ax___ = 0 meaning ___x___ = 0.
+
+
+
+
+### 2.8 Singular Value Decomposition   
+
 
 
 
