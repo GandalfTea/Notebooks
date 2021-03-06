@@ -38,3 +38,10 @@ Chapter 4 : [___Data Structures: Objects and Arrays___](https://github.com/Ganda
 * The Math Object
 * Destructuring
 * JSON
+
+&nbsp;
+
+Chapter 5: [___Higher-Order Functions___](https://github.com/GandalfTea/Notebooks/blob/master/JavaScript/Eloquent%20Javascript/HigherOrderFunctions.md)
+
+* Lambda-like functions
+* Script Data Set
