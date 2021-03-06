@@ -2,7 +2,11 @@
 
 ## Runtime inspection and debug.
 
+&nbsp;
+
 A _debugger_ is a program that allows for inspection of a running program. It can stop a program at a specific point, called a _breakpoint_ and analyze the state of the program at that point. 
+
+&nbsp;
 
 We will be using ___GDB___, GNU Debugger for debugging our kernel. ___gbd___ can do four main things:
 
@@ -10,6 +14,8 @@ We will be using ___GDB___, GNU Debugger for debugging our kernel. ___gbd___ can
 * Stop the program on specific conditions.
 * Examine what happened when the program is stopped.
 * Change things in your program, so you can experiment with correcting the effects of a bug.
+
+&nbsp;
 
 #### A sample program
 
@@ -23,22 +29,31 @@ int main(int argc, char * argv[]) {
 }
 ```
 
+&nbsp;
+
 
 We compile it with debugging information using the option `-g`:
 ```
 $ gcc -m32 -g hello.c -o hello
 ```
 
+&nbsp;
+
 We start _gdb_ with the program as argument:
 ```
 $ gbd hello
 ```
+
+&nbsp;
 
 
 ### Statitic inspection of a program
 
 
 Before running the program, _gdb_ loads it into memory. A lot of inportant info can be inspected here. The commands presented here can also be used when the program is running.
+
+&nbsp;
+
 
 #### _info targer/ info file/ info files_
 
@@ -100,6 +115,9 @@ Entry point: 0x8048310
 
 * List of sections and ending addresses. In the example, the ramaining output.
 
+
+&nbsp;
+
 #### _main info sections_
 
 
@@ -127,6 +145,8 @@ Here, we can see that the section with _LOAD_ flag are from the _LOAD_ segment. 
 _ALLOBJ_ displays sections for all loaded object files, including shared libraries. 
 _section names_ displays only named sections.
 
+
+&nbsp;
 
 It can also be fileterd by type:
 ```
@@ -182,6 +202,7 @@ Exec file:
 [14] 0x004005c4->0x004005cd at 0x000005c4: .fini ALLOC LOAD READONLY CODE HAS_CONTENTS
 ```
 
+&nbsp;
 
 ### _info functions_
 
@@ -208,6 +229,7 @@ Non-debugging symbols:
 0x00000000004005c4 _fini
 ```
 
+&nbsp;
 
 #### _info variables_
 
@@ -245,6 +267,8 @@ Non-debugging symbols:
 0x0000000000601040 __TMC_END__
 0x0000000000601040 _end
 ```
+
+&nbsp;
 
 #### _disassemble / disas_
 
@@ -348,6 +372,8 @@ A function in a specific file can also be specified:
 (gdb) disassemble /rm 'hello.c'::main
 ```
 
+&nbsp;
+
 #### _x_
 
 Examines the content of a given memory range.
@@ -377,13 +403,19 @@ The format letter can be:
 
 TODO: Table
 
+
+&nbsp;
+
 #### _print / p_
 
 It prints an expression. It can be a global variable, local variable, function, register, number, etc.
 
 
+&nbsp;
+
 ### Runtime inspection of a program
 
+&nbsp;
 
 #### _run_
 
@@ -396,6 +428,8 @@ Starting program: /tmp/hello
 Hello World!
 [Inferior 1 (pricess 1002) exited normaly]
 ```
+
+&nbsp;
 
 #### _break / b_
 
@@ -444,6 +478,8 @@ b hello.c:3
 b hello.c:main
 ```
 
+&nbsp;
+
 #### _next / n _
 
 
@@ -469,6 +505,7 @@ Hello World!
 ```
 It proceed to the next line, in this case 6, and runs line 5.
 
+&nbsp;
 
 #### _stop / s_
 
@@ -503,6 +540,8 @@ Breakpoint 1, main (argc=1, argv=0xffffd154) at hello.c:11
 add (a=1, b=2) at hello.c:6
 6	return a + b;
 ```
+
+&nbsp;
 
 #### _ni_
 
@@ -573,10 +612,14 @@ Upon entering `ni`, _gdb_ executes current instruction and displays the _next_ i
 => 0x0804841c <main+17>:sub	esp,0xc
 ```
 
+&nbsp;
+
 #### _si_
 
 Similar to _ni_, the command executes the current assembly instruction in the current line. The difference is that if there is a function call, this one steps into the function at the first line.
 
+
+&nbsp;
 
 #### _until_
 
@@ -655,6 +698,7 @@ You can also pass `until` an argument, to stop at a specific line:
 ```
 
 
+&nbsp;
 
 #### _finish_
 
@@ -673,6 +717,7 @@ Done adding!
 15	add1000(1, 2);
 Value returned is $1 = 499500
 ```
+&nbsp;
 
 
 #### _bt_
@@ -713,6 +758,7 @@ Navigate to the middle and try the command:
 
 Most recent calls are on top. In this case, `d` is the most recent function. 
 
+&nbsp;
 
 #### _up_
 
@@ -736,11 +782,14 @@ From the previous example, we can go up to _c_:
 3 void b(int b) { c(1); }
 ```
 
+&nbsp;
+
 #### _down_
 
 Similar to `up`, this command goes down one frame from the current frame.
 
 
+&nbsp;
 
 #### _info registers_
 
@@ -769,9 +818,11 @@ fs 	0x0 0
 gs 	0x63 99
 ```
 
+&nbsp;
 
 ### 6.4 How debuggers work: A brief introduction
 
+&nbsp;
 
 #### 6.4.1 How breakpoints work
 
@@ -793,6 +844,7 @@ Because `int 3` is only 1 byte long, it makes it efficient for debugging. When i
 ```
 
 
+&nbsp;
 
 
 It is easier to see this in sction. First, we add a `int 3` instruction where we need _gdb_ to stop:
@@ -828,10 +880,13 @@ main (argc=1, argv=0xffffd154) at hello.c:6
 6	printf("Hello World!\n");
 ```
 
+&nbsp;
+
 #### 6.4.2  Single Stepping
 
 A debugger simply places anothet `int 3` opcode in the next instruction. This enables instruction by instruction debugging. Similarly, source line by line debugging is just the placement of the very first opcode in the two statements with two `int 3` opcodes.
 
+&nbsp;
 
 #### 6.4.3 How a debugger understands high level source code
 
@@ -866,6 +921,8 @@ hello.c							DIE
 In addition to DIE's, there is another binary-to-source mapping names _line umber table_. It maps between a line in the source code and the memory address at which it starts in the executable binary.
 
 Address matching between the image layout of the ELF binary and the address wherer it is loaded is very important, as debug information relies on the correct loading address at runtime. That is, it assumes that the address recorded in the binary image at compile time are the same as runtime. Whithout this correlation, debugging is useless as it confuses lines.
+
+&nbsp;
 
 
 You can see the debugging information if you _readelf_ the binary file:
@@ -909,6 +966,8 @@ _Line number_ is the line number in the source file that is not empty. In the ex
 _Starting address_ is the memory address where the line actually starts in the executable binary.
 
 
+
+&nbsp;
 
 To lookat the DIE information, run:
 ```
