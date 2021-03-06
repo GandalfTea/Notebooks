@@ -4,6 +4,10 @@ Original : https://github.com/tuhdo/os01
 &nbsp;
 &nbsp;
 
+___Part 1 : Preliminary___
+
+&nbsp;
+
 Chapter 1 : [___Domain Documents___](https://github.com/GandalfTea/Notebooks/blob/master/CS/OS/Operating%20Systems%20From%200%20to%201/Domain%20Documents.md)
 * Problem Domains
 * Documents for implementing a problem domain
@@ -74,3 +78,18 @@ Chapter 5 : [___The Anatomy Of A Program___](https://github.com/GandalfTea/Noteb
 * Understand Section in-depth
 * Program header table
 * Segments vs Sections
+
+&nbsp;
+
+Chapter 6 : [___Runtime Inspetion and Debug___]()
+
+
+
+
+
+&nbsp;
+&nbsp;
+
+___Part 2 : Groundwork___
+
+&nbsp;
