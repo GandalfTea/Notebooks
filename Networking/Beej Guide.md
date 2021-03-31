@@ -421,7 +421,373 @@ Notice that we did not call `bind()`. We don't care about our local port number,
 
 ### 5.5 listen()
 
+If you don;t want to connect to a remote host, you can listen for incoming conections and handlem them in some way:
+
+```c
+int listen (int sockfd, int backlog);
+```
+`backlog` is the number of connections allowed on the incoming queue. Incoming connections will wait in this queue until you `accept()` them. Most systems silently limit this number to 20; you can probably get away with setting it to 5 or 10.
+
+`listen()` returns -1 and sets `errno` on error. 
+
+Before we `listen()` we need to `bind()` the server to a specific port. The sequence of functions is :
+```c
+getaddrinfo();
+socket();
+bind();
+listen()
+// accept()
+```
+
+### 5.6 accept()
+
+
+When accepting a connection from the queue, it will return to you a brand new _socket file desctiptor_ to use for this single connection, while the original is still listening for incoming connections. You can use the newly created one to `send()` and `recv()`.
+
+```c
+#include <sys/types.h>
+#include <sys/socket.h>
+
+int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
+```
+`sockfd` is the `listen()` socket descriptor.
+`addr` will usually point to a local struct `sockaddr_storage`. This is where the info about the incoming connection will go, allowing you to determine which host is calling you from which port.
+`addrlen` is a local integer variable set to the size of the `sockaddr_storage` struct before the address is passed to `accept`.
+
+`accept()` returns -1 and sets `errno` in case of error.
+
+Example:
+```c
+#include <string.h>
+#include <sys/types.h>
+#include <sys/socker.h>
+#include <netdb.h>
+
+#define MYPORT "2490"
+#define BACKLOG 10
+
+int main(void) {
+	struct sockaddr_storage their_addr;
+	socklen_t addr_size;
+	struct addrinfo hints, *res;
+	int sockfd, new_fd;
+
+	// Error checking goes here.
+
+	// Load up address structs
+	memser(&hints, 0, sizeof hints);
+	hints.ai_family = AF_UNSPEC;
+	hints.ai_socktype = SOCK_STREAM;
+	hints.ai_flags = AI_PASSIVE;
+
+	getaddrinfo(NULL, MYPORT, &hints, &res);
+
+	// Make a socket
+	sockfd = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
+	bind(sockfd, res->ai_addr, res->ai_addrlen);
+	listen(sockfd, BACKLOG);
+
+	// Accept connections
+	addr_size = sizeof their_addr;
+	new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &addr_size);
+
+	// Ready to communicate
+	
+	.
+	.
+	.
+}
+```
+
+### 5.7 send() and recv()
+
+You can use those functions to communicate both over stream sockets and datagram sockets. If you want to use unconnected datagram sockets, you will have to use `sendto()` and `recvfrom()`. 
+
+```c
+int send(int sockfd, const void *msg, int len, int flags);
+```
+`sockfd` is the socket descriptor to send the data to.
+`msg` is a pointer to the message data.
+`len` length of data in bytes.
+`flags` should be set to 0.
+
+Example:
+```c
+char *msg = "Beej was here!";
+int len, bytes_sent;
+
+.
+.
+.
+
+len = strlen(msg);
+bytes_sent = send(sockfd, msg, len, 0);
+```
+
+`send()` returns the number of bytes actually sent out. Sometimes this is not all the data. If the value returned does not match the len of the string, it's up to you to send the rest. If the package is less than 1k or so, it will probably manage to send it all.
+
+-1 is returned on error and `errno` is set to the error number.
+
+`recv()` is similar:
+```c
+int recv(int sockfd, void *buf, int len, int flags);
+```
+`sockfd` is the socket desc. to recieve from.
+`buf` is the buffer to read the information into.
+`len` is the maximum length of the buffer.
+`flags` can again be 0.
+
+It returns the number of bytes actually read into the buffer, or -1 on error(with `errno`).
+
+This function can also return 0, meaning the remote side has closed the connection with you.
+
+### 5.8 sendto() and recvfrom()
+
+```c
+int sendto(int sockfd, const void *msg, int len, unsigned int flags,
+	   const struct sockaddr *to, socklen_t tolen);
+```
+
+This is almost the same call as `send()` with 2 additional pieces of information.
+`to` is a pointer to a struct `sockaddr` (most likely, a `sockaddr_in`, `sockaddr_in6`, or `sockaddr_storage` that is cast) containing the destination IP address and port.
+`tolen`, at the base an int, cab simply be the size of `*to` or size of the struct `sockaddr_storage`.
+
+To get the destination address, you can either use `getaddrinfo()` or get it from `recvfrom()`.
+
+`sendto()` returns the number of bytes actually sent, or -1 on error.
+
+`recv()` and `recvfrom()` are also very similar:
+```c
+int recvfrom(int sockfd, void *buf, int len, unsigned int flags,
+	     struct sockaddr *from, int *fromlen);
+```
+
+
+`from` is a pointer to a local struct `sockaddr_storage` filled with the IP nd port of the originating machine.
+`fromlen` is a pointer to a local int that should be sizeof `*from` or sizeof `srockaddr_storage`.
+
+When the function returns,`fromlen` will contain the length of the address actually stored in from.
+
+It returns the number of bytes recieved, or -1 on error, with `errno`.
+
+#### Why do we use struct `sockaddr_storage` as the socket type?
+Why not `sockaddr_in`? Because we do not want to tie ourselves down to IPv4 or IPv6. We use the generic struct that is big enough for either.
+
+#### Why isn't struct `sockaddr` itself big enough?
+We even cast the `sockaddr_storage` into it. It just is not big enough. It is old and problematic to change it at this time.
+
+
+### 5.9 close() and shutdown()
+
+To close a socket, simply use:
+```c
+close(sockfd);
+```
+
+This will prevent all reads and writes.
+
+In case you need more control over how the connection is closed, like cutting off communication in a certain direction, you use the `shutdown()` function:
+```c
+int shutdown(int sockfd, int how);
+```
+
+You can:
+```
+how  |  Effect
+ 0   |  Further recieves are not allowed
+ 1   |  Further sends are not allowed
+ 2   |  Further sends and recieves are not allowed (like close())
+```
+
+It returns 0 on success and -1 on error (with `errno`).
+
+If you use `shutdown()` on unconnected datagram sockets, it will make te socket unavailable for further `send()` and `recv()` (you can use them if you `connect()`).
+
+It's important to note that `shutdown()` does not actually close the file desctiptor, it just changes usability. You still have to call `close()` to free the socket descriptor.
+
+(On Windows, you should use `closesocket()` instead of `close()`)
+
+
+### 5.10 getpeername()
+
+This function will tell you who is at the other end of a connected stream stocket.
+```c
+#include <sys/socket.h>
+
+int getpeername(int sockfd, struct sockaddr *addr, int *addrlen);
+```
+
+`sockfd` is the descriptor of the stream socket.
+`addr` is a pointer to a struct `sockaddr` (or `sockaddr_in`) that will hold the information about the other side of the connection.
+`addrlen` is a pointer to an int, initialized to sizeof `*addr` or sizeof `sockaddr`.
+
+The function returns -1 on error and sets `errno`.
+
+Once you have the address, you can use `inet_ntop()`, `getnameinfo()` or `gethostbyaddr()` to print more info.
+
+### 5.11 gethostname()
+
+This returns the name of the computer that your program is running on. The name can be used by `gethostbyname()` to determine the IP of your local machine.
+
+```c
+#include unistd.h>
+
+int gethostname(char *hostname, size_t size);
+```
+`hostname` is a pointer to an array of chars that will contain the hostname upon the function return.
+`size` is the length in bytes of the hostname array.
 
 
 
+
+## Chapter 6 : Client - Server Background
+
+
+The exchange of information between client and server is summarized in the following diagram:
+
+//TODO: DIAGRAM
+
+Often, there wil only be one server on a machine, therefore it will need to handle multople clients using `fork()`. The basic routine is: a server accepts's a connection, and it `fork()`s a child process to handle it.
+
+### 6.1 A Simple Stream Server
+
+All it does is send a string "Hello, world!" over a stream connection. You need to run the server in one window and run this command in another:
+```
+$ telnet remotehostname 3490
+```
+where `remotehostname` is the name of the machine you're on.
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <arpa/inet.h>
+#include <sys/wait.h>
+#include <signal.h>
+
+#define PORT "3490"
+
+#define BACKLOG 10
+
+void sigchld_handler(int s) {
+
+	// waitpid() might overwrite errno, so we save and restore it:
+	int saved_errno = errno;
+
+	while(waitpid(-1, NULL, WNOHANG) > 0);
+
+	errno = saved_errno;
+}
+
+// get sockaddr, IPv4 or IPv6
+void *get_in_addr(struct sockaddr *sa) {
+	if (sa->sa_damily == AF_INET){
+		return &(((struct sockaddr_in*)sa)->sin_addr);
+	}
+	
+	return &(((struct sockaddr_in6*)sa)->sin6_addr);
+}
+
+
+int main(void) {
+
+	int sockfd, new_fd;	// Listen on sockfd, new connection on new_fd
+	struct addrinfo hints, *servinfo, *p;
+	struct sockaddr_storage their_addr;
+	socklen_t sin_size;
+	struct sigaction sa;
+	int yes = 1;
+	char s[INET_ADDRSTRLEN];
+	int rv;
+
+	memset(&hints, 0, sizeof hints);
+	hints.ai_family = AF_UNSPEC;
+	hints.ai_socktype = SOCK_STREAM;
+	hints.ai_flags = AI_PASSIVE;
+
+	if ((rv = getaddrinfo(NULL, PORT, &hints, &servinfo)) != 0) {
+		fprint(stderr, "getaddrinfo : %s\n", gai_strerror(rv));
+		return 1;
+	}
+
+	// loop through all the results and binf to the first we can
+	for (p = servinfo; p != NULL; p = p->ai_next) {
+
+		if ((sockfd = socket(p->ai_family, p->ai_socktype,
+				p->ai_protocol)) == -1) {
+			perror("Server: Socket");
+			continue;
+		}
+
+		if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &yes,
+				sizeof(int)) == -1) {
+			perror("sersockopt");
+			exit(1);
+		}
+
+		if (bind(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
+			close(sockfd);
+			perror("Server: bind");
+			continue;
+		}
+	
+		break;
+	}	
+
+	freeaddrinfo(servinfo);
+	
+	if (p == NULL) {
+		fprint(stderr, "server: failes to bind\n");
+		exit(1);
+	}
+	
+	if (listen(sockfd, BACKLOG) == -1) {
+		perror("listen");
+		exit(1);
+	}
+
+	sa.sa_handler = sigchld_handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART;
+	
+	if (sigaction(SIGCHLD, &sa, NULL) == -1) {
+		perror("sigaction");
+		exit(1);
+	}
+
+	printf("Server: waiting for connections...\n");
+
+	while(1) {
+		sin_size = sizeof their_addr;
+		new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &sin_size);
+		if (new_fd == -1) {
+			perror("accept");
+			continue;
+		}
+
+		iner_ntop(their_addr.ss_family, 
+			  get_in_addr((struct sockaddr *)&their_addr),
+			  s, sizeof s);
+		printf("Server: got connection from %s\n", s);
+
+		if (!fork()) {
+			close(sockfd);
+			if(send(new_fd, "Hello World!", 12, 0) == -1)
+				perror("send");
+			close(new_fd);
+			exit(0);
+		}
+	
+		close(new_fd);
+	}
+	return 0;
+}
+
+```
 
