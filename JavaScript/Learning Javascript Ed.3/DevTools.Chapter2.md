@@ -80,7 +80,7 @@ $ gulp
 ```
 [16:16:28] Using gulpfile /home/.../gulpfile.js
 [16:16:28] Starting 'default'...
-[16:16:28] Finished 'default' after 68 µs
+[16:16:28] Finished 'default' after 68 Âµs
 ```
 
 On Windows: Many npm packages have a dependency on Visual Studio Tools. You might need it.
