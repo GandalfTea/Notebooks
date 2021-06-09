@@ -86,12 +86,12 @@ Multiline:
 
 ```js
 const multiline = "line1 \
-				   line2";
+		   line2";
 ```
 ```js
 const multiline = `line 1		// Newline plus white space
-			       line 2
-				   line 3`;
+		   line 2
+	  	   line 3`;
 ```
 
 #### null and undefined:
