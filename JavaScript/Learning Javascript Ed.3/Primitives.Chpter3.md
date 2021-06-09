@@ -50,9 +50,9 @@ number = NaN;			// Not A Number
 There is also a _Number_ object:
 
 ```js
-const small = Number.EPSILON; 				// the smallest value that can be
-											// added to 1 to get a distinct number
-											// larger than 1, approx. 2.2e-16
+const small = Number.EPSILON; 			// the smallest value that can be
+						// added to 1 to get a distinct number
+						// larger than 1, approx. 2.2e-16
 const bigInt = Number.MAX_SAFE_INTEGER; 	// the largest representable integer
 const max = Number.MAX_VALUE; 				// the largest representable number
 const minInt = Number.MIN_SAFE_INTEGER; 	// the smallest representable integer
@@ -140,7 +140,7 @@ const same = {
 		order: 'Carnivoria',
 		family: 'Felidae',
 		subfaimily: 'Felinae',
-		genus: 'Felis',Î
+		genus: 'Felis',ÃŽ
 		species: 'catus',
 	}
 }
