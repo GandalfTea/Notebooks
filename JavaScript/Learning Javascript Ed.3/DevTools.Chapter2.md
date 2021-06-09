@@ -80,7 +80,7 @@ $ gulp
 ```
 [16:16:28] Using gulpfile /home/.../gulpfile.js
 [16:16:28] Starting 'default'...
-[16:16:28] Finished 'default' after 68 Âµs
+[16:16:28] Finished 'default' after 68 µs
 ```
 
 On Windows: Many npm packages have a dependency on Visual Studio Tools. You might need it.
@@ -185,7 +185,7 @@ In the book, they try to run the es6 file in Node and fail.
 It runs now, in 2021.
     
      
-### Lintin 
+### Linting 
 
 Linting looks at your code and tells you if you make common mistakes (like an IDE)
 
