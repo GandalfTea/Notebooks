@@ -53,6 +53,26 @@ function f(a, b = 'default', c = 3){ . . . }
 
 &nbsp;
 
+
+#### Fat Arrow
+
+The following two are the same:
+
+```js
+const f = function() { return "hello"; }
+const f = function(name) { return "hello, ${name}"; }
+const f = function(a, b) { return a + b; }
+```
+
+```js
+const f = () => "hello";
+const f = name => "Hello, ${name}";
+const f = (a, b) => a + b;
+```
+
+
+&nbsp;
+
 #### this
 
 Normally, the _this_ keyward refers to an object method, meaning the object calling. 
@@ -90,22 +110,6 @@ const self = this;
 
 &nbsp;
 
-#### Fat Arrow
-
-The following two are the same:
-
-```js
-const f = function() { return "hello"; }
-const f = function(name) { return "hello, ${name}"; }
-const f = function(a, b) { return a + b; }
-```
-
-```js
-const f = () => "hello";
-const f = name => "Hello, ${name}";
-const f = (a, b) => a + b;
-```
-&nbsp;
 
 
 #### Another use for _this_
