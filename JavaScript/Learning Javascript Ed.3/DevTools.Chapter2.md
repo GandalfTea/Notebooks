@@ -9,7 +9,8 @@ Common used tools in dev teams :
 * Babel (ES6 to ES5)
 * ESLint
 
-   
+   &nbsp;
+
    
 
 ### ES6
@@ -21,7 +22,8 @@ A cool table keeping track of how much of ES6 is supported by a browser is: http
 
 At present, chrome, firefox and Edge are at 98%, while Safari is 100%.
    
-   
+   &nbsp;
+
    
 ### npm
 
@@ -47,7 +49,8 @@ A typical install therefore should be:
 ```
 $ npm install --save underscore
 ```
-   
+   &nbsp;
+
    
 ### Gulp and Grunt
 
@@ -80,11 +83,13 @@ $ gulp
 ```
 [16:16:28] Using gulpfile /home/.../gulpfile.js
 [16:16:28] Starting 'default'...
-[16:16:28] Finished 'default' after 68 µs
+[16:16:28] Finished 'default' after 68 Âµs
 ```
 
 On Windows: Many npm packages have a dependency on Visual Studio Tools. You might need it.
    
+   &nbsp;
+
    
 ### Project Structure
 
@@ -109,6 +114,8 @@ public /
 		dist/
 ```
 
+&nbsp;
+
 
 ### Transcompilers (not needed anymore)
 
@@ -124,6 +131,8 @@ Then, in project root, we create a file _.babelrc_ with the contents:
 { "presets" : ["es2015"] }
 ```
    
+&nbsp;
+
    
 #### Running Babel with Gulp
 
@@ -184,6 +193,8 @@ When it's done, the new file, _test.js_ will be in _public/dist_.
 In the book, they try to run the es6 file in Node and fail.
 It runs now, in 2021.
     
+&nbsp;
+
      
 ### Linting 
 
