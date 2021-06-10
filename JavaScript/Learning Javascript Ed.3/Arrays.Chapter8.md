@@ -2,6 +2,8 @@
 
 ### Array Processing
 
+&nbsp;
+	        
 
 #### Adding or Removing
 
@@ -14,6 +16,7 @@ arr.unshift('a');			// adds 'a' at the front	returns 4
 arr.shift();				// removes 'a'.			returns 'a'
 ```
 
+&nbsp;
 
 #### Concatination
 
@@ -22,7 +25,7 @@ arr.concat(4,5,6);
 ```
 This creates a new array, `arr` is unmodified.
 
-
+&nbsp;
 
 #### Slice
 
@@ -35,6 +38,7 @@ arr.slice(-2);		// returns [4, 5]
 ```
 Negative arguments refer to the end of the string.
 
+&nbsp;
 
 #### copyWithin
 
@@ -49,7 +53,7 @@ First argument is where to copy to.
 Second argument is where to start copying from.
 Third optional argument is where to stop coying from.
 
-
+&nbsp;
 
 #### Fill
 
@@ -58,6 +62,7 @@ const arr = new Array(r).fill(1);			// [1, 1, 1, 1, 1]
 arr.fill('a');								// ['a', 'a', 'a', 'a', 'a']
 ```
 
+&nbsp;
 
 #### Sort
 
@@ -92,6 +97,7 @@ arr.sort((a, b) => a.name > b.name);		// sorted alphabetically
 arr.sort((a, b) => a.name[1] < b.name[1]);	// sorted reverse-aplhabetically
 ```
 
+&nbsp;
 
 #### Searching
 
@@ -118,6 +124,7 @@ arr.find( o => o.id === 5); 		// returns object
 arr.find( 0 => o.id == 2);			// null
 ```
 
+&nbsp;
 
 #### map and filter
 
@@ -151,6 +158,7 @@ const arr = [1, 2, 3, 4, 5];
 arr.filter(x => x === 5);
 ```
 
+&nbsp;
 
 #### reduce
 
@@ -201,7 +209,7 @@ if(stats.N > 2) {
 
 map, filter and redice do not envoke the function for elements that have never been asigned or deleted. 
 
-
+&nbsp;
 
 #### String joining
 
