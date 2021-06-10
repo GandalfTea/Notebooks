@@ -76,7 +76,7 @@ const f = (a, b) => a + b;
 #### this
 
 Normally, the _this_ keyward refers to an object method, meaning the object calling. 
-There are more uses in Javascript.
+There are more ways to call it in Javascript.
 
 The scope of the keyward is confusing. What if we reasign the function that calls it?
 
