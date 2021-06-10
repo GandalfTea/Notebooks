@@ -2,6 +2,7 @@
 
 ### Functions 
 
+&nbsp;
 
 #### Destructuring Arguments
 
@@ -23,7 +24,7 @@ getSentance(o); 	// I am your father.
 getSentance(arr); 	// I do hard drugs.
 ```
 
-          
+&nbsp;
             
        
 #### Spread Operator
@@ -42,12 +43,15 @@ function addPrefix(prefix, ...words) {
 addPrefix("con", "verse", "vex");
 ```
 
+&nbsp;
 
 #### Default Arguments
 
 ```js
 function f(a, b = 'default', c = 3){ . . . }
 ```
+
+&nbsp;
 
 #### this
 
@@ -84,6 +88,7 @@ To solve this, we simply need to assign it to a var while still in greetBackward
 const self = this;
 ```
 
+&nbsp;
 
 #### Fat Arrow
 
@@ -100,6 +105,7 @@ const f = () => "hello";
 const f = name => "Hello, ${name}";
 const f = (a, b) => a + b;
 ```
+&nbsp;
 
 
 #### Another use for _this_
