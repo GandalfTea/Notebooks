@@ -2,6 +2,8 @@
 
 ### Literals, Variables, Constants and Data Types:
 
+&nbsp;
+
 
 #### Declaring a variable
 
@@ -13,6 +15,9 @@ let var = "Hello", var2 = "There";
 const CPU_CLOCK = 2000
 ```
 
+&nbsp;
+
+
 Primitives:
 
 * Number
@@ -22,6 +27,9 @@ Primitives:
 * Undefined
 * Symbol
 
+
+&nbsp;
+
 Object types:
 
 * Array
@@ -30,7 +38,9 @@ Object types:
 * Map and WeakMap
 * Set and WeakSet
          
-         
+    
+&nbsp;
+
 #### Numbers
 
 JS has only one numeric data type. 
@@ -61,6 +71,8 @@ const nInf = Number.NEGATIVE_INFINITY; 		// the same as -Infinity
 const nan = Number.NaN; 			// the same as NaN
 const inf = Number.POSITIVE_INFINITY; 		// the same as Infinity
 ```
+
+&nbsp;
 
 #### Strings
 
@@ -93,6 +105,7 @@ const multiline = `line 1		// Newline plus white space
 		   line 2
 	  	   line 3`;
 ```
+&nbsp;
 
 #### null and undefined:
 
@@ -104,7 +117,9 @@ const targetTemp = null;
 currentTemp = 19.5;
 currentTemp = undefined;	// apeares uninitialized again
 ```
-          
+  
+ &nbsp;
+
          
 #### Objects
 
@@ -169,7 +184,8 @@ delete sam3.clasification;
 delete sam3.speak;
 ```
 
-        
+ &nbsp;
+       
          
 #### Arrays
 
@@ -196,6 +212,7 @@ Properties:
 array.length;
 array[0];
 ```
+&nbsp;
           
            
 #### Dates
@@ -226,7 +243,8 @@ halloweenParty.getMinutes(); 		// 0
 halloweenParty.getSeconds(); 		// 0
 halloweenParty.getMilliseconds(); 	// 0
 ```
-        
+ &nbsp;
+       
         
 #### regex
 
