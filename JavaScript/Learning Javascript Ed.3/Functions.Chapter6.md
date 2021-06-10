@@ -159,7 +159,7 @@ You can also provide parameters to bind:
 const updateBruce1949 = update.bind(bruce, 1949);
 
 updateBruce1949('singer', 'songwriter'); 	// Bruce is now { name: Bruce, birtyear: 1949 
-															  occupation: 'singer, songwriter'} 
+						// occupation: 'singer, songwriter'} 
 ```
 
 
