@@ -9,9 +9,9 @@
 const arr = ['b', 'v', 'd'];
 
 arr.push('e');				// adds 'e' at the end		returns 4
-arr.pop();					// pops last element		returns 'e'
+arr.pop();				// pops last element		returns 'e'
 arr.unshift('a');			// adds 'a' at the front	returns 4
-arr.shift();				// removes 'a'.				returns 'a'
+arr.shift();				// removes 'a'.			returns 'a'
 ```
 
 
