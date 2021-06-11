@@ -2,6 +2,8 @@
 
 ### OOP
 
+&nbsp;
+
 
 #### enumerating properties
 
@@ -20,6 +22,8 @@ for(let prop in o) {
 
 `hasOwnProperties` addresses the danger of inherited properties. 
 
+&nbsp;
+
 
 #### Object.keys
 
@@ -29,6 +33,8 @@ Using the prev. example:
 ```js
 Object.keys(o).forEach( prop => console.log(`${prop}: ${o[prop]}`));
 ```
+
+&nbsp;
 
 
 #### Class and Instance
@@ -97,6 +103,8 @@ const Car = function() {
 	return Car;
 })();
 ```
+&nbsp;
+
 
 #### Class History
 
@@ -110,6 +118,7 @@ function Car(make, model) {
 	this._userGear = this._userGeard[0];
 }
 ```
+&nbsp;
 
 
 #### Prototype
@@ -131,6 +140,7 @@ car1.shift('D');
 car1.shift = function(gear) { this.userGear = gear.toUpperCase(); }
 car1.shift === Car.prototype.shift;		// False
 ```
+&nbsp;
 
 
 #### Static 
@@ -142,6 +152,7 @@ static areSimilar(car1, car2) {
 	return car1.make === car2.make && car1.model === ca2.model;
 }
 ```
+&nbsp;
 
 
 #### Inheritance
@@ -155,11 +166,16 @@ class Car extends Vehicle {
 	. . .
 }
 ```
+&nbsp;
+
 
 #### Polymorphism
 
 Objects belonging not only to the main class, but also inherited classes. 
 Nothing special here, no special keyward for function override, overloading, etc.
+
+
+&nbsp;
 
 
 #### String Representation
@@ -173,6 +189,9 @@ class Clar {
 	}
 }
 ```
+
+&nbsp;
+
 
 #### Multiple Inheritance, Mixins and Interfaces
 
