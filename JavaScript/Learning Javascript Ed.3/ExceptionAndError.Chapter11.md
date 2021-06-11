@@ -18,7 +18,7 @@ function validateEmail(email) {
 		new Error('Invalid Email: ${email}');
 }
 ```
-To call the error, we can use `typeof` or `instanceOf`:
+To call the error, we can use `typeof` or `instanceof`:
 
 ```js
 const validateEmail = validateEmail(email);
