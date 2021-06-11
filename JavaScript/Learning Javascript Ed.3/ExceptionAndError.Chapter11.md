@@ -58,7 +58,7 @@ In this case, it would be wrong type of input.
 
 You can also create and raise errors yourself.   
 You can throw anything, but it usually is an instance of _Error_.      
-A thrown error must be caught in a try..catch block.
+A thrown error must be caught in a try..catch block when the function is called.
 
 ```js
 function billPay(amound, payee, account) {
