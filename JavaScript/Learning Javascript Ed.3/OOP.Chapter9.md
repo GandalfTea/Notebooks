@@ -5,7 +5,7 @@
 &nbsp;
 
 
-#### enumerating properties
+#### Enumerating properties
 
 The traditional way is using the for...in loop:
 
