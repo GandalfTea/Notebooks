@@ -7,7 +7,7 @@
 
 #### Enumerating properties
 
-The traditional way is using the for...in loop:
+The traditional way is using the _for...in_ loop:
 
 ```js
 const SYM = Symbol();
@@ -74,7 +74,7 @@ car1 instanceof Array	// False
 ```
 
 
-If you want to enforce privacy to the class (more than the underscore private joke) you can use a WeakMap (more in Chapter 10):
+If you want to enforce privacy to the class (more than the underscore private) you can use a _WeakMap_ (more in Chapter 10):
 
 ```js
 const Car = function() {
@@ -108,7 +108,7 @@ const Car = function() {
 
 #### Class History
 
-Prior to ES6 introducing the `class` kayward, you would have to define a function that would serve as a constructor.
+Prior to ES6 introducing the `class` keyward, you would have to define a function that would serve as a constructor.
 
 ```js
 function Car(make, model) {
