@@ -28,7 +28,6 @@ for(let prop in o) {
 #### Object.keys
 
 This gives us access to all the enumerable string properties of an object.        
-Using the prev. example:
 
 ```js
 Object.keys(o).forEach( prop => console.log(`${prop}: ${o[prop]}`));
