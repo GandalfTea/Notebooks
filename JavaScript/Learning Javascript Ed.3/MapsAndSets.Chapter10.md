@@ -65,7 +65,7 @@ Same as maps, but the keys must be objects.
 Keys can be garbage-collected.       
 It cannot be iterated or cleared.   
 
-Normally, JS keeps an object in memory as long as there is a reference to it. This is not true in Weak Maps.
+Normally, JS keeps an object in memory as long as there is a reference to it. This is not true in Weak Maps.      
 Thanks to these properties, it can be used to store private keys in object instances:
 
 
@@ -102,7 +102,6 @@ Syntaxfor IIFE looks like this:
 
 Because of this, we can only get the secret using the get method.      
 If we used a normal Map, the SecretHolder objects could never be garbage-collected.
-p;
 
 &nbsp;
 
