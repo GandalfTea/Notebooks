@@ -127,7 +127,7 @@ When refering to a class method that applies to a specific instance, that method
 
 Every function has a property called _prototype_. For most, it is not used. It becomes useful when the _new_ keyward is used. The newly created object has access to the constructor's prototype and stores it into it's `__proto__` property. 
 
-What's important about the _prototype_  is the mechanism called _dynamic dispatch_. If an object has a method call and the method doesn't exist, JS checks the object's prototype to check if it exists there. All instances of the same class share the prototype, therefore if there is a method on the prototype, all instances have access to it.o
+What's important about the _prototype_  is the mechanism called _dynamic dispatch_. If an object has a method call and the method doesn't exist, JS checks the object's prototype to see if it exists there. All instances of the same class share the prototype, therefore if there is a method on the prototype, all instances have access to it.o
 
 ```js
 const car1 = new Car();
