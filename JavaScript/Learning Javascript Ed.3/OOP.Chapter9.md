@@ -68,7 +68,7 @@ car1.shift('D');
 The `instanceof` operator tells you if a given object is an instance of a given class:
 
 ```js
-car1 instanceof Car		// True
+car1 instanceof Car	// True
 car1 instanceof Array	// False
 ```
 
