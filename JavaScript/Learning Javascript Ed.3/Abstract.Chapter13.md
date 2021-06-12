@@ -2,6 +2,8 @@
 
 ### Functions and the power of abstract thinking
 
+&nbsp;
+
 
 
 #### IIFEs and Asynchronous Code
@@ -63,6 +65,7 @@ for(let i = 5; i > 0; i--) {
 	}, (5-1) * 1000);
 }
 ```
+&nbsp;
 
 
 
@@ -109,7 +112,7 @@ for(let i = 0; i< pipeline.length; i++) {
 // and translated 1 unit to the right and 3 units down.
 ```
 
-
+&nbsp;
 
 
 #### Passing functions into functions
