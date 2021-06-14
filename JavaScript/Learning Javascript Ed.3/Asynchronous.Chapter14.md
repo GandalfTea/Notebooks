@@ -5,7 +5,7 @@
 &nbsp;
 
 
-The primary things that are done are:
+The primary things that are done with async are:
 * Network requests.
 * Filesystem operations.
 * Intentionally time-delayed functionality.
