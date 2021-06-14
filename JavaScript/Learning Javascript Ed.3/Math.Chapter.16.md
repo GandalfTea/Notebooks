@@ -56,10 +56,10 @@ x = 12;
 ```
 ```js
 x.toString();     // "12"  (base 10)
-x.toString(10);		// "12"	 (base 10)
-x.toString(16);		// "c"   (hex)
-x.toString(8);		// "14"	 (octal)
-x.toString(2);		// "1100"(binary)
+x.toString(10);   // "12"	 (base 10)
+x.toString(16);   // "c"   (hex)
+x.toString(8);    // "14"	 (octal)
+x.toString(2);    // "1100"(binary)
 ```
 
 Functionality to help with the display of numbers is offered in the _Numeral.js_ library.
@@ -88,12 +88,12 @@ Math.SQRT2    // sqrt of 2  : ~1.414
 #### Algebraic Functions 
 
 ```js
-Math.pow(x, y)	    		// x^y
-Math.sqrt(x)	  	    	// square root
-Math.cbrt(x)			      // cube root
-Math.exp(x)				      // e^x, eq to:    Math.pow(Math.E, x)
-Math.expm1(x)			      // e^x - 1 eq to: Math.pow(Math.E, x) - 1
-Math.hypot(x1, x2,...)	// sqrt of arguments
+Math.pow(x, y)          // x^y
+Math.sqrt(x)            // square root
+Math.cbrt(x)            // cube root
+Math.exp(x)             // e^x, eq to:    Math.pow(Math.E, x)
+Math.expm1(x)           // e^x - 1 eq to: Math.pow(Math.E, x) - 1
+Math.hypot(x1, x2,...)  // sqrt of arguments
 ```
 &nbsp;
 
@@ -102,10 +102,10 @@ Math.hypot(x1, x2,...)	// sqrt of arguments
 
 ```js
 
-Math.log(x)		// natural log of x
-Math.log10(x)	// base 10 log of x, eq to     : Math.log(x) / Math.log(10)
-Math.log2(x)	// base 2 log of x, eq to      : Math.log(x) / Math.log(2)
-Math.log1p(x)	// natural log of 1 + x, eq to : Math.log( 1 + x )
+Math.log(x)   // natural log of x
+Math.log10(x) // base 10 log of x, eq to     : Math.log(x) / Math.log(10)
+Math.log2(x)  // base 2 log of x, eq to      : Math.log(x) / Math.log(2)
+Math.log1p(x) // natural log of 1 + x, eq to : Math.log( 1 + x )
 ```
 &nbsp;
 
@@ -113,12 +113,12 @@ Math.log1p(x)	// natural log of 1 + x, eq to : Math.log( 1 + x )
 #### Misc
 
 ```js
-Math.abs(x)		    	 // absolute value of x
-Math.sign(x)		     // sign of x (if negative : -1, if positive: 1, if 0: 0)
-Math.ceil(x)		     // ceiling of x
-Math.floor(x)		     // floor of x
-Math.trunc(x)		     // integral art of x (all fractional digits removed)
-Math.round(x)		     // round to nearest int
+Math.abs(x)          // absolute value of x
+Math.sign(x)         // sign of x (if negative : -1, if positive: 1, if 0: 0)
+Math.ceil(x)         // ceiling of x
+Math.floor(x)        // floor of x
+Math.trunc(x)        // integral art of x (all fractional digits removed)
+Math.round(x)        // round to nearest int
 Math.min(x1, x2,...) // min argument
 Math.max(x1, x2,///) // max argument
 ```
@@ -128,10 +128,10 @@ Math.max(x1, x2,///) // max argument
 #### Psedorandom Number Generator
 
 ```js
-Math.random()							            // range [0, 1)
-x + (y-x)*Math.random() 		      		// range [x, y)
-m + Math.floor((n-m)*Math.random())		// Int in [m, n)
-m + Math.floor((n-m+1)*Math.random())	// Int in [m, n]
+Math.random()                         // range [0, 1)
+x + (y-x)*Math.random()               // range [x, y)
+m + Math.floor((n-m)*Math.random())   // Int in [m, n)
+m + Math.floor((n-m+1)*Math.random()) // Int in [m, n]
 ```
 
 One problem with it is that it cannot be seeded. If you need that, you can use the _seedrandom.js_ package.
