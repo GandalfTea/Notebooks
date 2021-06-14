@@ -120,7 +120,7 @@ Math.floor(x)        // floor of x
 Math.trunc(x)        // integral art of x (all fractional digits removed)
 Math.round(x)        // round to nearest int
 Math.min(x1, x2,...) // min argument
-Math.max(x1, x2,///) // max argument
+Math.max(x1, x2,...) // max argument
 ```
 &nbsp;
 
@@ -148,7 +148,7 @@ Math.tan(x)       // tangent of x
 Math.asin(x)      // inverse sine of x    (arcsin)
 Math.acos(x)      // inverse cosine of x  (arccos)
 Math.atan(x)      // inverse tangent of x (arctan)
-Math.atan2(y, x0)	// counterclockwise angle from x-axis to the point (x, y)
+Math.atan2(y, x0) // counterclockwise angle from x-axis to the point (x, y)
 ```
 &nbsp;
 
