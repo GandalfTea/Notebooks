@@ -142,12 +142,12 @@ One problem with it is that it cannot be seeded. If you need that, you can use t
 
 
 ```js
-Math.sin(x)			// sine of x
-Math.cos(x)			// cosine of x
-Math.tan(x)			// tangent of x
-Math.asin(x)		// inverse sine of x    (arcsin)
-Math.acos(x)		// inverse cosine of x  (arccos)
-Math.atan(x)		// inverse tangent of x (arctan)
+Math.sin(x)       // sine of x
+Math.cos(x)       // cosine of x
+Math.tan(x)       // tangent of x
+Math.asin(x)      // inverse sine of x    (arcsin)
+Math.acos(x)      // inverse cosine of x  (arccos)
+Math.atan(x)      // inverse tangent of x (arctan)
 Math.atan2(y, x0)	// counterclockwise angle from x-axis to the point (x, y)
 ```
 &nbsp;
