@@ -55,7 +55,7 @@ x.toPrecision(1);	// 2e+1
 x = 12;
 ```
 ```js
-x.toString();		  // "12"	 (base 10)
+x.toString();     // "12"  (base 10)
 x.toString(10);		// "12"	 (base 10)
 x.toString(16);		// "c"   (hex)
 x.toString(8);		// "14"	 (octal)
