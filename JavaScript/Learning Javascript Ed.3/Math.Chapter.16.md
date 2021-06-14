@@ -70,16 +70,16 @@ Functionality to help with the display of numbers is offered in the _Numeral.js_
 #### Constants
 
 ```js
-Math.E		    // ~2.718
-Math.PI		    // ~3.142
+Math.E        // ~2.718
+Math.PI       // ~3.142
 
-Math.LN2	    // natural log of 2      : ~0.693
-Math.LN10	    // natural log of 10     : ~2.303
-Math.LOG2E	  // base 2 log of Math.E  : ~1.433
-Math.LOG10E	  // base 10 log of Math.E : ~0.434
+Math.LN2      // natural log of 2      : ~0.693
+Math.LN10     // natural log of 10     : ~2.303
+Math.LOG2E    // base 2 log of Math.E  : ~1.433
+Math.LOG10E   // base 10 log of Math.E : ~0.434
 
 Math.SQRT1_2  // sqrt of 1/2: ~0.707
-Math.SQRT2	  // sqrt of 2  : ~1.414
+Math.SQRT2    // sqrt of 2  : ~1.414
 ```
 
 &nbsp;
