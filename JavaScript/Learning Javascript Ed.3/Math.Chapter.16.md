@@ -55,7 +55,7 @@ x.toPrecision(1);	// 2e+1
 x = 12;
 ```
 ```js
-x.toString();		// "12"	 (base 10)
+x.toString();		  // "12"	 (base 10)
 x.toString(10);		// "12"	 (base 10)
 x.toString(16);		// "c"   (hex)
 x.toString(8);		// "14"	 (octal)
@@ -70,13 +70,13 @@ Functionality to help with the display of numbers is offered in the _Numeral.js_
 #### Constants
 
 ```js
-Math.E		// ~2.718
-Math.PI		// ~3.142
+Math.E		    // ~2.718
+Math.PI		    // ~3.142
 
-Math.LN2	// natural log of 2      : ~0.693
-Math.LN10	// natural log of 10     : ~2.303
-Math.LOG2E	// base 2 log of Math.E  : ~1.433
-Math.LOG10E	// base 10 log of Math.E : ~0.434
+Math.LN2	    // natural log of 2      : ~0.693
+Math.LN10	    // natural log of 10     : ~2.303
+Math.LOG2E	  // base 2 log of Math.E  : ~1.433
+Math.LOG10E	  // base 10 log of Math.E : ~0.434
 
 Math.SQRT1_2  // sqrt of 1/2: ~0.707
 Math.SQRT2	  // sqrt of 2  : ~1.414
@@ -88,11 +88,11 @@ Math.SQRT2	  // sqrt of 2  : ~1.414
 #### Algebraic Functions 
 
 ```js
-Math.pow(x, y)			// x^y
-Math.sqrt(x)			// square root
-Math.cbrt(x)			// cube root
-Math.exp(x)				// e^x, eq to:    Math.pow(Math.E, x)
-Math.expm1(x)			// e^x - 1 eq to: Math.pow(Math.E, x) - 1
+Math.pow(x, y)	    		// x^y
+Math.sqrt(x)	  	    	// square root
+Math.cbrt(x)			      // cube root
+Math.exp(x)				      // e^x, eq to:    Math.pow(Math.E, x)
+Math.expm1(x)			      // e^x - 1 eq to: Math.pow(Math.E, x) - 1
 Math.hypot(x1, x2,...)	// sqrt of arguments
 ```
 &nbsp;
@@ -113,12 +113,12 @@ Math.log1p(x)	// natural log of 1 + x, eq to : Math.log( 1 + x )
 #### Misc
 
 ```js
-Math.abs(x)			 // absolute value of x
-Math.sign(x)		 // sign of x (if negative : -1, if positive: 1, if 0: 0)
-Math.ceil(x)		 // ceiling of x
-Math.floor(x)		 // floor of x
-Math.trunc(x)		 // integral art of x (all fractional digits removed)
-Math.round(x)		 // round to nearest int
+Math.abs(x)		    	 // absolute value of x
+Math.sign(x)		     // sign of x (if negative : -1, if positive: 1, if 0: 0)
+Math.ceil(x)		     // ceiling of x
+Math.floor(x)		     // floor of x
+Math.trunc(x)		     // integral art of x (all fractional digits removed)
+Math.round(x)		     // round to nearest int
 Math.min(x1, x2,...) // min argument
 Math.max(x1, x2,///) // max argument
 ```
@@ -128,8 +128,8 @@ Math.max(x1, x2,///) // max argument
 #### Psedorandom Number Generator
 
 ```js
-Math.random()							// range [0, 1)
-x + (y-x)*Math.random() 				// range [x, y)
+Math.random()							            // range [0, 1)
+x + (y-x)*Math.random() 		      		// range [x, y)
 m + Math.floor((n-m)*Math.random())		// Int in [m, n)
 m + Math.floor((n-m+1)*Math.random())	// Int in [m, n]
 ```
