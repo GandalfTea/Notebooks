@@ -384,6 +384,47 @@ function grun(g) {
 }
 ```
 
+```js
+function* theFutureIsNow() {
+	const data = yield Promise.all([		// This makes it so that all are read in parallel.
+		const dataA = yield nfcall(fs.readFile, 'a.txt');
+		const dataB = yield nfcall(fs.readFile, 'b.txt');
+		const dataC = yield nfcall(fs.readFile, 'c.txt');
+	]);
+	yield ptimeout(60*1000);
+	yield nfcall(fs.writeFile, 'd.txt', data[0]+data[1]+data[2]);
+}
+```
+```js
+grun(theFutureIsNow);
+```
 
 
+While it is a good exercise to write your own generator runners, you should use the ___co___ generator runner. If working on websites, ___Koa___ workes with it. 
+
+
+Exeption handling:
+
+```js
+function* theFutureIsNow() {
+	let data;
+	try {
+		data = yield Promise.all([
+			const dataA = yield nfcall(fs.readFile, 'a.txt');
+			const dataB = yield nfcall(fs.readFile, 'b.txt');
+			const dataC = yield nfcall(fs.readFile, 'c.txt');
+		]);
+	} catch(err) {
+		console.log("Unable to read one or more input files" + err.message);
+		throw err;
+	}
+	yield ptimeout(60*1000);
+	try{
+		yield nfcall(fs.writeFile, 'd.txt', data[0]+data[1]+data[2]);
+	} catch(err) {
+		console.log("Unable to write output file: " + err.message);
+		throw err;
+	}
+}
+```
 
