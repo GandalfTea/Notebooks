@@ -400,7 +400,7 @@ grun(theFutureIsNow);
 ```
 
 
-While it is a good exercise to write your own generator runners, you should use the ___co___ generator runner. If working on websites, ___Koa___ workes with it. 
+While it is a good exercise to write your own generator runners, you should use the ___co___ generator runner. If working on websites, ___Koa___ works with it. 
 
 
 Exeption handling:
