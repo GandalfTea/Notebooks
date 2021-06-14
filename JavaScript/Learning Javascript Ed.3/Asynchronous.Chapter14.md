@@ -23,7 +23,7 @@ You can use stuff like `setTimeout` to change the running flow of the function. 
 
 There are also `setInterval` and `clearInterval`.
 
-`setInterval` runs the interval forever, or until you call `clear Intervak`.   
+`setInterval` runs the interval forever, or until you call `clearInterval`.   
 
 ```js
 const start = new Date();
