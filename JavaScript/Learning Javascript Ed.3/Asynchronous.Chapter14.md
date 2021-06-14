@@ -2,6 +2,8 @@
 
 ### Asynchronous Programming
 
+&nbsp;
+
 
 The primary things that are done are:
 * Network requests.
@@ -9,6 +11,8 @@ The primary things that are done are:
 * Intentionally time-delayed functionality.
 
 Javascript is a single threaded language.
+
+&nbsp;
 
 
 #### Callbacks
@@ -31,6 +35,7 @@ const intervalId = setInterval(function() {
 	console.log(`${i}: ${now}`);
 }, 5*1000);
 ```
+&nbsp;
 
 #### Scope and Asynchronous Execution
 
@@ -65,6 +70,7 @@ The function only reads the value of `i` when the print has to happen.
 
 We can solve this problem by moving the declaration of `i` in scope or using a IIFE function.      
 
+&nbsp;
 
 
 
@@ -83,6 +89,8 @@ fs.readFile(fname, function(err, data) {
 	concole.log(`@{name} contents: ${data}`);
 });
 ```
+
+&nbsp;
 
 #### Callback Hell
 
@@ -109,6 +117,7 @@ readSketchyFile();
 This will not catch the error because _try...catch_ blocks only work within the same function. The block is outside the function that throws the error.
 
 
+&nbsp;
 
 
 #### Promises
@@ -141,6 +150,7 @@ countdown(5).then(
 	}
 );
 ```
+&nbsp;
 
 #### Events
 
@@ -234,6 +244,7 @@ class Countdown extends EventEmitter {
 }
 ```
 
+&nbsp;
 
 
 ##### Promise Chaining
@@ -266,6 +277,7 @@ c.go()
 
 One of the advantage of this is that you do not need to catch errors at every step. The chain will stop and fall through to the _catch_ handler.
 
+&nbsp;
 
 #### Preventing Unsettled Promises
 
@@ -321,6 +333,7 @@ c.go()
 	});
 ```
 
+&nbsp;
 
 
 #### Generators
