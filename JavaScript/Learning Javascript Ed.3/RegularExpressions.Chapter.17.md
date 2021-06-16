@@ -12,10 +12,36 @@ Just copy and paste it there, along with the example text.
 
 &nbsp;
 
+
+[Substring Matching and Replacing](#1)      
+[Constructing Regular Expressions](#2)       
+[Searching](#3)       
+[Replacing](#4)       
+[Input Consumption](#5)       
+[Alteration](#6)       
+[Matching](#7)       
+[Character Sets](#8)       
+[Named Character Sets](#9)       
+[Repetition](#10)
+[The Period Metacharacter and Escaping](#11)        
+[A True Wildcard](#12)      
+[Grouping](#13)        
+[Lazy and Greedy Matches](#14)       
+[Backreferences](#15)      
+[Replacing Groups](#16)       
+[Function Replacement](#17)     
+[Anchoring](#18)      
+[Word Boundary Matching](#19)     
+[Lookaheads](#20)      
+[Constructing Regexes Dynamically](#21)      
+
+
+&nbsp;
+
 &nbsp;
 
 
-#### Substring Matching and Replacing 
+#### Substring Matching and Replacing <a name="1"></a>
 
 
 This is the functionality available in JS without the use of regex:
@@ -55,7 +81,7 @@ The input string is not modified, a new string is created.
 &nbsp;
 
 
-#### Constructing Regular Expressions 
+#### Constructing Regular Expressions <a name="2"></a>
 
 Regexes can be literals or you can make a dedicated RegExp object.          
 
@@ -73,7 +99,7 @@ const re2 = new RegExp("going");		// equivalent object constructor
 
 &nbsp;
 
-#### Searching
+#### Searching <a name="3"></a>
 
 
 We'll be using the regex `/\w{3,}/ig` for the search, but it will be discussed later. It matches all words with three letters or longer.
@@ -102,7 +128,7 @@ input.search(/\w{3,}/ig);
 
 
 
-#### Replacing
+#### Replacing <a name="4"></a>
 
 The same `String.prototype.replace` method also accepts regex. 
 
@@ -117,7 +143,7 @@ const output = input.replace(/\w{4,}/ig, '****');	// As I was **** to **** ****
 
 &nbsp;
 
-#### Input Consumption
+#### Input Consumption <a name="5"></a>
 
 Regex is a pattern for consuming input strings.    
 
@@ -133,7 +159,7 @@ Propertires of regex algorithnm:
 &nbsp;
 
 
-#### Alteration
+#### Alteration <a name="6"></a>
 
 
 If you have to match HTML tags in a string, some of which could be mixed case, alterations are helpful:
@@ -155,7 +181,7 @@ Without the `g`, only the first match will be returned.
 &nbsp;
 
 
-#### Matching
+#### Matching <a name="7"></a>
 
 
 Regular expressions work on regular languages only. Using it on a ore complex language might fail. To have a solution that works all the time, you need a parser. Consider :
@@ -172,7 +198,7 @@ The regex will match twice, but there is only one true `<br>` in out example.
 
 &nbsp;
 
-#### Character Sets
+#### Character Sets <a name="8"></a>
 
 If you wanted to find all numbers in a string, you could do:
 ```js
@@ -206,7 +232,7 @@ const match = beer99.match(/[^\-0-9a-z.]/);
 
 &nbsp;
 
-#### Named Character Sets
+#### Named Character Sets <a name="9"></a>
 
 Some character sets are so common that they have been named for ease of use:
 
@@ -244,7 +270,7 @@ const valid = /\S/.text(field);
 
 &nbsp;
 
-#### Repetition
+#### Repetition <a name="10"></a>
 
 
 Using our previus beer example, if we wanted to match numbers with more digits, we might do something like:
@@ -279,7 +305,7 @@ Out side of this one, there are 5 repetition modifiers:
 
 &nbsp;
 
-#### The Period Metacharacter and Escaping
+#### The Period Metacharacter and Escaping <a name="11"></a>
 
 Period `.` means _match anything_ except new lines. It is very often used to consume things that are unimportant. 
 
@@ -304,7 +330,7 @@ const match = equation.match(/\(\d \+ \d\.\d\) \* \d/);
 &nbsp;
 
 
-##### A True Wildcard
+##### A True Wildcard <a name="12"></a>
 
 
 The most common way to match everything, including new lines, is `[\s\S]`. This matches everything that is whitespace, and everything that is not whitespace, meaning everthing. 
@@ -314,7 +340,7 @@ The most common way to match everything, including new lines, is `[\s\S]`. This 
 &nbsp;
 
 
-#### Grouping
+#### Grouping <a name="13"></a>
 
 
 So far we have searched for single characters. Grouping allows us to search for _subexpressions_. 
@@ -353,7 +379,7 @@ The example isn't perfect. It would match _//gotcha_ just like _//valid.com_.
 
 &nbsp;
 
-#### Lazy Matches, Greedy Matches
+#### Lazy Matches, Greedy Matches <a name="14"></a>
 
 
 Regular expressions, by default, are _greedy_. Meaning they will match as much as possible before stoping.
@@ -392,7 +418,7 @@ All the repetition characters: `*`, `+`, `?`, `{n}`, `{n,}` and `{n, m}` can be 
 
 &nbsp;
 
-#### Backreferences
+#### Backreferences <a name="15"></a>
 
 
 Every group in a regex is assignes a number, from left to right, starting with 1. You can refer to that group witha backslash followed by the number.    
@@ -415,7 +441,7 @@ The first group will match either single or double quotes, followed by a zero or
 &nbsp;
 
 
-#### Replacing Groups
+#### Replacing Groups <a name="16"></a>
 
 
 If you want, for example, to replace everything in the string but the `href` and `<a>` tags:
@@ -439,7 +465,7 @@ html = html.replace(/<a .*?(class=".*?").*?(href=".*?").*?>/, '<a $2 $1>');
 
 &nbsp;
 
-#### Function Replacement
+#### Function Replacement <a name="17"></a>
 
 Following the prev. example, changing all `<a>`'s into something else and keep `class`, `id`, and `href`. This time, the input is messy.
 
@@ -515,7 +541,7 @@ html.replace(/<a .*?<\/a>/ig, sanitizeATag);
 &nbsp;
 
 
-#### Anchoring
+#### Anchoring <a name="18"></a>
 
 There are two anchors, `^` that matches at the beginning of the line and `$` that matches at the end of the line.
 
@@ -542,7 +568,7 @@ const endings = input.match(/\w+$/mg);			// ["line", "lines", "lines", "Four"]
 
 &nbsp;
 
-#### Word Boundary Matching
+#### Word Boundary Matching <a name="19"></a>
 
 The word boundary metacharacters are `\b` and the inverse, `\B`. They do not consume input.    
 
@@ -579,7 +605,7 @@ inputs.map(s => s,replace(emailMatcher, '<a href="mailto:$&">$&</a>'));
 
 &nbsp;
 
-#### Lookaheads
+#### Lookaheads <a name="20"></a>
 
 
 They don't consume input and you can match any subexpression. Basically, they are general purpose.     
@@ -620,7 +646,7 @@ function validPassword(p) {
 
 &nbsp;
 
-#### Constructing Regexes Dynamically
+#### Constructing Regexes Dynamically <a name="21"></a>
 
 
 One case where we need to use the RegExp object is when we want to construct them _dynamically_.
