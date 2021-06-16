@@ -22,7 +22,7 @@ Just copy and paste it there, along with the example text.
 [Matching](#7)       
 [Character Sets](#8)       
 [Named Character Sets](#9)       
-[Repetition](#10)
+[Repetition](#10)         
 [The Period Metacharacter and Escaping](#11)        
 [A True Wildcard](#12)      
 [Grouping](#13)        
