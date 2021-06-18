@@ -2,12 +2,16 @@
 
 ### jQuery
 
+&nbsp;
+
+
 It is a popular library for manipulating the DOM and executing Ajax requests. It does nothing that the original DOM API can't do, but it offers some advantages:
 
 * it protects you from the different ways browsers implement the DOM API.
 * it provides a simple Ajax API.
 * it offers enhancements on the built-in DOM API
 
+&nbsp;
 
 
 #### The Dollar Sign
@@ -31,13 +35,14 @@ $(document).ready(function() {
 It is safe to use multiple times. There is also a short version:
 
 ```js
-&(function() {
+$(function() {
 	// . . .
 })
 ```
 
 It is common to put all your code inside such a block.
 
+&nbsp;
 
 
 
@@ -48,8 +53,8 @@ You first have to create an object that is wrapped around the set of DOM objects
 
 ```js
 const $paras = $('p');		// object matching <p>
-$paras.length;				// number of paragraph tags matched
-typeof $param;				// "object"
+$paras.length;			// number of paragraph tags matched
+typeof $param;			// "object"
 $paras instanceof $;		// True
 $paras instanceof jQueey;	// True
 ```
@@ -63,21 +68,28 @@ const $newPara = $('<p>Newly creates paragraph...</p>');
 
 A good convention is to name variables that are created with jQuery starting with _$_. 
 
+&nbsp;
+
 
 #### Manipulating Elements
 
 
 It offers text and html methods roughly equivalent to JS.
+&nbsp;
 
 To replace all paragraphs with the same text:
 
 ```js
 $('p').text('ALL PAHARGRAPHS REPLACED');
 ```
+
+&nbsp;
+
 Or edit html:
 ```js
 $('p').html('<i>ALL</i> PARAGRAPHS REPLACED');
 ```
+&nbsp;
 
 
 If you wanted to modify only one paragraph, you have to specify the index:
@@ -90,10 +102,13 @@ $('p').eq(2)	// third paragraph
 
 All methods return a iQuery object, allowing you to chain calls.
 
+&nbsp;
+
 To remove all elements:
 ```js
 $('p').remove();
 ```
+&nbsp;
 
 
 One of the ways of adding new content (among many) is:
@@ -102,6 +117,8 @@ One of the ways of adding new content (among many) is:
 $('p').append('<sup>*</sup>');
 ``` 
 
+&nbsp;
+
 We can also insert siblings _before_ or _after_:
 
 ```js
@@ -109,21 +126,28 @@ $('p').after('<hr>')
 	.before('<hr>');
 ```
 
+&nbsp;
+
 There are also methods that reverse the order of insertion:
 
 ```js
 
 $('<sup>*</sup>').appendTo('p');		// eq: $('p').append( . . . )
 $('<hr>').appendBefore('p');			// eq: $('p').before( . . . )
-$('<hr>').appendAfter('p');				// eq: $('p').after  . . . )
+$('<hr>').appendAfter('p');			// eq: $('p').after  . . . )
 ```
 
 You can add or remove classes, or _toggle_ classes (add if it doesn't have it, remove if it does)
+&nbsp;
+
+&nbsp;
+
 You can also modify style directly with css:
 
 ```js
 $('p:odd').css('color', 'red');
 ```
+&nbsp;
 
 
 To filter the elements we modify, we can also use `filter`, `not` and `find`:
@@ -135,6 +159,8 @@ $('p').after('<hr>')
 	.css('color', 'red');
 ```
 
+&nbsp;
+
 `not` is the inverse of `filter`. We filter the params we do not want:
 
 ```js
@@ -142,6 +168,8 @@ $('p').after('<hr>')
 	.not('.highlight')
 	.css('margin-left', '20px');
 ```
+
+&nbsp;
 
 `find` returns a set of _descendants_ that match a certain query:
 
@@ -151,6 +179,7 @@ $('p').before('<hr>')
 	.css('font-size', '30px');
 ```
 
+&nbsp;
 
 
 #### Unwrapping jQuery Objects
@@ -163,6 +192,7 @@ const paras = $('p').get();			// all <p> elements
 ```
 
 
+&nbsp;
 
 
 #### Ajax
