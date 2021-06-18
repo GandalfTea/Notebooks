@@ -2,16 +2,17 @@
 
 ### JS in the Browser
 
+&nbsp;
+
+&nbsp;
 
 
 #### The Document Object Model
 
-The DOM is a convention for describing the structure of a HTML document. 
-
-It is a tree rooted in the _document_. 
+The DOM is a convention for describing the structure of a HTML document. It is a tree rooted in the _document_. 
 
 
-TODO: Photo
+<img src="https://i.imgur.com/9p4D8Z9.png" alt="img" style="zoom: 10%;" />
 
 
 Code:
@@ -57,7 +58,8 @@ Code:
 <html>
 ```
 
-Every node has the properties `nodeType`, an integer relaying type and `nodeName`, keeping the name.       
+Every node has the properties `nodeType`, an integer relaying type and `nodeName`, keeping the name.    
+
 The _Node_ object contains constants that map to these numbers. The primary node we will be dealing with is the _Node.ELEMENT_NODE_ (html elements) and _Node.TEXT_NODE_.
 
 
@@ -76,14 +78,16 @@ printDOM(document, '');
 ```
 
 
+&nbsp;
+
+&nbsp;
 
 
-
-### DOM _get_ methods
+#### DOM _get_ methods
 
 ```js
 document.getElementById(' ... ');			
-document.getElementByClassName(' ...');						// returns a collection of elements
+document.getElementByClassName(' ...');				// returns a collection of elements
 
 const paragraph = document.getElementsByTagName(' ... ');	// returns a collection of elements
 ```
@@ -92,7 +96,9 @@ The collections returnd are not arrays, but _HTMLCollection_, an array-like obje
 
 You can convert this object into an array by using the spread operator: `[...document.getElementByTagName(p)]`.
 
+&nbsp;
 
+&nbsp;
 
 
 
@@ -115,7 +121,9 @@ You can also specify descendents. For example `#content p` will select `<p>` ele
 
 You can also specify direct children by using `>` like : `#content > p`. This will affect the `<p>` elements that are children to elements with the tag.
 
+&nbsp;
 
+&nbsp;
 
 #### Manipulation DOM Elements
 
@@ -132,7 +140,9 @@ para1.textContent = "Modifies HTML file";
 para1.innerHTML = "<i>Modified</i> HTML file";
 ```
 
+&nbsp;
 
+&nbsp;
 
 #### Creating new DOM Elements
 
@@ -156,7 +166,9 @@ parent.insertBefore(p1, firstChild);
 parent.appendChild(p2);
 ```
 
+&nbsp;
 
+&nbsp;
 
 
 #### Styling Elements
@@ -205,7 +217,9 @@ function removeParamHighlight() {
 	}
 }
 ```
+&nbsp;
 
+&nbsp;
 
 #### Data Attributes
 
@@ -245,7 +259,9 @@ highlightActions[0].dataset.containing = "giraffe"
 highlightActions[0].dataset.caseSensitive = "true";
 ```
 
+&nbsp;
 
+&nbsp;
 
 #### Events
 
@@ -278,7 +294,9 @@ for(let a of removeHighlightActions) {
 Many different elements have default behaviour, like `<a>` opens the link. To prevent the default methods, you call `preventDefault()` on the _Event_ object. i
 
 
+&nbsp;
 
+&nbsp;
 
 #### Event Capturing and Bubbling
 
@@ -379,7 +397,9 @@ capture: DIV (canceled)
 capture: BUTTON (canceled)
 ```
 
+&nbsp;
 
+&nbsp;
 
 #### Event Categories
 
@@ -404,7 +424,9 @@ _Progress events_: Info about the browser load content. Most common is `load` wh
 _Touch events_: Mutiple simpultanious touches are permitted.
 
 
+&nbsp;
 
+&nbsp;
 
 #### Ajax
 
