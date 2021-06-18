@@ -19,4 +19,5 @@ Chapter 12: [___Iterators and Generators___](https://github.com/GandalfTea/Noteb
 Chapter 13: [__Functions and Abstract Thinking__](https://github.com/GandalfTea/Notebooks/blob/master/JavaScript/Learning%20Javascript%20Ed.3/Abstract.Chapter13.md)       
 Chapter 14: [___Asynchronous Programming___](https://github.com/GandalfTea/Notebooks/blob/master/JavaScript/Learning%20Javascript%20Ed.3/Asynchronous.Chapter14.md)        
 Chapter 16: [___Math___](https://github.com/GandalfTea/Notebooks/blob/master/JavaScript/Learning%20Javascript%20Ed.3/Math.Chapter.16.md)     
-Chapter 17: [___Regular Expressions___](https://github.com/GandalfTea/Notebooks/blob/master/JavaScript/Learning%20Javascript%20Ed.3/RegularExpressions.Chapter.17.md)
+Chapter 17: [___Regular Expressions___](https://github.com/GandalfTea/Notebooks/blob/master/JavaScript/Learning%20Javascript%20Ed.3/RegularExpressions.Chapter.17.md)          
+Chapter 18: [___JS in the Browser___](https://github.com/GandalfTea/Notebooks/blob/master/JavaScript/Learning%20Javascript%20Ed.3/JSBrowser.Chapter.18.md)         
