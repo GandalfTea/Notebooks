@@ -408,20 +408,20 @@ capture: BUTTON (canceled)
 
 Some of the main ones are:
 
-_Drag Events_: Allow the implementation of drag-and-drop interface with events like `dragstart`, `drag`, `dragend`,`drop`, etc.
+* _Drag Events_: Allow the implementation of drag-and-drop interface with events like `dragstart`, `drag`, `dragend`,`drop`, etc.
 
-_Focus Events_: Allows the user to interact with editable components, such as field forms. `focus` is raised when a user enters the field with a clock, Tab, or touch. `blur` is raised when the user clicks away. The `change` event is raised when the user makes a change in the field.
+* _Focus Events_: Allows the user to interact with editable components, such as field forms. `focus` is raised when a user enters the field with a clock, Tab, or touch. `blur` is raised when the user clicks away. The `change` event is raised when the user makes a change in the field.
 
-_Form events_: When a user submits a form (by pressing _Submit_), the `submit` event is raised on the form.
+* _Form events_: When a user submits a form (by pressing _Submit_), the `submit` event is raised on the form.
 
 
-_Input device events_: Mouse events: `click`, `mousedown`, `move`, `mouseup`, `mouseenter`, `mouseleave`, `mouseover`, `mousewheel`. And keyboard: `keydown`, `keypress`, `keyup`. Note that touch events take precedence over mouse events.
+* _Input device events_: Mouse events: `click`, `mousedown`, `move`, `mouseup`, `mouseenter`, `mouseleave`, `mouseover`, `mousewheel`. And keyboard: `keydown`, `keypress`, `keyup`. Note that touch events take precedence over mouse events.
 
-_Media Events_: Allows you to track a user's interaction with HTML5 video and audio players.
+* _Media Events_: Allows you to track a user's interaction with HTML5 video and audio players.
 
-_Progress events_: Info about the browser load content. Most common is `load` which fires once the browser has loaded the element and all dependent resources. `error` is also useful, allowing you to take action when an element is unavailable.
+* _Progress events_: Info about the browser load content. Most common is `load` which fires once the browser has loaded the element and all dependent resources. `error` is also useful, allowing you to take action when an element is unavailable.
 
-_Touch events_: Mutiple simpultanious touches are permitted.
+* _Touch events_: Mutiple simpultanious touches are permitted.
 
 
 &nbsp;
