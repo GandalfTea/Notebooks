@@ -3,12 +3,18 @@
 ### Node
 
 
+&nbsp;
+
+&nbsp;
+
 
 #### Modules 
 
 _Modules_ are the mechanism for packaging and _namespacing_ code. 
 
 If you wanted to create a module and use it in another file, you can do it like this:
+
+&nbsp;
 
 _file.js_
 ```js
@@ -32,7 +38,7 @@ const MathFunctions = require('file.js');
 MathFunctions.geometricSum(1, 2, 5);
 ```
 
-What you import is an object with all functions as methods.
+What you import is an object with all functions as methods. You can also do it like this:
 
 ```js 
 
@@ -50,6 +56,10 @@ exports.quadraticFormula(a, b, c) {
 	return [(-b + D)/(2*a), (-b - D)/(2*a)];
 }
 ```
+
+&nbsp;
+
+&nbsp;
 
 #### Core Modules, File Modules, npm Modules
 
@@ -70,6 +80,9 @@ File moduals are the ones discused before.
 
 _npm_ modules are file modules with a specific naming convention. If you require some module _x_, Node will look in the current directory for a subdirectory called _node_modules_. If it finds it, it will look for _x_ there. If it doesn't, it will go up to the parent directory and repete the process. So on until it reaches root. 
 
+&nbsp;
+
+&nbsp;
 
 
 #### Customizing Modules with Function Modules
@@ -82,7 +95,7 @@ A real world example is `debug` package:
 ```js
 const debug = require('debug')('main');		// we imm call the function
 
-debug('starting');							// will log: "main starting +0s"
+debug('starting');				// will log: "main starting +0s"
 ```
 
 
@@ -135,7 +148,9 @@ two what happens? +0ms
 
 Node only imports a module once, and uses the same instance, meaning that even though `debug1` and `debug2` are separate functions, they share the same `lastMessage`. 
 
+&nbsp;
 
+&nbsp;
 
 #### Filesystem Access
 
@@ -149,6 +164,7 @@ fs.writeFile('hello.txt', 'hello from the other side', function(err) {
 	if(err) return console.error('Error writing the file.');
 });
 ```
+&nbsp;
 
 Node records the source directory in a variable named `__dirname`. We could change out example to:
 
@@ -166,6 +182,8 @@ fs.writeFile(path.join(__dirname, 'hello.txt'),
 Now the file will always be created in the source directory.
 
 Using string concat is not always good for cross-platform compatibility. This can cause problems on Windows. A good way would be to use `path.join` like in the example. It will use directory separators depending on the systems.
+
+&nbsp;
 
 
 If we wanted to read the contents of the file:
@@ -199,6 +217,8 @@ fs.readFile(path.join(__dirname, 'hello.txt'),
 });
 ```
 
+&nbsp;
+
 All of the functions in `fs` have a synchronous equivalent that does error handling with exceptions:
 
 
@@ -212,6 +232,7 @@ try {
 }
 ```
 
+&nbsp;
 
 
 You can list all the files in a directory with `fs.readdir`:
@@ -229,7 +250,9 @@ fs.readdir(__dirname, function(err, files) {
 
 More methods can be found in the [Node API Docs](https://nodejs.org/api/fs.html).
 
+&nbsp;
 
+&nbsp;
 
 
 #### Process
@@ -300,6 +323,9 @@ let counts = filenames.map(f => {
 console.log(counts.join('\n'));
 ```
 
+&nbsp;
+
+
 `process` also gives you access to environment variables. Environment veriables are used often to configure the behaviour of some aspect of your programm (without having to provide them on the command line every time).
 
 For example, we might use environment variables to control weather or not we log debugging info or not with a variable `DEBUG`;
@@ -314,6 +340,7 @@ debug('visible if env var is set');
 
 If the env var is set, the functino debug works, otherwise it runs an empty function.
 
+&nbsp;
 
 
 
@@ -326,7 +353,9 @@ console.log('Current dir: ${process.cwd()}');
 process.chdir(__dirname);
 console.log('New dir: ${process.cwd()}');
 ```
+&nbsp;
 
+&nbsp;
 
 #### Operating System
 
@@ -334,21 +363,23 @@ console.log('New dir: ${process.cwd()}');
 ```js
 const os = require('os');
 
-console.log("Hostname: " + os.hostname());			// prometheus
-console.log("OS type: " + os.type());				// Linux
+console.log("Hostname: " + os.hostname());		// prometheus
+console.log("OS type: " + os.type());			// Linux
 console.log("OS platform: " + os.platform());		// linux
-console.log("OS relese: " + os.relese());			// 3.13.0-52-generic
+console.log("OS relese: " + os.relese());		// 3.13.0-52-generic
 console.log("OS uptime: " +
 	(os.uptime()/60/60/24).toFixed(1) + 'days');	// 80.3 days
 console.log("CPU architecture: " + os.arch());		// x64
 console.log("Number of CPUs: " + os.spus().length);	// 1
 console.log("Total memory: "+
-	(os.totalmem()/1e6).toFixed(1) + 'MB');			// 1,42.3 MB
+	(os.totalmem()/1e6).toFixed(1) + 'MB');		// 1,42.3 MB
 console.log("Free Memory: " +
-	(os.freemem()/1e6).toFixed(1) + 'MB');			// 195.8 MB
+	(os.freemem()/1e6).toFixed(1) + 'MB');		// 195.8 MB
 ```
 
+&nbsp;
 
+&nbsp;
 
 
 #### Child Processes
@@ -358,6 +389,8 @@ console.log("Free Memory: " +
 The `child_process` module allows you to run another program, weather a node program, an exe in another language.
 
 It has three primary functions: `exec`, `execFile` and `fork`. There are also synchronous versions of these functions (`execSync`, `execFileSync`, `forkSync`). `exec` and `execFile` can run any executable supported by your OS. `exex` invokes a shell. `execFile` allows you to execute an executable directly. `fork` allows you to execute other Node scripts. 
+
+&nbsp;
 
 We'll give an `exec` example, running _dir_:
 
@@ -380,10 +413,12 @@ Because `exec` runs a shell, there is no need for a path. If you were running se
 
 The callback recieves two _Buffer_ objects for stdout (output) and stderr (error, if any).
 
-See the [official docs] (https://nodejs.org/api/child_process.html) for more info
+See the [official docs](https://nodejs.org/api/child_process.html) for more info
 	
 
+&nbsp;
 
+&nbsp;
 
 #### Streams
 
@@ -423,7 +458,9 @@ rs.pipe(ws);
 
 Piping is common, you could pipe the ocntents if a file to a webserver's response, or you could pipe compressed data into a decompression engine.
 
+&nbsp;
 
+&nbsp;
 
 
 #### Web Servers
