@@ -8,4 +8,4 @@
 
 Web Dev:   
 [_Eloquent Javascript_](https://github.com/GandalfTea/Notebooks/tree/master/JavaScript/Eloquent%20Javascript)        
-[_Learning Javascript - O'reilly - 3rd ed._](https://github.com/GandalfTea/Notebooks/tree/master/JavaScript/Learning%20Javascript%20Ed.3)
+[_Learning Javascript - O'reilly - 3rd ed._](https://github.com/GandalfTea/Notebooks/tree/master/JavaScript/Learning%20Javascript%20Ed.3) (done)
