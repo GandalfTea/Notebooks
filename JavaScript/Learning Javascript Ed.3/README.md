@@ -23,4 +23,4 @@ Chapter 17: [___Regular Expressions___](https://github.com/GandalfTea/Notebooks/
 Chapter 18: [___JS in the Browser___](https://github.com/GandalfTea/Notebooks/blob/master/JavaScript/Learning%20Javascript%20Ed.3/JSBrowser.Chapter.18.md)         
 Chapter 19: [___jQuery___](https://github.com/GandalfTea/Notebooks/blob/master/JavaScript/Learning%20Javascript%20Ed.3/jQuery.Chapter.19.md)       
 Chapter 20: [___Node.js___](https://github.com/GandalfTea/Notebooks/blob/master/JavaScript/Learning%20Javascript%20Ed.3/Node.md)        
-Chapter 21: [__Object Property Configuration And Proxies__](https://github.com/GandalfTea/Notebooks/blob/master/JavaScript/Learning%20Javascript%20Ed.3/ObjectPropertyConfigurationAndProxies.md)         
+Chapter 21: [___Object Property Configuration And Proxies___](https://github.com/GandalfTea/Notebooks/blob/master/JavaScript/Learning%20Javascript%20Ed.3/ObjectPropertyConfigurationAndProxies.md)         
