@@ -66,14 +66,14 @@ exports.quadraticFormula(a, b, c) {
 
 Module Types
 
-TODO: Table
+<img src="https://i.imgur.com/XASvYjz.png" alt="img" style="zoom: 10%;" />
 
 
 
 
 Core Modules:
 
-TODO: Table
+<img src="https://i.imgur.com/MeSjKBD.png" alt="img" style="zoom: 10%;" />
 
 
 File moduals are the ones discused before.
