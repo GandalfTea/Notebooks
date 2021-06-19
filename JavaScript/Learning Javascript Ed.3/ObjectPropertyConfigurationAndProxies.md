@@ -2,8 +2,14 @@
 
 ### Object Property Configuration and Proxies
 
+&nbsp;
+
+&nbsp;
+
 
 There are two types of properties: _data properties_ and _accessor properties_.
+
+&nbsp;
 
 _Accessor_ properties have both a _getter_ and a _setter_.
 
@@ -26,7 +32,6 @@ class User {
 
 This allows us to do this:
 ```js
-const u = new User();
 console.log(u.email);
 ```
 
@@ -52,6 +57,9 @@ class Reclangle {
 }
 ```
 
+&nbsp;
+
+&nbsp;
 
 #### Object Property Attributes
 
@@ -66,12 +74,14 @@ Object.getOwnPropertyDescriptor(obj, 'foo');
 { value: "bar", writtable: true, enumerable: true, configurable: true }
 ```
 
-__Writtable__ controls whether it can be changed.
-__Enumerable__ controls whether it will be enumerated when the properties are enumerated (for...in, Object.keys).
-__Configurable__ controls weather it can be deleted or have the attributes modified.
+&nbsp;
+
+__Writtable__ controls whether it can be changed.      
+__Enumerable__ controls whether it will be enumerated when the properties are enumerated (for...in, Object.keys).      
+__Configurable__ controls weather it can be deleted or have the attributes modified.      
 
 
-TODO: Table
+<img src="https://i.imgur.com/WruQD6g.png" alt="img" style="zoom: 10%;" />
 
 
 We can modify or create properties with `Object.defineProperty`:
@@ -104,6 +114,9 @@ Object.definePropetry(obj, 'greet', {
 });
 ```
 
+
+&nbsp;
+
 Another use for this is to hide properties from being enumerated:
 
 ```js
@@ -126,6 +139,9 @@ Object.defineProperty(arr, 'sum', {
 });
 ```
 
+&nbsp;
+
+
 There is also an `Object.defineProperties` (plural), to define multiple:
 
 ```js
@@ -143,11 +159,17 @@ Object.defineProperty(arr, 'sum', {
 );
 ```
 
+&nbsp;
+
+&nbsp;
 
 
 #### Protecting Objects: Freezing, Sealing and Preventing Expansion
 
 JS provides three mechanism for protecting agains unintentional modifications:
+
+&nbsp;
+
 
 __Freezing__ prevents _any_ changes to an object. It makes it immutable. To freeze an object:
 
@@ -166,6 +188,8 @@ Object.freeze(appInfo);
 Object.isFrozen(appInfo);	// True
 ```
 
+
+&nbsp;
 
 __Sealing__ an object prevents the addition of new properties, or the reconfiguration or removal of existing ones:
 
@@ -195,6 +219,8 @@ delete log.name;		// TypeError
 ```
 
 
+&nbsp;
+
 Making an object __nonextensible__ only prevents new properties from being added. Existing ones can be assigned to, deleted or reconfigured:
 
 ```js
@@ -207,6 +233,12 @@ log2.name = . . .
 log2.add( . . . )
 log2.newProp = . . . 	// Error
 ```
+
+
+&nbsp;
+
+
+&nbsp;
 
 
 
@@ -261,6 +293,9 @@ const betterCoefficients = new Proxy(coefficients, {
 	}
 });
 ```
+
+
+&nbsp;
 
 We can also intercept properties or accessors from being set with the `set` handler. Let's consider an example where we have dangerous properties on an object. We want to prevent them from being set, and the methods from being called, without an extra step:
 
